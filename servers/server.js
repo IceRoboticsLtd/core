@@ -1,4 +1,6 @@
-var express = require('express');
+var express = require('express'),
+	device = require('../lib/device.js'),
+	redirect = require('express-redirect');
 
 /*
  * CONFIGS - The Configurations
