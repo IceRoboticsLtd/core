@@ -1,6 +1,8 @@
 var express = require('express'),
 	device = require('../lib/device.js'),
-	redirect = require('express-redirect');
+	redirect = require('express-redirect'),
+	bodyParser = require('body-parser'),
+	methodOverride = require('method-override');
 
 /*
  * CONFIGS - The Configurations
@@ -8,6 +10,11 @@ var express = require('express'),
 config = require('../configs/server.js');
 var configs = config.configs,
 	server_prefix = configs.server_prefix || 'CORE';
+
+/*
+ * SERVICES - The Services
+ */
+var services = require('../routes/services'); // it seems that we have to start ech required file as its own var 
 
 /*
  * SERVER - The Server used for shutdown etc
@@ -79,7 +86,13 @@ if(typeof configs.app_port === 'undefined'){
 else {
 	var app_port = configs.app_port;
 }
-
+// App List
+if(typeof configs.app_list === 'undefined'){
+	var app_list = {};
+}
+else {
+	var app_list = configs.app_list;
+}
 /*
  * API - The Application Programming Interface
  */
@@ -91,7 +104,94 @@ if(typeof configs.api_port === 'undefined'){
 else {
 	var api_port = configs.api_port;
 }
+// Api List
+if(typeof configs.api_list === 'undefined'){
+	var api_list = {};
+}
+else {
+	var api_list = configs.api_list;
+}
+// Action List
+if(typeof configs.action_list === 'undefined'){
+	var action_list = {};
+}
+else {
+	var action_list = configs.action_list;
+}
+// Model List
+if(typeof configs.model_list === 'undefined'){
+	var model_list = {};
+}
+else {
+	var model_list = configs.model_list;
+}
+// Format List
+if(typeof configs.format_list === 'undefined'){
+	var format_list = {};
+}
+else {
+	var format_list = configs.format_list;
+}
 
+// api.use(api.router); // DEPRECATED
+
+api.all('*', function(req, res, next){
+  if (!req.get('Origin')) return next();
+  // use "*" here to accept any origin
+  res.set('Access-Control-Allow-Origin', '*');  // Accepts requests coming from anyone, replace '*' by configs.allowedHost to restrict it
+  res.set('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
+  res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
+  res.set('X-Powered-By', 'Express');
+  res.set('Content-Type', 'application/json; charset=utf8');
+  // res.set('Access-Control-Allow-Max-Age', 3600);
+  if ('OPTIONS' == req.method) return res.send(200);
+  next();
+});
+
+api.post('/login', function(req, res){
+  console.log(req.body);
+  res.send(201);
+});
+/*
+ * APP DEVELOPMENT
+ *
+ * .bash_profile contains 
+ * NODE_ENV=development
+ *
+ * or start server as follows
+ * NODE_ENV=development node server.js
+ *
+ * on Windows use
+ * set NODE_ENV=development
+ * check with
+ * echo %NODE_ENV% 
+ */
+var env = process.env.NODE_ENV;
+if('development' == env){
+    api.use(bodyParser()); // pull information from html in POST
+	app.use(express.urlencoded()); // NEW IN CONNECT 3.0
+	app.use(express.json()); // NEW IN CONNECT 3.0
+};
+/*
+ * APP PRODUCTION
+ *
+ * .bash_profile contains 
+ * NODE_ENV=production
+ *
+ * or start server as follows
+ * NODE_ENV=production node server.js
+ *
+ * on Windows use
+ * set NODE_ENV=production
+ * check with
+ * echo %NODE_ENV% 
+ */
+var env = process.env.NODE_ENV;
+if('production' == env){
+    api.use(bodyParser()); // pull information from html in POST
+	app.use(express.urlencoded()); // NEW IN CONNECT 3.0
+	app.use(express.json()); // NEW IN CONNECT 3.0
+};
 var app_server = app.listen(app_port, function() {
 	console.log(server_prefix + " - Express app server listening on port %d in %s mode", app_port, app.settings.env);
 });
