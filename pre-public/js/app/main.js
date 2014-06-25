@@ -3,7 +3,7 @@ define(function (require) {
         lib = require('./lib'),
         controller = require('./controller/controller'),
         model = require('./model/model'),
-		modelController = require('./modelController/modelcontroller'),
+		modelController = require('./modelController/modelController'),
 		modelService = require('./modelService/modelService'),
 		serviceBus = require('./serviceBus/serviceBus'),
 		view = require('./view/view'),
