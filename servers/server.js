@@ -16,7 +16,7 @@ var configs = config.configs,
 /*
  * SERVICES - The Services
  */
-var services = require('../routes/services'); // it seems that we have to start ech required file as its own var 
+var services = require('../routes/services'); // it seems that we have to start each required file as its own var 
 
 /*
  * SERVER - The Server used for shutdown etc
