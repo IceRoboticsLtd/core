@@ -2,7 +2,9 @@ var express = require('express'),
 	device = require('../lib/device.js'),
 	redirect = require('express-redirect'),
 	bodyParser = require('body-parser'),
-	methodOverride = require('method-override');
+	cookieParser = require('cookie-parser'),
+	methodOverride = require('method-override'),
+	errorHandler = require('errorhandler');
 
 /*
  * CONFIGS - The Configurations
@@ -166,11 +168,30 @@ api.post('/login', function(req, res){
  * check with
  * echo %NODE_ENV% 
  */
-var env = process.env.NODE_ENV;
-if('development' == env){
-    api.use(bodyParser()); // pull information from html in POST
-	app.use(express.urlencoded()); // NEW IN CONNECT 3.0
-	app.use(express.json()); // NEW IN CONNECT 3.0
+if('development' == app.settings.env){
+
+	console.log(server_prefix + " - Using development configurations");
+
+	app.set('view engine', 'ejs');
+	app.set('view options', { layout: true });
+	app.set('views', __dirname + '/../public');
+
+	/*
+	 * bodyParser() is the composition of three middlewares:
+	 * - json: parses application/json request bodies
+	 * - urlencoded: parses x-ww.form-urlencoded request bodies
+	 * - multipart: parses multipart/form-data request bodies
+	 */
+    app.use(bodyParser()); // pull information from html in POST
+
+	app.use(methodOverride());
+    app.use(cookieParser());
+    app.use(device.capture());
+    
+    app.enableDeviceHelpers();
+    app.enableViewRouting();
+
+    app.use(errorHandler({ dumpExceptions: true, showStack: true })); // specific for development    
 };
 /*
  * APP PRODUCTION
@@ -186,12 +207,63 @@ if('development' == env){
  * check with
  * echo %NODE_ENV% 
  */
-var env = process.env.NODE_ENV;
-if('production' == env){
-    api.use(bodyParser()); // pull information from html in POST
-	app.use(express.urlencoded()); // NEW IN CONNECT 3.0
-	app.use(express.json()); // NEW IN CONNECT 3.0
+if('production' == app.settings.env){
+
+	console.log(server_prefix + " - Using production configurations");
+
+	app.set('view engine', 'ejs');
+	app.set('view options', { layout: true });
+	app.set('views', __dirname + '/../public');	
+
+	/*
+	 * bodyParser() is the composition of three middlewares:
+	 * - json: parses application/json request bodies
+	 * - urlencoded: parses x-ww.form-urlencoded request bodies
+	 * - multipart: parses multipart/form-data request bodies
+	 */
+    app.use(bodyParser()); // pull information from html in POST
+
+	app.use(methodOverride());
+    app.use(cookieParser());
+    app.use(device.capture());
+    
+    app.enableDeviceHelpers();
+    app.enableViewRouting();
+
+    app.use(errorHandler({ dumpExceptions: false, showStack: false })); // specific for production    
 };
+
+
+
+if(typeof configs.title === 'undefined'){
+	var title = 'Untitled';
+}
+else {
+	var title = configs.title;
+}
+
+if(typeof configs.web_root === 'undefined'){
+	var web_root = '';
+}
+else {
+	var web_root = configs.web_root;
+}
+
+if(typeof configs.host === 'undefined'){
+	var host = req.host;
+}
+else {
+	var host = configs.host;
+}
+
+// routing to pages
+app.get('/', function(req, res) {
+
+	// TO DO: Find requested app (e.g. /?app='calculator') from app list, then supply page with app config
+
+    res.render('page', { title: title, host: host, web_root: web_root, layout: false });
+});
+
 var app_server = app.listen(app_port, function() {
 	console.log(server_prefix + " - Express app server listening on port %d in %s mode", app_port, app.settings.env);
 });
