@@ -134,9 +134,7 @@ if(typeof configs.format_list === 'undefined'){
 else {
 	var format_list = configs.format_list;
 }
-
-// api.use(api.router); // DEPRECATED
-
+// API All
 api.all('*', function(req, res, next){
   if (!req.get('Origin')) return next();
   // use "*" here to accept any origin
@@ -149,7 +147,7 @@ api.all('*', function(req, res, next){
   if ('OPTIONS' == req.method) return res.send(200);
   next();
 });
-
+// API Post
 api.post('/login', function(req, res){
   console.log(req.body);
   res.send(201);
