@@ -23,7 +23,7 @@ var services = require('../routes/services'); // it seems that we have to start 
  * See: https://www.exratione.com/2011/07/running-a-nodejs-server-as-a-service-using-forever/
  */
 var server = express();
-//Port
+// Port
 if(typeof configs.server_port === 'undefined'){
 	var server_port = process.env.PORT || 11080;
 }
@@ -182,12 +182,16 @@ if('development' == app.settings.env){
 	 */
     app.use(bodyParser()); // pull information from html in POST
 
-	app.use(methodOverride());
+    app.use(methodOverride());
     app.use(cookieParser());
     app.use(device.capture());
     
     app.enableDeviceHelpers();
     app.enableViewRouting();
+
+    app.use('/resources', express.static(__dirname + '/../public/resources'));
+    app.use('/app', express.static(__dirname + '/../public/app'));
+    app.use(express.static(__dirname + '/../public')); // Fall back to this as a last resort
 
     app.use(errorHandler({ dumpExceptions: true, showStack: true })); // specific for development    
 };
