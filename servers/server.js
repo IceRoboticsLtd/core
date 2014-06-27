@@ -225,12 +225,16 @@ if('production' == app.settings.env){
 	 */
     app.use(bodyParser()); // pull information from html in POST
 
-	app.use(methodOverride());
+    app.use(methodOverride());
     app.use(cookieParser());
     app.use(device.capture());
     
     app.enableDeviceHelpers();
     app.enableViewRouting();
+
+    app.use('/resources', express.static(__dirname + '/../public/resources'));
+    app.use('/app', express.static(__dirname + '/../public/app'));
+    app.use(express.static(__dirname + '/../public')); // Fall back to this as a last resort
 
     app.use(errorHandler({ dumpExceptions: false, showStack: false })); // specific for production    
 };
