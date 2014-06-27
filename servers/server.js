@@ -239,7 +239,16 @@ if('production' == app.settings.env){
     app.use(errorHandler({ dumpExceptions: false, showStack: false })); // specific for production    
 };
 
-
+app.all('*', function(req, res, next){
+  if (!req.get('Origin')) return next();
+  // use "*" here to accept any origin
+  res.set('Access-Control-Allow-Origin', '*'); // Accepts requests coming from anyone, replace '*' by configs.allowedHosts to restrict it
+  res.set('Access-Control-Allow-Methods', 'GET, PUT, POST');
+  res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
+  // res.set('Access-Control-Allow-Max-Age', 3600);
+  if ('OPTIONS' == req.method) return res.send(200);
+  next();
+});
 
 if(typeof configs.title === 'undefined'){
 	var title = 'Untitled';
