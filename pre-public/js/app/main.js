@@ -11,7 +11,10 @@ define(function (require) {
 		viewService = require('./viewService/viewService'),		
         backbone = require('backbone'),
         underscore = require('underscore'),
-		postal = require('postal/src/postal'); // TO DO: Make this variable's name non-postal for independence
+        //lodash = require('lodash'), //WAS require('./../../../bower_components/lodash/dist/lodash'),
+		postal = require('postal');
+        //postaldiags = require('postal.diagnostics'), //WAS require('./../../../bower_components/postal.diagnostics/lib/postal.diagnostics.min'),
+        //conduit = require('conduitjs'); //WAS require('./../../../bower_components/conduitjs/lib/conduit.min');
 
     //A fabricated API to show interaction of
     //common and specific pieces.
