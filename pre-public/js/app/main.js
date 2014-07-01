@@ -1,4 +1,7 @@
 define(function (require) {
+    
+    console.log('main');
+
     var $ = require('jquery'),
         lib = require('./lib'),
         controller = require('./controller/controller'),
