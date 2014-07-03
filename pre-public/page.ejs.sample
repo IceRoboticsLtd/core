@@ -13,21 +13,64 @@
         <!--[if IE]>
             <link rel="shortcut icon" href="favicon.ico" />
         <![endif]-->
-        <script src="js/lib/require.js"></script>
+        <script >
+        // See http://www.ejeliot.com/blog/109
+            function loadScript(src, async, elem, callback){
+                console.log('loadScript called');
+                // Loads a script.
+                elem = elem || document.createElement('script');
+                elem.async = elem.defer = async;
+                elem.src = src;
+                console.log('elem = ' + elem);                
+                if(callback) {
+                    if(elem.readyState) {
+                        console.log('elem.readyState is true');
+                        // IE 
+                        elem.onreadystatechange = function() {
+                            if(elem.readyState == "loaded" || elem.readyState == "complete") {
+                                elem.onreadystatechange = null;
+                                callback();
+                            }
+                        };
+                    } else {
+                        console.log('elem.readyState is false');
+                        // Good browsers
+                        elem.onload = function() {
+                            console.log('elem.onload set');
+                            callback();
+                        }
+                    }
+                }
+                insertScript(elem);
+            }
+            function insertScript(e) {
+                console.log('insertScript(e) called');
+                console.log('e = ' + e);
+                document.getElementsByTagName('head')[0].appendChild(e);
+            }
+        </script>
         <script>
-            //Load common code that includes config, then load the app
-            //logic for this page. Do the require calls here instead of
-            //a separate file so after a build there are only 2 HTTP
-            //requests instead of three.
-            require(['./js/common'], function (common) {
-                //js/common sets the baseUrl to be js/ so
-                //can just ask for 'app/main' here instead
-                //of 'js/app/main'
-                require(['app/main']);
-            });
+            var doNext = function() {
+                console.log('doNext called');
+                //Load common code that includes config, then load the app
+                //logic for this page. Do the require calls here instead of
+                //a separate file so after a build there are only 2 HTTP
+                //requests instead of three.
+                require(['./js/common'], function (common) {
+                    console.log('page: common required');
+                    console.log(common);
+                    //js/common sets the baseUrl to be js/ so
+                    //can just ask for 'app/main' here instead
+                    //of 'js/app/main'
+                    require(['app/main'], function (main) {
+                         console.log('page: main required');
+                         console.log(main);
+                    });
+                });
+            };
         </script>
     </head>
-    <body>
+    <body onload="loadScript('js/lib/require.js', true, null, doNext)">
         Hello World!
     </body>
 </html>
