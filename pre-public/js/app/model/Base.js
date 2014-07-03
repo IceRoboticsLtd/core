@@ -2,6 +2,7 @@
  * ModelBase
  */
 define(function () {
+    console.log('modelBase called');
     function modelBase(title) {
         this.title = title;
     };

@@ -2,6 +2,7 @@
  * ConfigBase
  */
 define(function () {
+    console.log('configBase called');	
     function configBase(config) {
         this.config = config;
     };

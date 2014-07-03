@@ -2,6 +2,7 @@
  * ModelServiceBase
  */
 define(function () {
+    console.log('modelServiceBase called');
     function modelServiceBase(id) {
         this.id = id;
     };

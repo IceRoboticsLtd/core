@@ -2,6 +2,7 @@
  * ModelControllerBase
  */
 define(function () {
+    console.log('modelControllerBase called');
     function modelControllerBase(id) {
         this.id = id;
     };
