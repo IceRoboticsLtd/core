@@ -23,11 +23,16 @@ define(function (require) {
 //      postaldiags = require('postal.diagnostics'); //WAS require('./../../../bower_components/postal.diagnostics/lib/postal.diagnostics.min'),
 //      conduit = require('conduitjs'); //WAS require('./../../../bower_components/conduitjs/lib/conduit.min');
 
-    //A fabricated API to show interaction of
-    //common and specific pieces.
+    // Set config
+    console.log('config:');
+    console.log(config);
+    controller.setConfig(config);
+    // Set model
     console.log('model:');
     console.log(model);
     controller.setModel(model);
+    //A fabricated API to show interaction of
+    //common and specific pieces.
     $(function () {
         controller.render(lib.getBody());
         //Display backbone and underscore versions

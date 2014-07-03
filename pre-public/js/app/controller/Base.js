@@ -11,6 +11,10 @@ define(function () {
             this.model = model;
         },
 
+        setConfig: function (config) {
+            this.config = config;
+        },
+
 		setModelController: function (modelController) {
 			this.modelController = modelController;
 		},		
