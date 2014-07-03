@@ -5,7 +5,7 @@ define(function (require) {
         controller = require('./controller/controller'),
         model = require('./model/model'),
 		modelController = require('./modelController/modelController'),
-//      modelEvent = require('./modelEvent/modelEvent'),
+        modelEvent = require('./modelEvent/modelEvent'),
 //		modelService = require('./modelService/modelService'),
 //		serviceBus = require('./serviceBus/serviceBus'),
 //		view = require('./view/view'),
