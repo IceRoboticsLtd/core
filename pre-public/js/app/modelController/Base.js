@@ -1,7 +1,10 @@
+/*
+ * ModelControllerBase
+ */
 define(function () {
     function modelControllerBase(id) {
         this.id = id;
-    }
+    };
     modelControllerBase.prototype = {
 		setServiceBus: function (serviceBus) {
 			this.serviceBus = serviceBus;

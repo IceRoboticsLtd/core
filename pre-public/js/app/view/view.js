@@ -1,4 +1,8 @@
+/*
+ * View
+ */
 define(['./Base'], function (Base) {
-    var view = new Base('');
-    return view;
+    console.log('view called');
+    var _View = new Base('');
+    return _View;
 });

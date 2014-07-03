@@ -1,7 +1,9 @@
+/*
+ * ViewServiceBase
+ */
 define(['./Base'], function (Base) {
-    var viewService = new Base('');
-	
-	
+	console.log('viewService called');
+    var _ViewService = new Base('');
 	
 	// The world's simplest subscription
 //    var channel = postal.channel("Name.Changed");
@@ -10,6 +12,5 @@ define(['./Base'], function (Base) {
     // And someone publishes a first name change:
 //    channel.publish({ name: "Dr. Who" });
 	
-	
-    return viewService;
+    return _ViewService;
 });

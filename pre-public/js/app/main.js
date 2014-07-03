@@ -1,3 +1,6 @@
+/*
+ * Main
+ */
 define(function (require) {
     console.log('main called');
     var $ = require('jquery'),
@@ -18,7 +21,6 @@ define(function (require) {
 //		postal = require('postal'),
 //      postaldiags = require('postal.diagnostics'); //WAS require('./../../../bower_components/postal.diagnostics/lib/postal.diagnostics.min'),
 //      conduit = require('conduitjs'); //WAS require('./../../../bower_components/conduitjs/lib/conduit.min');
-
 
     //A fabricated API to show interaction of
     //common and specific pieces.

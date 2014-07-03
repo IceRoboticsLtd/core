@@ -2,11 +2,11 @@
  * ModelEvent
  * An event is where something happening is captured.
  */
-
 var ModelEvent123 = 1 << 0;
 var ModelEvent456 = 1 << 1;
 
 define(['./Base'], function (Base) {
+    console.log('modelEvent called');  
     var _ModelEvent = new Base('');
 
     // following this example, slightly

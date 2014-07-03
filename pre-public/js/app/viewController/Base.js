@@ -1,7 +1,11 @@
+/*
+ * ViewControllerBase
+ */
 define(function () {
+	console.log('viewControllerBase called');
     function viewControllerBase(id) {
         this.id = id;
-    }
+    };
     viewControllerBase.prototype = {
 		setServiceBus: function (serviceBus) {
 			this.serviceBus = serviceBus;

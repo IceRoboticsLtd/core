@@ -1,8 +1,11 @@
+/*
+ * ControllerBase
+ */
 define(function () {
+    console.log('controllerBase called');
     function controllerBase(id) {
         this.id = id;
-    }
-
+    };
     controllerBase.prototype = {
         setModel: function (model) {
             this.model = model;
@@ -37,6 +40,5 @@ define(function () {
                       this.model.getTitle() + '"</h2>');
         }
     };
-
     return controllerBase;
 });

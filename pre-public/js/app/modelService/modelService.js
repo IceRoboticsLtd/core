@@ -1,4 +1,8 @@
+/*
+ * ModelService
+ */
 define(['./Base'], function (Base) {
-    var modelService = new Base('');
-    return modelService;
+    console.log('modelService called'); 	
+    var _ModelService = new Base('');
+    return _ModelService;
 });

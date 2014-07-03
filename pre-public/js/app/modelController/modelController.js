@@ -2,6 +2,7 @@
  * ModelController
  */
 define(['./Base'], function (Base) {
+    console.log('modelController called');
     var _ModelController = new Base('');
 
     // following this example, slightly
