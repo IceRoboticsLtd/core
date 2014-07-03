@@ -15,9 +15,9 @@ define(function (require) {
         backbone = require('backbone'),
         underscore = require('underscore'),
         lodash = require('lodash'); //WAS require('./../../../bower_components/lodash/dist/lodash'),
-//		postal = require('postal');
-        //postaldiags = require('postal.diagnostics'), //WAS require('./../../../bower_components/postal.diagnostics/lib/postal.diagnostics.min'),
-        //conduit = require('conduitjs'); //WAS require('./../../../bower_components/conduitjs/lib/conduit.min');
+//		postal = require('postal'),
+//      postaldiags = require('postal.diagnostics'); //WAS require('./../../../bower_components/postal.diagnostics/lib/postal.diagnostics.min'),
+//      conduit = require('conduitjs'); //WAS require('./../../../bower_components/conduitjs/lib/conduit.min');
 
 
     //A fabricated API to show interaction of
