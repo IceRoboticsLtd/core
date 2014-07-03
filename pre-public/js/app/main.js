@@ -8,7 +8,7 @@ define(function (require) {
         modelEvent = require('./modelEvent/modelEvent'),
 		modelService = require('./modelService/modelService'),
 //		serviceBus = require('./serviceBus/serviceBus'),
-//		view = require('./view/view'),
+		view = require('./view/view'),
 //		viewController = require('./viewController/viewController'),
 //      viewEvent = require('./viewEvent/viewEvent'),
 //		viewService = require('./viewService/viewService'),	
