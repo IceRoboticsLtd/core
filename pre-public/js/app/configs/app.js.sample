@@ -1,0 +1,16 @@
+module.exports.configs = {
+	app_list: {
+		'calculator': {
+			subscriptions: {
+				channels: [{
+					'calculator': { 
+						topics: [{
+							'calculate',
+							'calculated'
+						}]
+					}
+				}]
+			}
+		}
+	} // put your apps here
+}
