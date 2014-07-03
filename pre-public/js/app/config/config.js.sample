@@ -9,8 +9,8 @@ define(['./Base'], function (Base) {
 				subscriptions: [
 					{
 						channel: 'calculator', 
-						modelTopic: 'calculate',
-						viewTopic: 'calculated'
+						modelTopics: ['calculate'],
+						viewTopics: ['calculated']
 					}
 				]
 			}
