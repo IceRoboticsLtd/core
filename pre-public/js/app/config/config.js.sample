@@ -1,0 +1,21 @@
+/*
+ * Config
+ */
+define(['./Base'], function (Base) {
+    console.log('config called');
+    var config = {
+		app_list: {
+			'calculator': {
+				subscriptions: [
+					{
+						channel: 'calculator', 
+						topic: 'calculate',
+						topic: 'calculated'
+					}
+				]
+			}
+		}
+	};
+    var _Config = new Base(config);
+    return _Config;
+});
