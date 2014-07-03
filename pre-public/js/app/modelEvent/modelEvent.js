@@ -4,6 +4,7 @@
  */
 var ModelEvent123 = 1 << 0;
 var ModelEvent456 = 1 << 1;
+var ModelEventSubscribe = 1 << 2;
 
 define(['./Base'], function (Base) {
     console.log('modelEvent called');  
@@ -23,6 +24,11 @@ define(['./Base'], function (Base) {
             // Run the ModelController's show function.
             _ModelController.loadModel(456);
         }
+        // Check if ModelEventSubscribe was passed
+        if (flag & ModelEventSubscribe) {
+            // Subscribe ModelService
+            _ModelController.subscribeModelService();
+        } 
     };
     return _ModelEvent;
 });

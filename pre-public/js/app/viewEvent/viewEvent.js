@@ -4,6 +4,7 @@
  */
 var ViewEvent123 = 1 << 0;
 var ViewEvent456 = 1 << 1;
+var ViewEventSubscribe = 1 << 2;
 
 define(['./Base'], function (Base) {
     console.log('viewEvent called');     
@@ -22,6 +23,11 @@ define(['./Base'], function (Base) {
         if (flag & ViewEvent456) {
             // Run the ViewController's show function.
             _ViewController.loadView(456);
+        }
+        // Check if ViewEventSubscribe was passed.        
+        if (flag & ViewEventSubscribe) {
+            // Subscribe ViewService
+            _ViewController.subscribeViewService();
         }
     };
     return _ViewEvent;
