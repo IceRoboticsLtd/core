@@ -2,12 +2,13 @@
  * ControllerBase
  */
 define(function () {
-    console.log('controllerBase called');
+    console.log('CORE: controllerBase called');
     function controllerBase(id) {
         this.id = id;
     };
     controllerBase.prototype = {
         setModel: function (model) {
+        	console.log('CORE: controllerBase setModel called');
             this.model = model;
         },
 
@@ -40,6 +41,7 @@ define(function () {
 		},
 		
         render: function (bodyDom) {
+        	console.log('CORE: controllerBase render called');        	
             bodyDom.prepend('<h1>Controller ' + this.id + ' says "' +
                       this.model.getTitle() + '"</h2>');
         }

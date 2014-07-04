@@ -17,12 +17,12 @@ define(function (require) {
         viewEvent = require('./viewEvent/viewEvent'),
 	    viewService = require('./viewService/viewService'),
         backbone = require('backbone'),
-        underscore = require('underscore'),
-        lodash = require('lodash'); //WAS require('./../../../bower_components/lodash/dist/lodash'),
-//	    postal = require('postal'),
-//      postaldiags = require('postal.diagnostics'); //WAS require('./../../../bower_components/postal.diagnostics/lib/postal.diagnostics.min'),
-//      conduit = require('conduitjs'); //WAS require('./../../../bower_components/conduitjs/lib/conduit.min');
-
+        underscore = require('../underscore/underscore'),
+        lodash = "../lodash/dist/lodash",
+        postal = "../postal/postal",
+        postaldiags = "../postal.diagnostics/lib/postal.diagnostics",
+        jquery = "../jquery/jquery.min",
+        conduitjs = "../conduitjs/lib/conduit.min";
     // Set config
     console.log('config:');
     console.log(config);
@@ -40,6 +40,10 @@ define(function (require) {
             .append('<div>backbone version: ' + backbone.VERSION + '</div>')
             .append('<div>underscore version: ' + underscore.VERSION + '</div>')
             .append('<div>lodash version: ' + lodash.VERSION + '</div>')
+            .append('<div>postal version: ' + postal.VERSION + '</div>')
+            .append('<div>postal.diagnostics version: ' + postaldiags.VERSION + '</div>')
+            .append('<div>jquery version: ' + jquery.VERSION + '</div>')
+            .append('<div>conduitjs version: ' + conduitjs.VERSION + '</div>')                                
 			.append('<div>Example 1 - The World\'s Simplest Subscription<div class="results" id="example1"></div></div>');
     });
 });

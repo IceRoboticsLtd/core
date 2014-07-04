@@ -2,9 +2,10 @@
  * Lib
  */
 define(['jquery'], function ($) {
-	console.log('lib called');
+	console.log('CORE: lib called');
     return {
         getBody: function () {
+        	console.log('CORE: lib getBody called');
             return $('body');
         }
     }
