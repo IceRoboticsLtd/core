@@ -1,4 +1,12 @@
+/*
+ * PostalExamples
+ */
 define( ['postal', 'postaldiags'], function ( postal, diags ) {
+
+	console.log('postal-examples called');
+
+	console.log('postal');
+    console.log(postal);
 
 	// This gets you a handle to the default postal channel...
 	// For grins, you can get a named channel instead like this:

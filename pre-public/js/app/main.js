@@ -19,18 +19,28 @@ define(function (require) {
         backbone = require('backbone'),
         underscore = require('../underscore/underscore'),
         lodash = "../lodash/dist/lodash",
-        postal = "../postal/postal",
-        postaldiags = "../postal.diagnostics/lib/postal.diagnostics",
+        postal = "postal",
+        postaldiags = "postal.diagnostics",
         jquery = "../jquery/jquery.min",
         conduitjs = "../conduitjs/lib/conduit.min";
     // Set config
     console.log('config:');
     console.log(config);
     controller.setConfig(config);
+    // Backbone check
+    console.log('backbone');
+    console.log(backbone);    
+    // Postal check
+    console.log('postal');
+    console.log(postal);
+//    serviceBus.serviceBus = postal; // Set postal as the serviceBus property of serviceBus
+//    controller.setServiceBus(serviceBus);
     // Set model
     console.log('model:');
     console.log(model);
     controller.setModel(model);
+
+    /*
     //A fabricated API to show interaction of
     //common and specific pieces.
     $(function () {
@@ -46,4 +56,10 @@ define(function (require) {
             .append('<div>conduitjs version: ' + conduitjs.VERSION + '</div>')                                
 			.append('<div>Example 1 - The World\'s Simplest Subscription<div class="results" id="example1"></div></div>');
     });
+    */
+
+    $(function() {
+        require(["calculator"]); // TODO: Make this dynamic
+    });
+
 });

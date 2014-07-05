@@ -17,6 +17,6 @@ requirejs.config({
         },
         underscore: {
             exports: '_'
-        }
+        }       
     }
 });
