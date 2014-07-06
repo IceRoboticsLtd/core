@@ -17,22 +17,39 @@ define(function (require) {
         viewEvent = require('./viewEvent/viewEvent'),
 	    viewService = require('./viewService/viewService'),
         backbone = require('backbone'),
-        underscore = require('../underscore/underscore'),
-        lodash = "../lodash/dist/lodash",
-        postal = "postal",
-        postaldiags = "postal.diagnostics",
-        jquery = "../jquery/jquery.min",
-        conduitjs = "../conduitjs/lib/conduit.min";
+        underscore = require('underscore/underscore'),
+//        lodash = require('../lodash/dist/lodash'),
+//        jquery = require('jquery'),
+//        conduit = require('conduit'),
+//        conduitjs = require('conduitjs');        
+        postal = require('postal/postal');
+//        postaldiags = require('postal.diagnostics');
+
+
     // Set config
     console.log('config:');
     console.log(config);
     controller.setConfig(config);
     // Backbone check
-    console.log('backbone');
-    console.log(backbone);    
+    console.log('backbone:');
+    console.log(backbone);
+    // Lodash check
+ //   console.log('lodash:');
+ //   console.log(lodash);
+    // JQuery check
+ //   console.log('jquery:');
+ //   console.log(jquery); 
+    // ConduitJS check
+//    console.log('conduitjs:');
+//    console.log(conduitjs);
     // Postal check
     console.log('postal');
     console.log(postal);
+    // PostalDiags check
+//    console.log('postaldiags:');
+//    console.log(postaldiags);
+
+
 //    serviceBus.serviceBus = postal; // Set postal as the serviceBus property of serviceBus
 //    controller.setServiceBus(serviceBus);
     // Set model
@@ -40,7 +57,6 @@ define(function (require) {
     console.log(model);
     controller.setModel(model);
 
-    /*
     //A fabricated API to show interaction of
     //common and specific pieces.
     $(function () {
@@ -49,17 +65,16 @@ define(function (require) {
         $('body')
             .append('<div>backbone version: ' + backbone.VERSION + '</div>')
             .append('<div>underscore version: ' + underscore.VERSION + '</div>')
-            .append('<div>lodash version: ' + lodash.VERSION + '</div>')
-            .append('<div>postal version: ' + postal.VERSION + '</div>')
-            .append('<div>postal.diagnostics version: ' + postaldiags.VERSION + '</div>')
-            .append('<div>jquery version: ' + jquery.VERSION + '</div>')
-            .append('<div>conduitjs version: ' + conduitjs.VERSION + '</div>')                                
+            .append('<div>postal version: ' + postal.VERSION + '</div>')                               
 			.append('<div>Example 1 - The World\'s Simplest Subscription<div class="results" id="example1"></div></div>');
     });
-    */
 
+/*
     $(function() {
-        require(["calculator"]); // TODO: Make this dynamic
+        require(["calculator"], function(calculator) {
+            console.log('calculator is required');
+        }); // TODO: Make this dynamic
     });
+*/
 
 });
