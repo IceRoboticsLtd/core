@@ -7,7 +7,10 @@ define(function () {
         this.id = id;
     };
     viewServiceBase.prototype = {
-		// to do
+		setServiceBus: function (serviceBus) {
+			console.log('CORE: viewServiceBase setServiceBus(serviceBus) called');		
+			this.serviceBus = serviceBus;
+		}
     };
     return viewServiceBase;
 });

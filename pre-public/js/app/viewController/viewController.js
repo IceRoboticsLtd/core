@@ -2,7 +2,7 @@
  * ViewController
  */
 define(['./Base'], function (Base) {
-	console.log('viewController called');
+	console.log('CORE: viewController called');
     var _ViewController = new Base('');
 
     // following this example, slightly
@@ -10,4 +10,3 @@ define(['./Base'], function (Base) {
 
     return _ViewController;
 });
-
