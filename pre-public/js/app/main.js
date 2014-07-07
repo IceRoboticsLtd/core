@@ -39,9 +39,6 @@ define(function (require) {
     // Backbone check
     console.log('backbone:');
     console.log(backbone);
-    // Lodash check
-    console.log('lodash:');
-    console.log(lodash);
     // JQuery check
     console.log('jquery:');
     console.log(jquery); 
@@ -56,9 +53,8 @@ define(function (require) {
     console.log('mocha:');
     console.log(mocha);
     // ConduitJS check
-    console.log('conduitjs:');
-    console.log(conduitjs);
-
+//    console.log('conduitjs:');
+//    console.log(conduitjs);
     // Postal check
 //    console.log('postal');
 //    console.log(postal);
@@ -66,12 +62,47 @@ define(function (require) {
 //    console.log('postaldiags:');
 //    console.log(postaldiags);
 
-//    serviceBus.serviceBus = postal; // Set postal as the serviceBus property of serviceBus
-//    controller.setServiceBus(serviceBus);
+    // Set modelController
+    console.log('modelController:');
+    console.log(modelController);
+    controller.setModelController(modelController); 
     // Set model
     console.log('model:');
     console.log(model);
     controller.setModel(model);
+    // Set modelEvent
+    console.log('modelEvent:');
+    console.log(modelEvent);
+    controller.setModelEvent(modelEvent);
+    // Set modelService
+    console.log('modelService:');
+    console.log(modelService); 
+    controller.setModelService(modelService);
+
+    // assign postal to the serviceBus's serviceBus property
+//    serviceBus.serviceBus = postal; 
+    // The same serviceBus is used by both the ViewController and the ModelController    
+
+    // Set serviceBus
+    console.log('serviceBus:');
+    console.log(serviceBus);
+    controller.setServiceBus(serviceBus);
+    // Set viewController
+    console.log('viewController:');
+    console.log(viewController);
+    controller.setViewController(viewController);
+    // Set view
+    console.log('view:');
+    console.log(view);    
+    controller.setView(view);
+    // Set viewEvent
+    console.log('viewEvent:');
+    console.log(viewEvent);
+    controller.setViewEvent(viewEvent);
+    // Set viewService
+    console.log('viewService:');
+    console.log(viewService);    
+    controller.setViewService(viewService);
 
     //A fabricated API to show interaction of
     //common and specific pieces.
@@ -87,10 +118,10 @@ define(function (require) {
             .append('<div>jquery version: ' + jquery.VERSION + '</div>')
             .append('<div>expect version: ' + expect.VERSION + '</div>')
             .append('<div>mocha version: ' + mocha.VERSION + '</div>')
-            .append('<div>conduitjs version: ' + conduitjs.VERSION + '</div>')
+        //    .append('<div>conduitjs version: ' + conduitjs.VERSION + '</div>')
         //    .append('<div>postal version: ' + postal.VERSION + '</div>')              
         //    .append('<div>postaldiags version: ' + postaldiags.VERSION + '</div>')                                       
-			.append('<div>Example 1 - The World\'s Simplest Subscription<div class="results" id="example1"></div></div>');
+		//	.append('<div>Example 1 - The World\'s Simplest Subscription<div class="results" id="example1"></div></div>');
     });
 
 /*

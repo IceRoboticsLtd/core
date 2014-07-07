@@ -8,6 +8,7 @@ define(function () {
     };
     configBase.prototype = {
         getConfig: function () {
+            console.log('configBase getConfig() called');            
             return this.config;
         }
     };
