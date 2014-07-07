@@ -2,7 +2,7 @@
  * ModelEventBase
  */
 define(function () {
-    console.log('modelEventBase called');
+    console.log('CORE: modelEventBase called');
     function modelEventBase(id) {
         this.id = id;
     };
