@@ -2,7 +2,7 @@
  * ViewServiceBase
  */
 define(function () {
-	console.log('viewServiceBase called');
+	console.log('CORE: viewServiceBase called');
     function viewServiceBase(id) {
         this.id = id;
     };

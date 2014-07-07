@@ -2,7 +2,7 @@
  * ViewEventBase
  */
 define(function () {
-	console.log('viewEventBase called');
+	console.log('CORE: viewEventBase called');
     function viewEventBase(id) {
         this.id = id;
     };
