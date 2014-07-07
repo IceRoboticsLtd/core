@@ -14,23 +14,18 @@ define(function (require) {
 	    serviceBus = require('./serviceBus/serviceBus'),
 	    view = require('./view/view'),
 	    viewController = require('./viewController/viewController'),
+        viewService = require('./viewService/viewService'),        
         viewEvent = require('./viewEvent/viewEvent'),
-	    viewService = require('./viewService/viewService'),
         backbone = require('backbone'),
         underscore = require('underscore'),
         lodash = require('lodash'),
         jquery = require('jquery'),
         bootstrap = require('bootstrap'); // bootstrap extends jquery
         expect = require('expect'),
-        mocha = require('mocha'),
-        conduitjs = require('conduit'); // depends on bootstrap, expect, and mocha
-//        postal = require('postal')(lodash), // depends on lodash
-//        postaldiags = require('postaldiags')(postal); // depends on postal and lodash
-
-    //    postal: "../../../lib/postal",
-    //    postaldiags: "../../../bower/postal.diagnostics/lib/postal.diagnostics",
-     
-    //    postal = require('postal');
+        mocha = require('mocha');
+        //conduitjs = require('conduit'), // depends on bootstrap, expect, and mocha
+        //postal = require('postal'),
+        //postaldiags = require('postaldiags');
 
     // Set config
     console.log('config:');
