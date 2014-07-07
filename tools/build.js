@@ -13,6 +13,7 @@
             //nested dependencies.
             include: ['jquery',
                       'app/lib',
+                      'app/config/Base',                      
                       'app/controller/Base',
                       'app/model/Base',
                       'app/modelController/Base',
