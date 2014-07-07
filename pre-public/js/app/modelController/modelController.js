@@ -2,7 +2,7 @@
  * ModelController
  */
 define(['./Base'], function (Base) {
-    console.log('modelController called');
+    console.log('CORE: modelController called');
     var _ModelController = new Base('');
 
     // following this example, slightly
@@ -10,4 +10,3 @@ define(['./Base'], function (Base) {
 
     return _ModelController;
 });
-
