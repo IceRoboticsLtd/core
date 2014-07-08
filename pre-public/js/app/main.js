@@ -2,7 +2,7 @@
  * Main
  */
 define(function (require) {
-    console.log('main called');
+    console.log('CORE: main called');
     var $ = require('jquery'),
         lib = require('./lib'),
 	    config = require('./config/config'),
