@@ -29,6 +29,10 @@ define(function () {
 		loadModel: function (id) {
 			console.log('CORE: controllerBase loadModel(id) called');			
 			this.modelController.loadModel(id);
+		},
+		setViewController: function (viewController) {
+			console.log('CORE: controllerBase setViewController(viewController) called');	
+			this.viewController = viewController;
 		},        
         setConfig: function (config) {
         	console.log('CORE: controllerBase setConfig(config) called');
@@ -41,10 +45,6 @@ define(function () {
 			this.serviceBus = serviceBus;
             this.modelController.setServiceBus(serviceBus);
             this.viewController.setServiceBus(serviceBus);			
-		},
-		setViewController: function (viewController) {
-			console.log('CORE: controllerBase setViewController(viewController) called');	
-			this.viewController = viewController;
 		},
 		setViewEvent: function (viewEvent) {
 			console.log('CORE: controllerBase setViewEvent(viewEvent) called');
