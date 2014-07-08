@@ -3,7 +3,7 @@
  */
 define(['./Base'], function (Base) {
     console.log('CORE: modelController called');
-    var _ModelController = new Base('');
+    var _ModelController = new Base('ModelController');
 
     // following this example, slightly
     // http://sandbox.thewikies.com/javascript-mvc-hello-world/index.2.html
