@@ -2,7 +2,7 @@
  * ServiceBusBase
  */
 define(function () {
-    console.log('serviceBusBase called');
+    console.log('CORE: serviceBusBase called');
     function serviceBusBase(id) {
         this.id = id;
     };
