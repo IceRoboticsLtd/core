@@ -26,7 +26,7 @@ define(function () {
             this.model = model;
             this.modelController.setModel(model);	
         },
-		loadModel: function ( id ) {
+		loadModel: function (id) {
 			console.log('CORE: controllerBase loadModel(id) called');			
 			this.modelController.loadModel(id);
 		},        
@@ -61,7 +61,7 @@ define(function () {
 			this.view = view;
 			this.viewController.setView(view);
 		},
-		loadView: function ( id ) {
+		loadView: function (id) {
 			console.log('CORE: controllerBase loadView(id) called');			
 			this.viewController.loadView(id);
 		},
