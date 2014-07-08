@@ -104,7 +104,7 @@ define(function (require) {
 
     // DOM ready
     $(function () {
-        controller.render(lib.getBody());
+        controller.renderView(lib.getBody());
         //Display backbone and underscore versions
         $('body')
             .append('<div>backbone version: ' + backbone.VERSION + '</div>')
