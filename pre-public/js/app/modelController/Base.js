@@ -18,6 +18,7 @@ define(function () {
 		setModelService: function (modelService) {
 			console.log('CORE: modelControllerBase setModelService(modelService) called');			
 			this.modelService = modelService;
+			this.modelService.setServiceBus(this.serviceBus);
 		},
 		setModelEvent: function (modelEvent) {
 			console.log('CORE: modelControllerBase setModelEvent(modelEvent) called');		

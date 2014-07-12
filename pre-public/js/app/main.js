@@ -27,10 +27,6 @@ define(function (require) {
         //postal = require('postal'),
         //postaldiags = require('postaldiags');
 
-    // Set config
-    console.log('config:');
-    console.log(config);
-    controller.setConfig(config);
     // Backbone check
     console.log('backbone:');
     console.log(backbone);
@@ -44,6 +40,7 @@ define(function (require) {
     // Expect check
     console.log('expect:');
     console.log(expect);
+    expect.VERSION = expect.version;    
     // Mocha check
     console.log('mocha:');
     console.log(mocha);
@@ -56,7 +53,23 @@ define(function (require) {
     // PostalDiags check
 //    console.log('postaldiags:');
 //    console.log(postaldiags);
-
+    /*
+     * STEP 1: Shared modules
+     */
+    // Set config
+    console.log('config:');
+    console.log(config);
+    controller.setConfig(config);
+    // Set serviceBus
+    console.log('serviceBus:');
+    console.log(serviceBus);
+    // assign postal to the serviceBus's serviceBus property
+//    serviceBus.serviceBus = postal; 
+    // The same serviceBus is used by both the ViewController and the ModelController    
+    controller.setServiceBus(serviceBus);
+    /*
+     * STEP 2: Non-shared modules
+     */
     // Set modelController
     console.log('modelController:');
     console.log(modelController);
@@ -73,15 +86,6 @@ define(function (require) {
     console.log('modelService:');
     console.log(modelService); 
     controller.setModelService(modelService);
-
-    // assign postal to the serviceBus's serviceBus property
-//    serviceBus.serviceBus = postal; 
-    // The same serviceBus is used by both the ViewController and the ModelController    
-
-    // Set serviceBus
-    console.log('serviceBus:');
-    console.log(serviceBus);
-    controller.setServiceBus(serviceBus);
     // Set viewController
     console.log('viewController:');
     console.log(viewController);

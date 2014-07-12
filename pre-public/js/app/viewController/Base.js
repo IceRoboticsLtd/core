@@ -10,10 +10,6 @@ define(function () {
 		setServiceBus: function (serviceBus) {
 			console.log('CORE: viewControllerBase setServiceBus(serviceBus) called');			
 			this.serviceBus = serviceBus;
-	        // Get the viewService.
-	        var viewService = this.viewService.find(id);
-	        // Set the serviceBus.
-	        viewService.setServiceBus(serviceBus);
 		},
 		setView: function (view) {
 			console.log('CORE: viewControllerBase setView(view) called');		
@@ -22,6 +18,7 @@ define(function () {
 		setViewService: function (viewService) {
 			console.log('CORE: viewControllerBase setViewService(viewService) called');			
 			this.viewService = viewService;
+			this.viewService.setServiceBus(this.serviceBus);
 		},
 		setViewEvent: function (viewEvent) {
 			console.log('CORE: viewControllerBase setViewEvent(viewEvent) called');		
@@ -50,8 +47,8 @@ define(function () {
 	    },
         renderView: function (bodyDom) {
 			console.log('CORE: viewControllerBase renderView(bodyDom) called');       	
-            bodyDom.prepend('<h1>ViewController ' + this.id + ' says "' +
-                      this.model.getTitle() + '"</h2>');
+            bodyDom.prepend('<h2>ViewController ' + this.id + ' says "' +
+                      this.viewService.getTitle() + '"</h2>');
         }
     };
     return viewControllerBase;
