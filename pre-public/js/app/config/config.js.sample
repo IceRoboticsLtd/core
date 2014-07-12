@@ -6,11 +6,30 @@ define(['./Base'], function (Base) {
     var config = {
 		app_list: {
 			'calculator': {
-				subscriptions: [
+				views: [
 					{
-						channel: 'calculator', 
-						modelTopics: ['calculate'],
-						viewTopics: ['calculated']
+						calculator: {
+							result: 0,
+							subscriptions: [
+								{
+									channel: 'calculator',
+									topic: 'calculated'
+								}
+							]
+						}
+					}
+				],
+				models: [
+					{
+						individual: {
+							someKey: 'someValue',
+							subscriptions: [
+								{
+									channel: 'calculator',
+									topic: 'calculate'
+								}
+							]
+						}
 					}
 				]
 			}
