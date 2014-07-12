@@ -11,9 +11,30 @@ define(function () {
 			console.log('CORE: modelControllerBase setServiceBus(serviceBus) called');		
 			this.serviceBus = serviceBus;
 		},
+		setApp: function (app) {
+			console.log('CORE: modelControllerBase setApp(app) called');
+			this.app = app;
+		},
 		setModel: function (model) {
 			console.log('CORE: modelControllerBase setModel(model) called');			
 			this.model = model;
+			// model is a template, ready to be made specific based on the models in the config
+			var app_not_found = true; // default to true
+			// lookup app in app_list
+			var configs = this.config.getConfigs();
+			var app_list = configs.app_list;
+			for (key in app_list) {
+				if(key == this.app) {
+					app = key;
+					console.log('CORE: modelControllerBase app ' + this.app + ' found in app_list');
+					app_not_found = false;
+
+					// continue for model ....
+				}
+			}// eof for
+			if(app_not_found) {
+				console.log('CORE: modelControllerBase app ' + this.app + 'not found in app_list');
+			}
 		},	
 		setModelService: function (modelService) {
 			console.log('CORE: modelControllerBase setModelService(modelService) called');			

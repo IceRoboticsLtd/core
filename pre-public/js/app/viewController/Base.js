@@ -11,6 +11,10 @@ define(function () {
 			console.log('CORE: viewControllerBase setServiceBus(serviceBus) called');			
 			this.serviceBus = serviceBus;
 		},
+		setApp: function (app) {
+			console.log('CORE: viewControllerBase setApp(app) called');
+			this.app = app;
+		},		
 		setView: function (view) {
 			console.log('CORE: viewControllerBase setView(view) called');		
 			this.view = view;

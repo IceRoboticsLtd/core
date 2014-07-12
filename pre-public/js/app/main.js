@@ -56,6 +56,10 @@ define(function (require) {
     /*
      * STEP 1: Shared modules
      */
+    // Set app
+    console.log('CORE: app:');
+    console.log('calculator'); // TO DO: Make dynamic, not hard-coded
+    controller.setApp('calculator');
     // Set config
     console.log('CORE: config:');
     console.log(config);
