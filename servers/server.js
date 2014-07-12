@@ -257,6 +257,13 @@ else {
 	var title = configs.title;
 }
 
+if(typeof configs.access_control_allow_origin === 'undefined'){
+	var access_control_allow_origin = '*';
+}
+else {
+	var access_control_allow_origin = configs.access_control_allow_origin;
+}
+
 if(typeof configs.web_root === 'undefined'){
 	var web_root = '';
 }
@@ -276,7 +283,7 @@ app.get('/', function(req, res) {
 
 	// TO DO: Find requested app (e.g. /?app='calculator') from app list, then supply page with app config
 
-    res.render('page', { title: title, host: host, web_root: web_root, layout: false });
+    res.render('page', { title: title, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, layout: false });
 });
 
 var app_server = app.listen(app_port, function() {
