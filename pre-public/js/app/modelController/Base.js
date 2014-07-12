@@ -25,11 +25,27 @@ define(function () {
 			var app_list = configs.app_list;
 			for (key in app_list) {
 				if(key == this.app) {
-					app = key;
 					console.log('CORE: modelControllerBase app ' + this.app + ' found in app_list');
 					app_not_found = false;
 
-					// continue for model ....
+					var app_configs = app_list[key];
+
+					console.log('CORE: modelControllerBase app_configs')
+					console.log(app_configs);
+
+					// continue for models ....
+					if(typeof app_configs.models === 'undefined') {
+						console.log('CORE: modelControllerBase no models found for app ' + this.app);
+						var models = {};
+					}
+					else {
+						console.log('CORE: modelControllerBase models found for app ' + this.app);
+						console.log(app_configs.models);
+						var models = app_configs.models;
+					}
+
+
+
 				}
 			}// eof for
 			if(app_not_found) {
