@@ -3,7 +3,7 @@
  */
 define(['./Base'], function (Base) {
     console.log('CORE: config called');
-    var config = {
+    var configs = {
 		app_list: {
 			'calculator': {
 				views: [
@@ -35,6 +35,6 @@ define(['./Base'], function (Base) {
 			}
 		}
 	};
-    var _Config = new Base(config);
+    var _Config = new Base(configs);
     return _Config;
 });

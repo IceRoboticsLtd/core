@@ -3,13 +3,13 @@
  */
 define(function () {
     console.log('CORE: configBase called');	
-    function configBase(config) {
-        this.config = config;
+    function configBase(configs) {
+        this.configs = configs;
     };
     configBase.prototype = {
-        getConfig: function () {
-            console.log('CORE: configBase getConfig() called');            
-            return this.config;
+        getConfigs: function () {
+            console.log('CORE: configBase getConfigs() called');            
+            return this.configs;
         }
     };
     return configBase;
