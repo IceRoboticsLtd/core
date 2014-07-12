@@ -5,6 +5,12 @@ define(function () {
     console.log('CORE: modelControllerBase called');
     function modelControllerBase(id) {
         this.id = id;
+        this.modelArray = {};
+    };
+    function cloneObject(oldObject) {
+    	function F() {}
+    	F.prototype = oldObject;
+    	return new F();
     };
     modelControllerBase.prototype = {
 		setServiceBus: function (serviceBus) {
@@ -27,12 +33,9 @@ define(function () {
 				if(key == this.app) {
 					console.log('CORE: modelControllerBase app ' + this.app + ' found in app_list');
 					app_not_found = false;
-
 					var app_configs = app_list[key];
-
 					console.log('CORE: modelControllerBase app_configs')
 					console.log(app_configs);
-
 					// continue for models ....
 					if(typeof app_configs.models === 'undefined') {
 						console.log('CORE: modelControllerBase no models found for app ' + this.app);
@@ -43,9 +46,21 @@ define(function () {
 						console.log(app_configs.models);
 						var models = app_configs.models;
 					}
-
-
-
+					var i = 0;
+					for (key in models) {
+						console.log('CORE: modelControllerBase model ' + key + ' found in models');
+						var model_keyValuePairs = models[key];
+						console.log('CORE: modelControllerBase model ' + key + ' key value pairs:');
+						console.log(model_keyValuePairs);
+						// create a new model from these keyValuePairs and store in model array
+						var newModel = cloneObject(this.model);
+						newModel.setKeyValuePairs(model_keyValuePairs);
+						this.modelArray[i] = newModel;
+						console.log('CORE: modelControllerBase modelArray [' + i + ']');
+						console.log(this.modelArray[i]);
+					}
+					console.log('CORE: modelControllerBase modelArray');
+					console.log(this.modelArray);			
 				}
 			}// eof for
 			if(app_not_found) {
