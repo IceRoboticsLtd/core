@@ -2,28 +2,28 @@
  * ViewBase
  */
 define(function () {
-    console.log('CORE: viewBase called');	
+    console.log('CORE: ViewBase called');	
     function viewBase(id) {
         this.id = id;
         this.keyValuePairs = {};
     };
     viewBase.prototype = {
         getValue: function (key) {
-            console.log('CORE: viewBase getValue(key) called'); 
+            console.log('CORE: ViewBase getValue(key) called'); 
             // To Do: search for key in keyValuePairs and retrieve its value           
             // return value;
         },
         setValue: function (key, value) {
-            console.log('CORE: viewBase setValue(key, value) called'); 
+            console.log('CORE: ViewBase setValue(key, value) called'); 
             // To Do: search for key in keyValuePairs and updated its value           
             // value = value;
         },
         getKeyValuePairs: function () {
-            console.log('CORE: viewBase getKeyValuePairs() called');             
+            console.log('CORE: ViewBase getKeyValuePairs() called');             
             return this.keyValuePairs;
         },
         setKeyValuePairs: function (keyValuePairs) {
-            console.log('CORE: viewBase setKeyValuePairs(keyValuePairs) called');         
+            console.log('CORE: ViewBase setKeyValuePairs(keyValuePairs) called');         
             this.keyValuePairs = keyValuePairs;
         },
 		setViewService: function (viewService) {
