@@ -28,21 +28,21 @@ define(function (require) {
         //postaldiags = require('postaldiags');
 
     // Backbone check
-    console.log('backbone:');
+    console.log('CORE: backbone:');
     console.log(backbone);
     // JQuery check
-    console.log('jquery:');
+    console.log('CORE: jquery:');
     console.log(jquery); 
     jquery.VERSION = jquery.fn.jquery;
     // Bootstrap check
-    console.log('bootstrap:');
+    console.log('CORE: bootstrap:');
     console.log(bootstrap);
     // Expect check
-    console.log('expect:');
+    console.log('CORE: expect:');
     console.log(expect);
     expect.VERSION = expect.version;    
     // Mocha check
-    console.log('mocha:');
+    console.log('CORE: mocha:');
     console.log(mocha);
     // ConduitJS check
 //    console.log('conduitjs:');
@@ -57,11 +57,11 @@ define(function (require) {
      * STEP 1: Shared modules
      */
     // Set config
-    console.log('config:');
+    console.log('CORE: config:');
     console.log(config);
     controller.setConfig(config);
     // Set serviceBus
-    console.log('serviceBus:');
+    console.log('CORE: serviceBus:');
     console.log(serviceBus);
     // assign postal to the serviceBus's serviceBus property
 //    serviceBus.serviceBus = postal; 
@@ -71,35 +71,35 @@ define(function (require) {
      * STEP 2: Non-shared modules
      */
     // Set modelController
-    console.log('modelController:');
+    console.log('CORE: modelController:');
     console.log(modelController);
     controller.setModelController(modelController); 
     // Set model
-    console.log('model:');
+    console.log('CORE: model:');
     console.log(model);
     controller.setModel(model);
     // Set modelEvent
-    console.log('modelEvent:');
+    console.log('CORE: modelEvent:');
     console.log(modelEvent);
     controller.setModelEvent(modelEvent);
     // Set modelService
-    console.log('modelService:');
+    console.log('CORE: modelService:');
     console.log(modelService); 
     controller.setModelService(modelService);
     // Set viewController
-    console.log('viewController:');
+    console.log('CORE: viewController:');
     console.log(viewController);
     controller.setViewController(viewController);
     // Set view
-    console.log('view:');
+    console.log('CORE: view:');
     console.log(view);    
     controller.setView(view);
     // Set viewEvent
-    console.log('viewEvent:');
+    console.log('CORE: viewEvent:');
     console.log(viewEvent);
     controller.setViewEvent(viewEvent);
     // Set viewService
-    console.log('viewService:');
+    console.log('CORE: viewService:');
     console.log(viewService);    
     controller.setViewService(viewService);
 
