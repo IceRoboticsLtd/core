@@ -5,7 +5,13 @@ define(function () {
 	console.log('CORE: viewControllerBase called');
     function viewControllerBase(id) {
         this.id = id;
+        this.viewArray = {};        
     };
+    function cloneObject(oldObject) {
+    	function F() {}
+    	F.prototype = oldObject;
+    	return new F();
+    };    
     viewControllerBase.prototype = {
 		setServiceBus: function (serviceBus) {
 			console.log('CORE: viewControllerBase setServiceBus(serviceBus) called');			
@@ -16,9 +22,51 @@ define(function () {
 			this.app = app;
 		},		
 		setView: function (view) {
-			console.log('CORE: viewControllerBase setView(view) called');		
+			console.log('CORE: viewControllerBase setView(view) called');			
 			this.view = view;
-		},	
+			// view is a template, ready to be made specific based on the views in the config
+			var app_not_found = true; // default to true
+			// lookup app in app_list
+			var configs = this.config.getConfigs();
+			var app_list = configs.app_list;
+			for (key in app_list) {
+				if(key == this.app) {
+					console.log('CORE: viewControllerBase app ' + this.app + ' found in app_list');
+					app_not_found = false;
+					var app_configs = app_list[key];
+					console.log('CORE: viewControllerBase app_configs')
+					console.log(app_configs);
+					// continue for views ....
+					if(typeof app_configs.views === 'undefined') {
+						console.log('CORE: viewControllerBase no views found for app ' + this.app);
+						var views = {};
+					}
+					else {
+						console.log('CORE: viewControllerBase views found for app ' + this.app);
+						console.log(app_configs.views);
+						var views = app_configs.views;
+					}
+					var i = 0;
+					for (key in views) {
+						console.log('CORE: viewControllerBase view ' + key + ' found in views');
+						var view_keyValuePairs = views[key];
+						console.log('CORE: viewControllerBase view ' + key + ' key value pairs:');
+						console.log(view_keyValuePairs);
+						// create a new view from these keyValuePairs and store in view array
+						var newView = cloneObject(this.view);
+						newView.setKeyValuePairs(view_keyValuePairs);
+						this.viewArray[i] = newView;
+						console.log('CORE: viewControllerBase viewArray [' + i + ']');
+						console.log(this.viewArray[i]);
+					}
+					console.log('CORE: viewControllerBase viewArray');
+					console.log(this.viewArray);			
+				}
+			}// eof for
+			if(app_not_found) {
+				console.log('CORE: viewControllerBase app ' + this.app + 'not found in app_list');
+			}
+		},
 		setViewService: function (viewService) {
 			console.log('CORE: viewControllerBase setViewService(viewService) called');			
 			this.viewService = viewService;
