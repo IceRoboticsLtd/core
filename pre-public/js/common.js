@@ -16,9 +16,10 @@ requirejs.config({
         lodash: 'postal/bower/lodash/dist/lodash',
         expect: 'postal/bower/expect/expect',
         mocha: 'postal/bower/mocha/mocha',
-        jquery: 'postal/bower/jquery/jquery',  
-        bootstrap: 'postal/bower/bootstrap/dist/js/bootstrap',
-        conduitjs: 'postal/bower/conduitjs/lib/conduit'
+        jquery: 'postal/bower/jquery/jquery' 
+        //bootstrap: 'postal/bower/bootstrap/dist/js/bootstrap',
+        //conduitjs: 'postal/bower/conduitjs/lib/conduit',
+        //postal: 'postal/lib/postal'
     },
     // A shim automatically adds a wrapper around a javascript library 
     // that makes it AMD-compatible, requirejs-friendly.
@@ -38,13 +39,17 @@ requirejs.config({
         },
         mocha: {
             exports: 'mocha'
-        },        
-        bootstrap: {
-            deps: ['jquery'] // bootstrap has nothing to export
-        },
-        conduitjs: {
-            deps: ['bootstrap','expect','mocha'],
-            exports: 'conduitjs'
-        }    
+        }
+    //    bootstrap: {
+    //        deps: ['jquery'] // bootstrap has nothing to export
+    //    }
+    //    conduitjs: {
+    //        deps: ['bootstrap','expect','mocha'],
+    //        exports: 'conduitjs'
+    //    }
+    //    postal: {
+    //        deps: ['jquery','lodash','expect','mocha','bootstrap','conduitjs'],
+    //        exports: 'postal'
+    //    }   
     }
 });

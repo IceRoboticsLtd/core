@@ -20,11 +20,11 @@ define(function (require) {
         underscore = require('underscore'),
         lodash = require('lodash'),
         jquery = require('jquery'),
-        bootstrap = require('bootstrap'); // bootstrap extends jquery
+        bootstrap = require('bootstrap'), // bootstrap extends jquery
         expect = require('expect'),
         mocha = require('mocha');
-        //conduitjs = require('conduit'), // depends on bootstrap, expect, and mocha
-        //postal = require('postal'),
+//        conduitjs = require('conduit'); // depends on bootstrap, expect, and mocha
+//        postal = require('postal');
         //postaldiags = require('postaldiags');
 
     // Backbone check
@@ -45,10 +45,10 @@ define(function (require) {
     console.log('CORE: mocha:');
     console.log(mocha);
     // ConduitJS check
-//    console.log('conduitjs:');
+//    console.log('CORE: conduitjs:');
 //    console.log(conduitjs);
     // Postal check
-//    console.log('postal');
+//    console.log('CORE: postal');
 //    console.log(postal);
     // PostalDiags check
 //    console.log('postaldiags:');
