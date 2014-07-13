@@ -110,13 +110,14 @@ define(function () {
 	        for (key in this.modelArray) {
 	        	console.log('CORE: modelControllerBase model ' + key + ' in modelArray');
 	        	var model = this.modelArray[key];
-
-				// to do
-
+	        	console.log(model);
+	        	for (key in model) {
+	        		if (key == 'modelService') {
+	        			var modelService = model[key];
+	        			modelService.subscribe();
+	        		}
+	        	}
 	        }
-	    // OLD    var modelService = this.modelService.find(id);    	
-	    	// run the modelService's subscribe function
-	        // modelService.subscribe();
 	    },	    
         renderView: function (bodyDom) {
 			console.log('CORE: modelControllerBase renderView(bodyDom) called');    	

@@ -109,9 +109,13 @@ define(function () {
 	        for (key in this.viewArray) {
 	        	console.log('CORE: viewControllerBase view ' + key + ' in viewArray');
 	        	var view = this.viewArray[key];
-
-				// to do
-
+	        	console.log(view);
+	        	for (key in view) {
+	        		if (key == 'viewService') {
+	        			var viewService = view[key];
+	        			viewService.subscribe();
+	        		}
+	        	}
 	        }
 	    },
         renderView: function (bodyDom) {
