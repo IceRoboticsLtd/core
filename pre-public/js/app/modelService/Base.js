@@ -6,6 +6,7 @@ define(function () {
     function modelServiceBase(id) {
         this.id = id;
     	this.myProperty = {};
+        this.serviceBus = {};    	
     };
     modelServiceBase.prototype = {
 		setServiceBus: function (serviceBus) {
@@ -22,6 +23,7 @@ define(function () {
 		subscribe: function () {
 			console.log('CORE: modelServiceBase subscribe() called');	
 			// Subscribe to the serviceBus with channels and topics from subscriptions
+            var subscriptionArray = new Array;			
 			this.subscriptions.forEach( function (subscription) {
                 var topicArray = new Array();				
 				for (key in subscription) {
@@ -53,7 +55,9 @@ define(function () {
                 	var options = { channel: channel, topic: topic, callback: callback};
                 	console.log('CORE: modelServiceBase options:');
                 	console.log(options);
-                	this.serviceBus.subscribe(options); // NOTE: For some reason this.serviceBus is undefined
+                	var subscription = this.serviceBus.subscribe(options); // NOTE: For some reason this.serviceBus is undefined
+                    // Add active subscriptions to subscription array
+                    subscriptionArray.push(subscription);
                 }			
 			});
 		}
