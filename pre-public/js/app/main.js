@@ -107,6 +107,10 @@ define(function (require) {
     console.log(viewEvent);
     controller.setViewEvent(viewEvent);
 
+    // TEMPORARILY FOR TESTING
+    controller.subscribeModelService();
+    controller.subscribeViewService();
+
     //A fabricated API to show interaction of
     //common and specific pieces.
 

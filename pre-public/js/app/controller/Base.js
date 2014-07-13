@@ -36,7 +36,11 @@ define(function () {
 		loadModel: function (id) {
 			console.log('CORE: controllerBase loadModel(id) called');			
 			this.modelController.loadModel(id);
-		},    
+		},
+        subscribeModelService: function() {
+        	console.log('CORE: controllerBase subscribeModelService() called');
+        	this.modelController.subscribeModelService(); 
+        },		
         setConfig: function (config) {
         	console.log('CORE: controllerBase setConfig(config) called');
             this.config = config;
@@ -74,8 +78,10 @@ define(function () {
         renderView: function (bodyDom) {
         	console.log('CORE: controllerBase renderView(bodyDom) called');     	
 			this.viewController.renderView(bodyDom);
-        //    bodyDom.prepend('<h1>Controller ' + this.id + ' says "' +
-        //              this.model.getTitle() + '"</h2>');
+        },
+        subscribeViewService: function() {
+        	console.log('CORE: controllerBase subscribeViewService() called');
+        	this.viewController.subscribeViewService(); 
         }
     };
     return controllerBase;
