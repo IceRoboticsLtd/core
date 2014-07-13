@@ -74,38 +74,38 @@ define(function (require) {
     /*
      * STEP 2: Non-shared modules
      */
-    // Set modelController
+    // Set modelController, before modelService
     console.log('CORE: modelController:');
     console.log(modelController);
     controller.setModelController(modelController); 
-    // Set model
+    // Set modelService, before model
+    console.log('CORE: modelService:');
+    console.log(modelService); 
+    controller.setModelService(modelService); 
+    // Set model, after modelService
     console.log('CORE: model:');
     console.log(model);
     controller.setModel(model);
-    // Set modelEvent
+    // Set modelEvent, after model
     console.log('CORE: modelEvent:');
     console.log(modelEvent);
     controller.setModelEvent(modelEvent);
-    // Set modelService
-    console.log('CORE: modelService:');
-    console.log(modelService); 
-    controller.setModelService(modelService);
-    // Set viewController
+    // Set viewController, before viewService
     console.log('CORE: viewController:');
     console.log(viewController);
     controller.setViewController(viewController);
-    // Set view
+    // Set viewService, before view
+    console.log('CORE: viewService:');
+    console.log(viewService);    
+    controller.setViewService(viewService);    
+    // Set view, after viewService
     console.log('CORE: view:');
     console.log(view);    
     controller.setView(view);
-    // Set viewEvent
+    // Set viewEvent, after view
     console.log('CORE: viewEvent:');
     console.log(viewEvent);
     controller.setViewEvent(viewEvent);
-    // Set viewService
-    console.log('CORE: viewService:');
-    console.log(viewService);    
-    controller.setViewService(viewService);
 
     //A fabricated API to show interaction of
     //common and specific pieces.

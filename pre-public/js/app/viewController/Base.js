@@ -52,9 +52,25 @@ define(function () {
 						var view_keyValuePairs = views[key];
 						console.log('CORE: viewControllerBase view ' + key + ' key value pairs:');
 						console.log(view_keyValuePairs);
-						// create a new view from these keyValuePairs and store in view array
+						// viewService is a template, ready to be made specific based on the new view's keyValuePairs
+						// Create a new viewService
+						var newViewService = cloneObject(this.viewService);
+						newViewService.setServiceBus(this.serviceBus);
+						// Set subscriptions to newViewService
+						for(key in view_keyValuePairs) {
+							if(key == 'subscriptions') {
+								var subscriptions = view_keyValuePairs[key];
+								console.log('CORE: viewControllerBase subscriptions in key value pairs:');
+								console.log(subscriptions);
+								newViewService.setSubscriptions(subscriptions);
+							}
+						}
+						// Create a new view for these keyValuePairs
 						var newView = cloneObject(this.view);
 						newView.setKeyValuePairs(view_keyValuePairs);
+						// Set new view service on the new view
+						newView.setViewService(newViewService);
+						// Add new view to view array
 						this.viewArray[i] = newView;
 						console.log('CORE: viewControllerBase viewArray [' + i + ']');
 						console.log(this.viewArray[i]);
@@ -70,7 +86,6 @@ define(function () {
 		setViewService: function (viewService) {
 			console.log('CORE: viewControllerBase setViewService(viewService) called');			
 			this.viewService = viewService;
-			this.viewService.setServiceBus(this.serviceBus);
 		},
 		setViewEvent: function (viewEvent) {
 			console.log('CORE: viewControllerBase setViewEvent(viewEvent) called');		
@@ -82,20 +97,19 @@ define(function () {
 		},		
     	loadView: function (id) {
 			console.log('CORE: viewControllerBase loadView(id) called'); 		
-	        // Get the viewService.
-	        var viewService = this.viewService.find(id);
+	        // Get the viewService from view array
+	    // OLD    var viewService = this.viewService.find(id);
 	        // Get a new view
-	        var view = new this.view(viewService);
+	    // OLD    var view = new this.view(viewService);
 	        // run the view's render function
-	        view.render();
+	    //    view.render();
 	    },
 	    subscribeViewService: function(id) {
 			console.log('CORE: viewControllerBase subscribeViewService(id) called'); 	    	
-	        // Get the viewService.
-	        var viewService = this.viewService.find(id);
-	    	// run the viewService's subscribe function, using config
-	    	var config = { channel: 'calculator', viewTopics: ['calculated']}; // to do: get these from this.config
-	    	viewService.subscribe(config);
+	        // Get the viewService from view array
+	    // OLD    var viewService = this.viewService.find(id);
+	    	// run the viewService's subscribe function
+	    //	viewService.subscribe();
 	    },
         renderView: function (bodyDom) {
 			console.log('CORE: viewControllerBase renderView(bodyDom) called');       	

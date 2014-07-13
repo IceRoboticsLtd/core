@@ -48,10 +48,84 @@ define(['./Base'], function (Base) {
         };
         _genPipeline();
 		var conduit = function () {
-			// to do
-		};	
+            var idx = 0;
+            var retval;
+            var phase;
+            var next = function next() {
+                var args = Array.prototype.slice.call(arguments, 0);
+                var thisIdx = idx;
+                var step;
+                var nextArgs;
+                idx += 1;
+                if (thisIdx < _steps.all.length) {
+                    step = _steps.all[thisIdx];
+                    phase = (phase === "target") ? "after" : (step.isTarget) ? "target" : "before";
+                    if (options.sync) {
+                        if (phase === "before") {
+                            nextArgs = step.fn.apply(step.context || _defaultContext, args);
+                            next.apply(this, nextArgs || args);
+                        } else {
+                            retval = step.fn.apply(step.context || _defaultContext, args) || retval;
+                            next.apply(this, [retval].concat(args));
+                        }
+                    } else {
+                        step.fn.apply(step.context || _defaultContext, [next].concat(args));
+                    }
+                }
+            };
+            next.apply(this, arguments);
+            return retval;
+		};
+        conduit.steps = function () {
+            return _steps.all;
+        };
+        conduit.context = function (ctx) {
+            if (arguments.length === 0) {
+                return _defaultContext;
+            } else {
+                _defaultContext = ctx;
+            }
+        };
+        conduit.before = function (step, options) {
+            step = typeof step === "function" ? {
+                fn: step
+            } : step;
+            options = options || {};
+            if (options.prepend) {
+                _steps.pre.unshift(step);
+            } else {
+                _steps.pre.push(step);
+            }
+            _genPipeline();
+        };
+        conduit.after = function (step, options) {
+            step = typeof step === "function" ? {
+                fn: step
+            } : step;
+            options = options || {};
+            if (options.prepend) {
+                _steps.post.unshift(step);
+            } else {
+                _steps.post.push(step);
+            }
+            _genPipeline();
+        };
+        conduit.clear = function () {
+            _steps = {
+                pre: [],
+                post: [],
+                all: []
+            };
+            _genPipeline();
+        };
+        conduit.target = function (fn) {
+            if (fn) {
+                _target = fn;
+            }
+            return _target;
+        };
 		return conduit;
-    };
+    };// eof Conduit
 	Conduit.Sync = function (options) {
     	console.log('CORE: ServiceBus Conduit.Sync(options) called');
         options.sync = true;
@@ -63,6 +137,9 @@ define(['./Base'], function (Base) {
     };
 
     console.log('******** I AM HERE: line BBB **********');	
+    /*
+     * Functions
+     */
     function subscribe(options) {
     	console.log('CORE: ServiceBusBase subscribe(options) called');
         var subDef = new SubscriptionDefinition(options.channel || _ServiceBus.configuration.DEFAULT_CHANNEL, options.topic, options.callback);    	

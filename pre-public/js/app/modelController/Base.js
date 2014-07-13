@@ -52,9 +52,25 @@ define(function () {
 						var model_keyValuePairs = models[key];
 						console.log('CORE: modelControllerBase model ' + key + ' key value pairs:');
 						console.log(model_keyValuePairs);
-						// create a new model from these keyValuePairs and store in model array
+						// modelService is a template, ready to be made specific based on the new model's keyValuePairs
+						// Create a new modelService
+						var newModelService = cloneObject(this.modelService);
+						newModelService.setServiceBus(this.serviceBus);
+						// Set subscriptions to newModelService
+						for(key in model_keyValuePairs) {
+							if(key == 'subscriptions') {
+								var subscriptions = model_keyValuePairs[key];
+								console.log('CORE: modelControllerBase subscriptions in key value pairs:');
+								console.log(subscriptions);
+								newModelService.setSubscriptions(subscriptions);
+							}
+						}
+						// Create a new model for these keyValuePairs
 						var newModel = cloneObject(this.model);
 						newModel.setKeyValuePairs(model_keyValuePairs);
+						// Set new model service on the new model
+						newModel.setModelService(newModelService);
+						// Add new model to model array
 						this.modelArray[i] = newModel;
 						console.log('CORE: modelControllerBase modelArray [' + i + ']');
 						console.log(this.modelArray[i]);
@@ -70,7 +86,6 @@ define(function () {
 		setModelService: function (modelService) {
 			console.log('CORE: modelControllerBase setModelService(modelService) called');			
 			this.modelService = modelService;
-			this.modelService.setServiceBus(this.serviceBus);
 		},
 		setModelEvent: function (modelEvent) {
 			console.log('CORE: modelControllerBase setModelEvent(modelEvent) called');		
@@ -82,25 +97,24 @@ define(function () {
 		},
     	loadModel: function (id) {
 			console.log('CORE: modelControllerBase loadModel(id) called');    		
-	        // Get the modelService.
-	        var modelService = this.modelService.find(id);
-	        // Get a new model
-	        var model = new this.model(modelService);
+	        // Get the model from the model array.
+	    // OLD    var modelService = this.modelService.find(id);
+	    // OLD Get a new model
+	    // OLD    var model = new this.model(modelService);
 	        // run the model's render function
-	        model.render();
+	    // OLD    model.render();
 	    },
 	    subscribeModelService: function(id) {
 			console.log('CORE: modelControllerBase subscribeModelService(id) called'); 	    	
-	        // Get the modelService.
-	        var modelService = this.modelService.find(id);    	
-	    	// run the modelService's subscribe function, using config
-	    	var config = { channel: 'calculator', modelTopics: ['calculate']}; // to do: get these from this.config
-	    	modelService.subscribe(config);
+	        // Get the modelService from the model in the modelArray
+	    // OLD    var modelService = this.modelService.find(id);    	
+	    	// run the modelService's subscribe function
+	        // modelService.subscribe();
 	    },	    
         renderView: function (bodyDom) {
 			console.log('CORE: modelControllerBase renderView(bodyDom) called');    	
-            bodyDom.prepend('<h2>ModelController ' + this.id + ' says "' +
-                      this.model.getTitle() + '"</h2>');
+        // OLD    bodyDom.prepend('<h2>ModelController ' + this.id + ' says "' +
+        // OLD              this.model.getTitle() + '"</h2>');
         }
     };
     return modelControllerBase;

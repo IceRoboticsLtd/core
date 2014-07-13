@@ -14,11 +14,14 @@ define(function () {
 			// The modelService instance has a property called "myProperty"
     		// created from the serviceBus's "yourProperty".
 			this.myProperty = this.serviceBus.yourProperty;
-		},    	
-		subscribe: function (config) {
-			console.log('CORE: modelServiceBase subscribe(config) called');	
-			this.config = config;
-			// Subscribe to the serviceBus with channels and topics from config
+		},
+		setSubscriptions: function (subscriptions){
+			console.log('CORE: modelServiceBase setSubscriptions(subscriptions) called');
+			this.subscriptions = subscriptions;
+		},
+		subscribe: function () {
+			console.log('CORE: modelServiceBase subscribe() called');	
+			// Subscribe to the serviceBus with channels and topics from subscriptions
 			// TO DO
 		}
     };   
