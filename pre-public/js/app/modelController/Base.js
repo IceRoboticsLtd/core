@@ -104,9 +104,16 @@ define(function () {
 	        // run the model's render function
 	    // OLD    model.render();
 	    },
-	    subscribeModelService: function(id) {
-			console.log('CORE: modelControllerBase subscribeModelService(id) called'); 	    	
+	    subscribeModelService: function() {
+			console.log('CORE: modelControllerBase subscribeModelService() called'); 	    	
 	        // Get the modelService from the model in the modelArray
+	        for (key in this.modelArray) {
+	        	console.log('CORE: modelControllerBase model ' + key + ' in modelArray');
+	        	var model = this.modelArray[key];
+
+				// to do
+
+	        }
 	    // OLD    var modelService = this.modelService.find(id);    	
 	    	// run the modelService's subscribe function
 	        // modelService.subscribe();

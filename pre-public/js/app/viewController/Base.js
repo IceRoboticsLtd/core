@@ -104,12 +104,15 @@ define(function () {
 	        // run the view's render function
 	    //    view.render();
 	    },
-	    subscribeViewService: function(id) {
-			console.log('CORE: viewControllerBase subscribeViewService(id) called'); 	    	
-	        // Get the viewService from view array
-	    // OLD    var viewService = this.viewService.find(id);
-	    	// run the viewService's subscribe function
-	    //	viewService.subscribe();
+	    subscribeViewService: function() {
+			console.log('CORE: viewControllerBase subscribeViewService() called'); 	    	
+	        for (key in this.viewArray) {
+	        	console.log('CORE: viewControllerBase view ' + key + ' in viewArray');
+	        	var view = this.viewArray[key];
+
+				// to do
+
+	        }
 	    },
         renderView: function (bodyDom) {
 			console.log('CORE: viewControllerBase renderView(bodyDom) called');       	
