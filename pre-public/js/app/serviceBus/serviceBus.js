@@ -74,10 +74,6 @@ define(['./Base'], function (Base) {
     /*
      * ServiceBus Functions
 	 */
-
-	console.log('Conduit');
-	console.log(Conduit);
-
 	_ServiceBus.subscribe = new Conduit.Sync({
         target: subscribe,
         context: _ServiceBus
