@@ -59,6 +59,8 @@ define(function () {
                     console.log('CORE: viewServiceBase options:');
                     console.log(options);
                     var subscription = this.serviceBus.subscribe(options);
+                    console.log('CORE: viewServiceBase subscription:');
+                    console.log(subscription);       
                     // NOTE: to unsubscribe
                     // subscription.unsubscribe();
 
