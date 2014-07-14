@@ -10,7 +10,7 @@ define(['./Base'], function (Base) {
     	return (c=='x' ? r : (r&0x7|0x8)).toString(16);
     });
     var _ServiceBus = new Base(uuid);
-
+    var prevServiceBus = global.serviceBus;
 
     console.log('******** I AM HERE: line AAA **********');
 
@@ -142,23 +142,23 @@ define(['./Base'], function (Base) {
      * Channel
      */
     var ChannelDefinition = function (channelName) {
-        console.log('CORE: ServiceBusBase ChannelDefinition(channelName) called');  
+        console.log('CORE: ServiceBus ChannelDefinition(channelName) called');  
     //    this.channel = channelName || this.configuration.DEFAULT_CHANNEL;
     //    this.initialize();
     };
     console.log('******** I AM HERE: line BB **********');    
     ChannelDefinition.prototype.initialize = function () {
-        console.log('CORE: ServiceBusBase ChannelDefinition.prototype.initialize() called');
+        console.log('CORE: ServiceBus ChannelDefinition.prototype.initialize() called');
         // to do
     };
     console.log('******** I AM HERE: line CC **********');    
     ChannelDefinition.prototype.subscribe = function () {
-        console.log('CORE: ServiceBusBase ChannelDefinition.prototype.subscribe() called');
+        console.log('CORE: ServiceBus ChannelDefinition.prototype.subscribe() called');
         // to do
     };
     console.log('******** I AM HERE: line DD **********');    
     ChannelDefinition.prototype.publish = function () {
-        console.log('CORE: ServiceBusBase ChannelDefinition.prototype.publish() called');
+        console.log('CORE: ServiceBus ChannelDefinition.prototype.publish() called');
         // to do
     };
 
@@ -168,7 +168,7 @@ define(['./Base'], function (Base) {
      * Subscription
      */
     var SubscriptionDefinition = function (channel, topic, callback) {
-        console.log('CORE: ServiceBusBase SubscriptionDefinition(channel, topic, callback) called');
+        console.log('CORE: ServiceBus SubscriptionDefinition(channel, topic, callback) called');
         if (arguments.length !== 3) {
             throw new Error("You must provide a channel, topic and callback when creating a SubscriptionDefinition instance.");
         }
@@ -185,11 +185,134 @@ define(['./Base'], function (Base) {
         // to do
 
         subscribe: function (callback) {
-            // to do
+            console.log('CORE: ServiceBus SubscriptionDefinition subscribe(callback) called');
+            this.callback = new Conduit.Async({
+                target: callback,
+                context: this
+            });
+            return this;
         }
 
         // to do
     };
+    /*
+     * Predicates
+     */
+    var ConsecutiveDistinctPredicate = function () {
+        var previous;
+        return function (data) {
+            var eq = false;
+            if (_.isString(data)) {
+                eq = data === previous;
+                previous = data;
+            } else {
+                eq = _.isEqual(data, previous);
+                previous = _.clone(data);
+            }
+            return !eq;
+        };
+    };
+    var DistinctPredicate = function () {
+        var previous = [];
+        return function (data) {
+            var isDistinct = !_.any(previous, function (p) {
+                if (_.isObject(data) || _.isArray(data)) {
+                    return _.isEqual(data, p);
+                }
+                return data === p;
+            });
+            if (isDistinct) {
+                previous.push(data);
+            }
+            return isDistinct;
+        };
+    };
+    /*
+     * Strats
+     */
+    var strats = {
+        withDelay: function (ms) {
+            if (_.isNaN(ms)) {
+                throw "Milliseconds must be a number";
+            }
+            return {
+                name: "withDelay",
+                fn: function (next, data, envelope) {
+                    setTimeout(function () {
+                        next(data, envelope);
+                    }, ms);
+                }
+            };
+        },
+        defer: function () {
+            return this.withDelay(0);
+        },
+        stopAfter: function (maxCalls, callback) {
+            if (_.isNaN(maxCalls) || maxCalls <= 0) {
+                throw "The value provided to disposeAfter (maxCalls) must be a number greater than zero.";
+            }
+            var dispose = _.after(maxCalls, callback);
+            return {
+                name: "stopAfter",
+                fn: function (next, data, envelope) {
+                    dispose();
+                    next(data, envelope);
+                }
+            };
+        },
+        withThrottle: function (ms) {
+            if (_.isNaN(ms)) {
+                throw "Milliseconds must be a number";
+            }
+            return {
+                name: "withThrottle",
+                fn: _.throttle(function (next, data, envelope) {
+                    next(data, envelope);
+                }, ms)
+            };
+        },
+        withDebounce: function (ms, immediate) {
+            if (_.isNaN(ms)) {
+                throw "Milliseconds must be a number";
+            }
+            return {
+                name: "debounce",
+                fn: _.debounce(function (next, data, envelope) {
+                    next(data, envelope);
+                }, ms, !! immediate)
+            };
+        },
+        withConstraint: function (pred) {
+            if (!_.isFunction(pred)) {
+                throw "Predicate constraint must be a function";
+            }
+            return {
+                name: "withConstraint",
+                fn: function (next, data, envelope) {
+                    if (pred.call(this, data, envelope)) {
+                        next.call(this, data, envelope);
+                    }
+                }
+            };
+        },
+        distinct: function (options) {
+            options = options || {};
+            var accessor = function (args) {
+                return args[0];
+            };
+            var check = options.all ? new DistinctPredicate(accessor) : new ConsecutiveDistinctPredicate(accessor);
+            return {
+                name: "distinct",
+                fn: function (next, data, envelope) {
+                    if (check(data)) {
+                        next(data, envelope);
+                    }
+                }
+            };
+        }
+    };
+
+
 
     /*
      * Variables
@@ -198,26 +321,154 @@ define(['./Base'], function (Base) {
         cache: {},
         regex: {},
         compare: function (binding, topic) {
-            // to do
+            console.log('CORE: ServiceBus compare(binding, topic) called');
+            var pattern, rgx, prevSegment, result = (this.cache[topic] && this.cache[topic][binding]);
+            if (typeof result !== "undefined") {
+                return result;
+            }
+            if (!(rgx = this.regex[binding])) {
+                pattern = "^" + _.map(binding.split("."), function (segment) {
+                    var res = "";
+                    if ( !! prevSegment) {
+                        res = prevSegment !== "#" ? "\\.\\b" : "\\b";
+                    }
+                    if (segment === "#") {
+                        res += "[\\s\\S]*";
+                    } else if (segment === "*") {
+                        res += "[^.]+";
+                    } else {
+                        res += segment;
+                    }
+                    prevSegment = segment;
+                    return res;
+                }).join("") + "$";
+                rgx = this.regex[binding] = new RegExp(pattern);
+            }
+            this.cache[topic] = this.cache[topic] || {};
+            this.cache[topic][binding] = result = rgx.test(topic);
+            return result;
         },
         reset: function () {
             this.cache = {};
             this.regex = {};
         }
-    }//oef bindingsResolver
+    };//oef bindingsResolver
 
     console.log('******** I AM HERE: line EEE **********'); 
 
     /*
      * Functions
      */
+    var fireSub = function (subDef, envelope) {
+        console.log('CORE: ServiceBus fireSub(subDef, envelope) called');         
+        if (!subDef.inactive && _ServiceBus.configuration.resolver.compare(subDef.topic, envelope.topic)) {
+            subDef.callback(envelope.data, envelope);
+        }
+    };
+    var pubInProgress = 0;
+    var unSubQueue = [];
+    function clearUnSubQueue() {
+        console.log('CORE: ServiceBus clearUnSubQueue() called');         
+        while (unSubQueue.length) {
+            _ServiceBus.unsubscribe(unSubQueue.shift());
+        }
+    };
+    function getSystemMessage(kind, subDef) {
+        console.log('CORE: ServiceBus getSystemMessage(kind, subDef) called');        
+        return {
+            channel: _ServiceBus.configuration.SYSTEM_CHANNEL,
+            topic: "subscription." + kind,
+            data: {
+                event: "subscription." + kind,
+                channel: subDef.channel,
+                topic: subDef.topic
+            }
+        };
+    };
+    function getPredicate(options) {
+        console.log('CORE: ServiceBus getPredicate(options) called');        
+        if (typeof options === "function") {
+            return options;
+        } else if (!options) {
+            return function () {
+                return true;
+            };
+        } else {
+            return function (sub) {
+                var compared = 0,
+                    matched = 0;
+                _.each(options, function (val, prop) {
+                    compared += 1;
+                    if (
+                    // We use the bindings resolver to compare the options.topic to subDef.topic
+                    (prop === "topic" && _ServiceBus.configuration.resolver.compare(sub.topic, options.topic))
+                    // We need to account for the context possibly being available on callback due to Conduit
+                    || (prop === "context" && options.context === (sub.callback.context && sub.callback.context() || sub.context))
+                    // Any other potential prop/value matching outside topic & context...
+                    || (sub[prop] === options[prop])) {
+                        matched += 1;
+                    }
+                });
+                return compared === matched;
+            };
+        }
+    };
     function subscribe(options) {
-    	console.log('CORE: ServiceBusBase subscribe(options) called');
+    	console.log('CORE: ServiceBus subscribe(options) called');
         var subDef = new SubscriptionDefinition(options.channel || _ServiceBus.configuration.DEFAULT_CHANNEL, options.topic, options.callback);    	
 		// to do
 
         return subDef;
     };
+    function publish(envelope) {
+        console.log('CORE: ServiceBus publish(envelope) called');        
+        ++pubInProgress;
+        envelope.channel = envelope.channel || this.configuration.DEFAULT_CHANNEL;
+        envelope.timeStamp = new Date();
+        _.each(this.wireTaps, function (tap) {
+            tap(envelope.data, envelope);
+        });
+        if (this.subscriptions[envelope.channel]) {
+            _.each(this.subscriptions[envelope.channel], function (subscribers) {
+                var idx = 0,
+                    len = subscribers.length,
+                    subDef;
+                while (idx < len) {
+                    if (subDef = subscribers[idx++]) {
+                        fireSub(subDef, envelope);
+                    }
+                }
+            });
+        }
+        if (--pubInProgress === 0) {
+            clearUnSubQueue();
+        }
+    };
+    function unsubscribe() {
+        console.log('CORE: ServiceBus unsubscribe() called');        
+        var idx = 0;
+        var subs = Array.prototype.slice.call(arguments, 0);
+        var subDef;
+        while (subDef = subs.shift()) {
+            if (pubInProgress) {
+                unSubQueue.push(subDef);
+                return;
+            }
+            if (this.subscriptions[subDef.channel] && this.subscriptions[subDef.channel][subDef.topic]) {
+                var len = this.subscriptions[subDef.channel][subDef.topic].length;
+                idx = 0;
+                while (idx < len) {
+                    if (this.subscriptions[subDef.channel][subDef.topic][idx] === subDef) {
+                        this.subscriptions[subDef.channel][subDef.topic].splice(idx, 1);
+                        break;
+                    }
+                    idx += 1;
+                }
+            }
+            _ServiceBus.publish(getSystemMessage("removed", subDef));
+        }
+    };
+
     console.log('******** I AM HERE: line FFF **********');
 
 
@@ -233,18 +484,108 @@ define(['./Base'], function (Base) {
     _ServiceBus.wireTaps = [];
     _ServiceBus.ChannelDefinition = ChannelDefinition;
     _ServiceBus.SubscriptionDefinition = SubscriptionDefinition;
-
-    console.log('******** I AM HERE: line GGG **********');
-
-    /*
-     * ServiceBus Functions
-	 */
-	_ServiceBus.subscribe = new Conduit.Sync({
+    _ServiceBus.subscribe = new Conduit.Sync({
         target: subscribe,
         context: _ServiceBus
     });
+    _ServiceBus.publish = Conduit.Async({
+        target: publish,
+        context: _ServiceBus
+    });
+    _ServiceBus.unsubscribe = new Conduit.Sync({
+        target: unsubscribe,
+        context: _ServiceBus
+    });
+    _ServiceBus.subscribe.after(function (subDef /*, options */ ) {
+        _ServiceBus.publish(getSystemMessage("created", subDef));
+    });
+    _ServiceBus.subscriptions[_ServiceBus.configuration.SYSTEM_CHANNEL] = {};
 
+    /*
+     * ServiceBus Functions
+     */
+    _ServiceBus.channel = function (channelName) {
+        console.log('CORE: ServiceBus _ServiceBus.channel(channelName) called');        
+        return new ChannelDefinition(channelName);
+    };
+    _ServiceBus.addWireTap = function (callback) {
+        console.log('CORE: ServiceBus _ServiceBus.addWireTap(callback) called');        
+        var self = this;
+        self.wireTaps.push(callback);
+        return function () {
+            var idx = self.wireTaps.indexOf(callback);
+            if (idx !== -1) {
+                self.wireTaps.splice(idx, 1);
+            }
+        };
+    };
+    _ServiceBus.noConflict = function () {
+        console.log('CORE: ServiceBus _ServiceBus.noConflict() called');
+        if (typeof window === "undefined" || (typeof window !== "undefined" && typeof define === "function" && define.amd)) {
+            throw new Error("noConflict can only be used in browser clients which aren't using AMD modules");
+        }
+        global.serviceBus = prevServiceBus;
+        return this;
+    };
+    _ServiceBus.getSubscribersFor = function (options) {
+        console.log('CORE: ServiceBus _ServiceBus.getSubscribersFor(options) called');        
+        var result = [];
+        _.each(this.subscriptions, function (channel) {
+            _.each(channel, function (subList) {
+                result = result.concat(_.filter(subList, getPredicate(options)));
+            });
+        });
+        return result;
+    };
+    _ServiceBus.reset = function () {
+        console.log('CORE: ServiceBus _ServiceBus.reset() called');        
+        this.unsubscribeFor();
+        this.configuration.resolver.reset();
+        this.subscriptions = {};
+    };
+    _ServiceBus.unsubscribeFor = function (options) {
+        console.log('CORE: ServiceBus _ServiceBus.unsubscribeFor(options) called');        
+        var toDispose = [];
+        if (this.subscriptions) {
+            toDispose = this.getSubscribersFor(options);
+            this.unsubscribe.apply(this, toDispose);
+        }
+    };
+    _ServiceBus.linkChannels = function (sources, destinations) {
+        var result = [],
+            self = this;
+        sources = !_.isArray(sources) ? [sources] : sources;
+        destinations = !_.isArray(destinations) ? [destinations] : destinations;
+        _.each(sources, function (source) {
+            var sourceTopic = source.topic || "#";
+            _.each(destinations, function (destination) {
+                var destChannel = destination.channel || self.configuration.DEFAULT_CHANNEL;
+                result.push(
+                self.subscribe({
+                    channel: source.channel || self.configuration.DEFAULT_CHANNEL,
+                    topic: sourceTopic,
+                    callback: function (data, env) {
+                        var newEnv = _.clone(env);
+                        newEnv.topic = _.isFunction(destination.topic) ? destination.topic(env.topic) : destination.topic || env.topic;
+                        newEnv.channel = destChannel;
+                        newEnv.data = data;
+                        self.publish(newEnv);
+                    }
+                }));
+            });
+        });
+        return result;
+    };
+
+    console.log('******** I AM HERE: line YYY **********');
+
+    if (global && Object.prototype.hasOwnProperty.call(global, "__serviceBusReady__") && _.isArray(global.__serviceBusReady__)) {
+        while (global.__serviceBusReady__.length) {
+            global.__serviceBusReady__.shift().onReady(_ServiceBus);
+        }
+    };
 
     console.log('******** I AM HERE: line ZZZ **********');
+
     return _ServiceBus;
 });
