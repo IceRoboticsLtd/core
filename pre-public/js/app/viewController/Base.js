@@ -97,12 +97,15 @@ define(function () {
 		},		
     	loadView: function (id) {
 			console.log('CORE: viewControllerBase loadView(id) called'); 		
-	        // Get the viewService from view array
-	    // OLD    var viewService = this.viewService.find(id);
-	        // Get a new view
-	    // OLD    var view = new this.view(viewService);
-	        // run the view's render function
-	    //    view.render();
+	        try {
+	        	this.loadedView = this.viewArray[id];
+				console.log('CORE: viewControllerBase loadedView:');
+	        	console.log(this.loadedView);
+	        }
+	        catch(e) {
+	        	console.log('CORE: viewControllerBase loadView(id) error:');
+	        	console.log(e);
+	        }
 	    },
 	    subscribeViewService: function() {
 			console.log('CORE: viewControllerBase subscribeViewService() called'); 	    	
@@ -118,10 +121,9 @@ define(function () {
 	        	}
 	        }
 	    },
-        renderView: function (bodyDom) {
-			console.log('CORE: viewControllerBase renderView(bodyDom) called');       	
-            bodyDom.prepend('<h2>ViewController ' + this.id + ' says "' +
-                      this.viewService.getTitle() + '"</h2>');
+        renderView: function (elementId) {
+			console.log('CORE: viewControllerBase renderView(elementId) called');       	
+			this.loadedView.renderView(elementId); // NOTE: Use the loaded View !!
         }
     };
     return viewControllerBase;

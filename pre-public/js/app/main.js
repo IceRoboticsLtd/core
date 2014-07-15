@@ -23,8 +23,8 @@ define(function (require) {
         bootstrap = require('bootstrap'), // bootstrap extends jquery
         expect = require('expect'),
         mocha = require('mocha');
-//        conduitjs = require('conduit'); // depends on bootstrap, expect, and mocha
-//        postal = require('postal');
+        //conduitjs = require('conduit'); // depends on bootstrap, expect, and mocha
+        //postal = require('postal');
         //postaldiags = require('postaldiags');
 
     // Backbone check
@@ -116,6 +116,11 @@ define(function (require) {
 
     // DOM ready
     $(function () {
+        console.log('CORE: controller.loadView(0) called');
+        controller.loadView(0); // MAKE DYNAMIC, CHOOSE id
+        console.log('CORE: controller.renderView("page") called'); // PROVIDE A PROPER elementId
+        controller.renderView('page');
+        /* OLD
         controller.renderView(lib.getBody());
         //Display backbone and underscore versions
         $('body')
@@ -129,15 +134,6 @@ define(function (require) {
         //    .append('<div>postal version: ' + postal.VERSION + '</div>')              
         //    .append('<div>postaldiags version: ' + postaldiags.VERSION + '</div>')                                       
 		//	.append('<div>Example 1 - The World\'s Simplest Subscription<div class="results" id="example1"></div></div>');
+        */
     });
-
-/*
-    // DOM ready
-    $(function() {
-        require(["calculator"], function(calculator) {
-            console.log('calculator is required');
-        }); // TODO: Make this dynamic
-    });
-*/
-
 });
