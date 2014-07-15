@@ -9,7 +9,7 @@ define(['./Base'], function (Base) {
 				views: {
 					calculator: {
 						result: 0,
-						htmlSource: '<h2>I am a view of a calculator</h2>',
+						htmlSource: '<h2>I am a view of a calculator</h2><script type="text/javascript">var viewInit = function() {console.log("CORE: page viewInit() called");</script>',
 						subscriptions: [
 							{
 								channel: 'calculator',

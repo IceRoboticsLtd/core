@@ -67,6 +67,8 @@
                     require(['app/main'], function (main) {
                          console.log('CORE: page: main required');
                          console.log(main);
+                         //Call the script belonging to the (imported) view 
+                         viewInit();
                     });
                 });
             };
