@@ -1,7 +1,7 @@
 /*
  * Common
  */
-
+var global = self;
 //The build will inline common dependencies into this file.
 
 //For any third party dependencies, like jQuery, place them in the lib folder.
@@ -13,10 +13,12 @@ requirejs.config({
     baseUrl: 'js/lib',
     paths: {
         app: '../app',
-        lodash: 'postal/bower/lodash/dist/lodash',
-        expect: 'postal/bower/expect/expect',
-        mocha: 'postal/bower/mocha/mocha',
-        jquery: 'postal/bower/jquery/jquery' 
+        lodash: 'lodash',
+        expect: 'expect',
+        mocha: 'mocha',
+        jquery: 'jquery',
+        jquerypp: 'jquerypp.custom',
+        framewarp: 'framewarp' 
         //bootstrap: 'postal/bower/bootstrap/dist/js/bootstrap',
         //conduitjs: 'postal/bower/conduitjs/lib/conduit',
         //postal: 'postal/lib/postal'
