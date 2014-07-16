@@ -22,7 +22,9 @@ define(function (require) {
         jquery = require('jquery'),
         bootstrap = require('bootstrap'), // bootstrap extends jquery
         expect = require('expect'),
-        mocha = require('mocha');
+        mocha = require('mocha'),
+        jquerypp = require('jquerypp.custom'),
+        framewarp = require('framewarp');
         //conduitjs = require('conduit'); // depends on bootstrap, expect, and mocha
         //postal = require('postal');
         //postaldiags = require('postaldiags');
