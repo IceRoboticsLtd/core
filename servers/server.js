@@ -257,7 +257,7 @@ app.all('*', function(req, res, next){
  *  The app name requested should follow from the URL, 
  *  like http://localhost:4000/?app=store
  */
-var app_name = 'calculator'; // FOR DEMO PURPOSES ONLY !!!
+//var app_name = 'calculator'; // FOR DEMO PURPOSES ONLY !!!
 /*********************** END OF HARDCODED ********************/
 
 if(typeof configs.title === 'undefined'){
@@ -265,20 +265,6 @@ if(typeof configs.title === 'undefined'){
 }
 else {
 	var title = configs.title;
-}
-
-if(typeof configs.css_file_location === 'undefined'){
-	var css_file_location = 'css/style.css';
-}
-else {
-	var css_file_location = configs.css_file_location;
-	// replace the css file name by the app name, if provided
-	if(typeof app_name === 'undefined'){
-		// continue without replacement
-	}
-	else {
-		css_file_location = css_file_location.replace('style', app_name);
-	}
 }
 
 if(typeof configs.access_control_allow_origin === 'undefined'){
@@ -306,8 +292,41 @@ else {
 app.get('/', function(req, res) {
 
 	// TO DO: Find requested app (e.g. /?app='calculator') from app list, then supply page with app config
-
-    res.render('page', { title: title, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, layout: false });
+	// Distinguish based on an optional key-value parameter in the request url (e.g. '/?app=calculator')
+	var app = 'page'; // default
+	var app_name = ''; // default
+	// Update app_name variable here with value from 'app' key (e.g. app=calculator) sets app to 'calculator' 
+	if(req.query.app) {
+		app_name = req.query.app;
+		var app_not_found = true; // default to true
+		// Lookup app in app list, if found set not_found to false
+		for (key in app_list) {
+			if(key == app_name) {
+				app_name = key;
+				app_not_found = false;
+				break;
+			}
+		}//eof for
+		if(app_not_found) {
+			console.log(server_prefix + " - App requested, but not found: " + app_name);
+			app = 'not_found';
+		}
+	}
+	console.log(server_prefix + " - App requested: " + app_name);
+	if(typeof configs.css_file_location === 'undefined') {
+		var css_file_location = 'css/style.css';
+	}
+	else {
+		var css_file_location = configs.css_file_location;
+		// replace the css file name by the app name, if provided
+		if(typeof app_name === 'undefined'){
+			// continue without replacement
+		}
+		else {
+			css_file_location = css_file_location.replace('style', app_name);
+		}
+	}
+    res.render(app, { title: title, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, layout: false });
 });
 
 var app_server = app.listen(app_port, function() {
