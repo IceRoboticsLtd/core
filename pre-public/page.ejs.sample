@@ -14,7 +14,7 @@
             <link rel="shortcut icon" href="favicon.ico" />
         <![endif]-->
         <!--CSS-->
-        <link rel="stylesheet" type="text/css" media="all" href="<%= css_file_location %>"> 
+        <link rel="stylesheet" type="text/css" media="all" href="<%= css_file_location %>">
         <script >
         // See http://www.ejeliot.com/blog/109
             function loadScript(src, async, elem, callback){
@@ -67,12 +67,25 @@
                     require(['app/main'], function (main) {
                          console.log('CORE: page: main required');
                          console.log(main);
+                         // Set require
+                         console.log('CORE: page: main.setRequire(require)');
+                         main.setRequire(require);
+                         // Set app (e.g. 'calculator')
+                         console.log('CORE: page: main.setAppName("<%= app_name %>")');
+                         main.setAppName('<%= app_name %>');
+                         // Set elementId (e.g. 'page')
+                         console.log('CORE: page: main.setElementId("page")');
+                         main.setElementId('page');
+                         // Call ready()
+                         console.log('CORE: page: main.ready()');
+                         main.ready();
                     });
                 });
             };
         </script>
     </head>
     <body onload="loadScript('js/lib/require.js', true, null, doNext)">
+        <!--<a id="#close-app" href="#" onclick="$('.popupBG',parent.document).trigger('click');">Close</a>-->
         <div id="page">
             <!-- loadingCSS -->
             <style type="text/css">
@@ -126,7 +139,7 @@
                     text-align: center;
                     width: 100%;
                     margin-bottom: 20px;
-                }    
+                }
                 @-webkit-keyframes first{
                     0% {
                         opacity: 0.8
