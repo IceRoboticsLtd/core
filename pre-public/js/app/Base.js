@@ -470,7 +470,10 @@ define(function () {
 																		console.log(me.modelEvent);
 																		me.controller.setModelEvent(me.modelEvent);
 																	}
-																	// more
+																	// Subscribe ModelService
+																	console.log('CORE: mainBase ready this.controller.subscribeModelService()');			    
+				    												me.controller.subscribeModelService();
+				    												// More ...
 
 
 																}
@@ -573,7 +576,10 @@ define(function () {
 																		console.log(me.viewEvent);
 																		me.controller.setViewEvent(me.viewEvent);
 																	}
-																	// more
+																	// Subscribe ViewService
+																	console.log('CORE: mainBase ready this.controller.subscribeViewService()');			    
+				    												me.controller.subscribeViewService();
+				    												// More ...
 
 
 																}
