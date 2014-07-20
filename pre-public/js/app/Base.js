@@ -204,6 +204,23 @@ define(function () {
         		callback(me, err, this.modelService);
         	}
     	},
+        readyModel: function(me, callback) {
+        	console.log('CORE: mainBase readyModel(me, callback) called');
+        	var err = null;
+			if(typeof this.model === 'undefined') {
+				this.require(['../app/model/model'], function (model) {
+                    console.log('CORE: mainBase: model required');
+                    console.log(model);
+                    this.model = model; 
+                    callback(me, err, this.model);
+            	});
+            }
+			else {
+				this.model = this.model;
+				console.log(this.model);
+        		callback(me, err, this.model);
+        	}
+    	},
         readyViewController: function(me, callback) {
         	console.log('CORE: mainBase readyViewController(me, callback) called');
         	var err = null;
@@ -236,6 +253,23 @@ define(function () {
 				this.viewService = this.viewService;
 				console.log(this.viewService);
         		callback(me, err, this.viewService);
+        	}
+    	},
+        readyView: function(me, callback) {
+        	console.log('CORE: mainBase readyView(me, callback) called');
+        	var err = null;
+			if(typeof this.view === 'undefined') {
+				this.require(['../app/view/view'], function (view) {
+                    console.log('CORE: mainBase: view required');
+                    console.log(view);
+                    this.view = view; 
+                    callback(me, err, this.view);
+            	});
+            }
+			else {
+				this.view = this.view;
+				console.log(this.view);
+        		callback(me, err, this.view);
         	}
     	},
         ready: function() {
@@ -356,9 +390,34 @@ define(function () {
 														console.log(me.modelService);
 														me.controller.setModelService(me.modelService);
 													}
-													// more
+													// Model
+													me.readyModel(me, function(me, err, model) {
+														if(err) {
+															console.log('CORE: mainBase readyModel error:');
+															console.log(err);
+														}
+														else {
+															console.log('CORE: mainBase ready model:');
+															console.log(model);
+															me.model = model;
+															// Set model
+															console.log('CORE: mainBase ready me.controller.setModel(me.model):');
+															// Model
+															if(typeof me.model === 'undefined') {
+																me.model = {}; // default
+																console.log(me.model);
+																me.controller.setModel(me.model);
+															}
+															else {
+																me.model = me.model;
+																console.log(me.model);
+																me.controller.setModel(me.model);
+															}
+															// more
 
 
+														}
+													});// eof Model
 												}
 											});// eof ModelService
 										}
@@ -409,9 +468,34 @@ define(function () {
 														console.log(me.viewService);
 														me.controller.setViewService(me.viewService);
 													}
-													// more
+													// View
+													me.readyView(me, function(me, err, view) {
+														if(err) {
+															console.log('CORE: mainBase readyView error:');
+															console.log(err);
+														}
+														else {
+															console.log('CORE: mainBase ready view:');
+															console.log(view);
+															me.view = view;
+															// Set view
+															console.log('CORE: mainBase ready me.controller.setView(me.view):');
+															// View
+															if(typeof me.view === 'undefined') {
+																me.view = {}; // default
+																console.log(me.view);
+																me.controller.setView(me.view);
+															}
+															else {
+																me.view = me.view;
+																console.log(me.view);
+																me.controller.setView(me.view);
+															}
+															// more
 
 
+														}
+													});// eof View
 												}
 											});// eof ViewService
 										}
