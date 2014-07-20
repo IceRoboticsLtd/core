@@ -7,14 +7,14 @@ define(function () {
         this.id = id;
     };
     controllerBase.prototype = {
-    	setApp: function (app) {
-			console.log('CORE: controllerBase setApp(app) called');
-			this.app = app;
+    	setAppName: function (appName) {
+			console.log('CORE: controllerBase setAppName(appName) called');
+			this.appName = appName;
 		},
 		setModelController: function (modelController) {
 			console.log('CORE: controllerBase setModelController(modelController) called');
 			this.modelController = modelController;
-			this.modelController.setApp(this.app);
+			this.modelController.setAppName(this.appName);
 			this.modelController.setConfig(this.config);
 			this.modelController.setServiceBus(this.serviceBus);
 		},
@@ -52,7 +52,7 @@ define(function () {
 		setViewController: function (viewController) {
 			console.log('CORE: controllerBase setViewController(viewController) called');	
 			this.viewController = viewController;
-			this.viewController.setApp(this.app);
+			this.viewController.setAppName(this.appName);
 			this.viewController.setConfig(this.config);
 			this.viewController.setServiceBus(this.serviceBus);	
 		},
