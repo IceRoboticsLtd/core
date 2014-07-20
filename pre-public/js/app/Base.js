@@ -170,6 +170,74 @@ define(function () {
         		callback(me, err, this.serviceBus);
         	}
     	},
+        readyModelController: function(me, callback) {
+        	console.log('CORE: mainBase readyModelController(me, callback) called');
+        	var err = null;
+			if(typeof this.modelController === 'undefined') {
+				this.require(['../app/modelController/modelController'], function (modelController) {
+                    console.log('CORE: mainBase: modelController required');
+                    console.log(modelController);
+                    this.modelController = modelController; 
+                    callback(me, err, this.modelController);
+            	});
+            }
+			else {
+				this.modelController = this.modelController;
+				console.log(this.modelController);
+        		callback(me, err, this.modelController);
+        	}
+    	},
+        readyModelService: function(me, callback) {
+        	console.log('CORE: mainBase readyModelService(me, callback) called');
+        	var err = null;
+			if(typeof this.modelService === 'undefined') {
+				this.require(['../app/modelService/modelService'], function (modelService) {
+                    console.log('CORE: mainBase: modelService required');
+                    console.log(modelService);
+                    this.modelService = modelService; 
+                    callback(me, err, this.modelService);
+            	});
+            }
+			else {
+				this.modelService = this.modelService;
+				console.log(this.modelService);
+        		callback(me, err, this.modelService);
+        	}
+    	},
+        readyViewController: function(me, callback) {
+        	console.log('CORE: mainBase readyViewController(me, callback) called');
+        	var err = null;
+			if(typeof this.viewController === 'undefined') {
+				this.require(['../app/viewController/viewController'], function (viewController) {
+                    console.log('CORE: mainBase: viewController required');
+                    console.log(viewController);
+                    this.viewController = viewController; 
+                    callback(me, err, this.viewController);
+            	});
+            }
+			else {
+				this.viewController = this.viewController;
+				console.log(this.viewController);
+        		callback(me, err, this.viewController);
+        	}
+    	},
+        readyViewService: function(me, callback) {
+        	console.log('CORE: mainBase readyViewService(me, callback) called');
+        	var err = null;
+			if(typeof this.viewService === 'undefined') {
+				this.require(['../app/viewService/viewService'], function (viewService) {
+                    console.log('CORE: mainBase: viewService required');
+                    console.log(viewService);
+                    this.viewService = viewService; 
+                    callback(me, err, this.viewService);
+            	});
+            }
+			else {
+				this.viewService = this.viewService;
+				console.log(this.viewService);
+        		callback(me, err, this.viewService);
+        	}
+    	},
         ready: function() {
         	console.log('CORE: mainBase ready() called');
         	var me = this; // contains the current context
@@ -242,10 +310,112 @@ define(function () {
 										console.log(me.serviceBus);
 										me.controller.setServiceBus(me.serviceBus);
 									}
-									// more ...
+									// ModelController
+									me.readyModelController(me, function(me, err, modelController) {
+										if(err) {
+											console.log('CORE: mainBase readyModelController error:');
+											console.log(err);
+										}
+										else {
+											console.log('CORE: mainBase ready modelController:');
+											console.log(modelController);
+											me.modelController = modelController;
+											// Set modelController
+											console.log('CORE: mainBase ready me.controller.setModelController(me.modelController):');
+											// ModelController
+											if(typeof me.modelController === 'undefined') {
+												me.modelController = {}; // default
+												console.log(me.modelController);
+												me.controller.setModelController(me.modelController);
+											}
+											else {
+												me.modelController = me.modelController;
+												console.log(me.modelController);
+												me.controller.setModelController(me.modelController);
+											}
+											// ModelService
+											me.readyModelService(me, function(me, err, modelService) {
+												if(err) {
+													console.log('CORE: mainBase readyModelService error:');
+													console.log(err);
+												}
+												else {
+													console.log('CORE: mainBase ready modelService:');
+													console.log(modelService);
+													me.modelService = modelService;
+													// Set modelService
+													console.log('CORE: mainBase ready me.controller.setModelService(me.modelService):');
+													// ModelService
+													if(typeof me.modelService === 'undefined') {
+														me.modelService = {}; // default
+														console.log(me.modelService);
+														me.controller.setModelService(me.modelService);
+													}
+													else {
+														me.modelService = me.modelService;
+														console.log(me.modelService);
+														me.controller.setModelService(me.modelService);
+													}
+													// more
 
 
+												}
+											});// eof ModelService
+										}
+									});// eof ModelController
+									// ViewController
+									me.readyViewController(me, function(me, err, viewController) {
+										if(err) {
+											console.log('CORE: mainBase readyViewController error:');
+											console.log(err);
+										}
+										else {
+											console.log('CORE: mainBase ready viewController:');
+											console.log(viewController);
+											me.viewController = viewController;
+											// Set viewController
+											console.log('CORE: mainBase ready me.controller.setViewController(me.viewController):');
+											// ViewController
+											if(typeof me.viewController === 'undefined') {
+												me.viewController = {}; // default
+												console.log(me.viewController);
+												me.controller.setViewController(me.viewController);
+											}
+											else {
+												me.viewController = me.viewController;
+												console.log(me.viewController);
+												me.controller.setViewController(me.viewController);
+											}
+											// ViewService
+											me.readyViewService(me, function(me, err, viewService) {
+												if(err) {
+													console.log('CORE: mainBase readyViewService error:');
+													console.log(err);
+												}
+												else {
+													console.log('CORE: mainBase ready viewService:');
+													console.log(viewService);
+													me.viewService = viewService;
+													// Set viewService
+													console.log('CORE: mainBase ready me.controller.setViewService(me.viewService):');
+													// ViewService
+													if(typeof me.viewService === 'undefined') {
+														me.viewService = {}; // default
+														console.log(me.viewService);
+														me.controller.setViewService(me.viewService);
+													}
+													else {
+														me.viewService = me.viewService;
+														console.log(me.viewService);
+														me.controller.setViewService(me.viewService);
+													}
+													// more
 
+
+												}
+											});// eof ViewService
+										}
+									});// eof ViewController
 								}
 							});// eof ServiceBus
 						}
