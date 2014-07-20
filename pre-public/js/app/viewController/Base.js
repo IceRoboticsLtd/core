@@ -17,9 +17,9 @@ define(function () {
 			console.log('CORE: viewControllerBase setServiceBus(serviceBus) called');			
 			this.serviceBus = serviceBus;
 		},
-		setApp: function (app) {
-			console.log('CORE: viewControllerBase setApp(app) called');
-			this.app = app;
+		setAppName: function (appName) {
+			console.log('CORE: viewControllerBase setAppName(appName) called');
+			this.appName = appName;
 		},		
 		setView: function (view) {
 			console.log('CORE: viewControllerBase setView(view) called');			
@@ -30,19 +30,19 @@ define(function () {
 			var configs = this.config.getConfigs();
 			var app_list = configs.app_list;
 			for (key in app_list) {
-				if(key == this.app) {
-					console.log('CORE: viewControllerBase app ' + this.app + ' found in app_list');
+				if(key == this.appName) {
+					console.log('CORE: viewControllerBase appName ' + this.appName + ' found in app_list');
 					app_not_found = false;
 					var app_configs = app_list[key];
 					console.log('CORE: viewControllerBase app_configs')
 					console.log(app_configs);
 					// continue for views ....
 					if(typeof app_configs.views === 'undefined') {
-						console.log('CORE: viewControllerBase no views found for app ' + this.app);
+						console.log('CORE: viewControllerBase no views found for appName ' + this.appName);
 						var views = {};
 					}
 					else {
-						console.log('CORE: viewControllerBase views found for app ' + this.app);
+						console.log('CORE: viewControllerBase views found for appName ' + this.appName);
 						console.log(app_configs.views);
 						var views = app_configs.views;
 					}
@@ -80,7 +80,7 @@ define(function () {
 				}
 			}// eof for
 			if(app_not_found) {
-				console.log('CORE: viewControllerBase app ' + this.app + 'not found in app_list');
+				console.log('CORE: viewControllerBase appName ' + this.appName + 'not found in app_list');
 			}
 		},
 		setViewService: function (viewService) {

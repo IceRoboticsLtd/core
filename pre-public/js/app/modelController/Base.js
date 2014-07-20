@@ -17,9 +17,9 @@ define(function () {
 			console.log('CORE: modelControllerBase setServiceBus(serviceBus) called');		
 			this.serviceBus = serviceBus;
 		},
-		setApp: function (app) {
-			console.log('CORE: modelControllerBase setApp(app) called');
-			this.app = app;
+		setAppName: function (appName) {
+			console.log('CORE: modelControllerBase setAppName(appName) called');
+			this.appName = appName;
 		},
 		setModel: function (model) {
 			console.log('CORE: modelControllerBase setModel(model) called');			
@@ -30,19 +30,19 @@ define(function () {
 			var configs = this.config.getConfigs();
 			var app_list = configs.app_list;
 			for (key in app_list) {
-				if(key == this.app) {
-					console.log('CORE: modelControllerBase app ' + this.app + ' found in app_list');
+				if(key == this.appName) {
+					console.log('CORE: modelControllerBase appName ' + this.appName + ' found in app_list');
 					app_not_found = false;
 					var app_configs = app_list[key];
 					console.log('CORE: modelControllerBase app_configs')
 					console.log(app_configs);
 					// continue for models ....
 					if(typeof app_configs.models === 'undefined') {
-						console.log('CORE: modelControllerBase no models found for app ' + this.app);
+						console.log('CORE: modelControllerBase no models found for appName ' + this.appName);
 						var models = {};
 					}
 					else {
-						console.log('CORE: modelControllerBase models found for app ' + this.app);
+						console.log('CORE: modelControllerBase models found for appName ' + this.appName);
 						console.log(app_configs.models);
 						var models = app_configs.models;
 					}
@@ -80,7 +80,7 @@ define(function () {
 				}
 			}// eof for
 			if(app_not_found) {
-				console.log('CORE: modelControllerBase app ' + this.app + 'not found in app_list');
+				console.log('CORE: modelControllerBase appName ' + this.appName + 'not found in app_list');
 			}
 		},	
 		setModelService: function (modelService) {
