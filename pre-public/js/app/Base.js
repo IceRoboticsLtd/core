@@ -120,6 +120,7 @@ define(function () {
         	this.controller.renderView(elementId);
         },
         ready: function() {
+        	console.log('CORE: mainBase ready() called');       	
 		    // DOM ready
 		//    $(function () {
 
