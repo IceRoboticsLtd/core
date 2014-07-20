@@ -221,6 +221,23 @@ define(function () {
         		callback(me, err, this.model);
         	}
     	},
+        readyModelEvent: function(me, callback) {
+        	console.log('CORE: mainBase readyModelEvent(me, callback) called');
+        	var err = null;
+			if(typeof this.modelEvent === 'undefined') {
+				this.require(['../app/modelEvent/modelEvent'], function (modelEvent) {
+                    console.log('CORE: mainBase: modelEvent required');
+                    console.log(modelEvent);
+                    this.modelEvent = modelEvent; 
+                    callback(me, err, this.modelEvent);
+            	});
+            }
+			else {
+				this.modelEvent = this.modelEvent;
+				console.log(this.modelEvent);
+        		callback(me, err, this.modelEvent);
+        	}
+    	},
         readyViewController: function(me, callback) {
         	console.log('CORE: mainBase readyViewController(me, callback) called');
         	var err = null;
@@ -270,6 +287,23 @@ define(function () {
 				this.view = this.view;
 				console.log(this.view);
         		callback(me, err, this.view);
+        	}
+    	},
+        readyViewEvent: function(me, callback) {
+        	console.log('CORE: mainBase readyViewEvent(me, callback) called');
+        	var err = null;
+			if(typeof this.viewEvent === 'undefined') {
+				this.require(['../app/viewEvent/viewEvent'], function (viewEvent) {
+                    console.log('CORE: mainBase: viewEvent required');
+                    console.log(viewEvent);
+                    this.viewEvent = viewEvent; 
+                    callback(me, err, this.viewEvent);
+            	});
+            }
+			else {
+				this.viewEvent = this.viewEvent;
+				console.log(this.viewEvent);
+        		callback(me, err, this.viewEvent);
         	}
     	},
         ready: function() {
@@ -413,9 +447,34 @@ define(function () {
 																console.log(me.model);
 																me.controller.setModel(me.model);
 															}
-															// more
+															// ModelEvent
+															me.readyModelEvent(me, function(me, err, modelEvent) {
+																if(err) {
+																	console.log('CORE: mainBase readyModelEvent error:');
+																	console.log(err);
+																}
+																else {
+																	console.log('CORE: mainBase ready modelEvent:');
+																	console.log(modelEvent);
+																	me.modelEvent = modelEvent;
+																	// Set modelEvent
+																	console.log('CORE: mainBase ready me.controller.setModelEvent(me.modelEvent):');
+																	// ModelEvent
+																	if(typeof me.modelEvent === 'undefined') {
+																		me.modelEvent = {}; // default
+																		console.log(me.modelEvent);
+																		me.controller.setModelEvent(me.modelEvent);
+																	}
+																	else {
+																		me.modelEvent = me.modelEvent;
+																		console.log(me.modelEvent);
+																		me.controller.setModelEvent(me.modelEvent);
+																	}
+																	// more
 
 
+																}
+															});// eof ModelEvent
 														}
 													});// eof Model
 												}
@@ -491,9 +550,34 @@ define(function () {
 																console.log(me.view);
 																me.controller.setView(me.view);
 															}
-															// more
+															// ViewEvent
+															me.readyViewEvent(me, function(me, err, viewEvent) {
+																if(err) {
+																	console.log('CORE: mainBase readyViewEvent error:');
+																	console.log(err);
+																}
+																else {
+																	console.log('CORE: mainBase ready viewEvent:');
+																	console.log(viewEvent);
+																	me.viewEvent = viewEvent;
+																	// Set viewEvent
+																	console.log('CORE: mainBase ready me.controller.setViewEvent(me.viewEvent):');
+																	// ViewEvent
+																	if(typeof me.viewEvent === 'undefined') {
+																		me.viewEvent = {}; // default
+																		console.log(me.viewEvent);
+																		me.controller.setViewEvent(me.viewEvent);
+																	}
+																	else {
+																		me.viewEvent = me.viewEvent;
+																		console.log(me.viewEvent);
+																		me.controller.setViewEvent(me.viewEvent);
+																	}
+																	// more
 
 
+																}
+															});// eof ViewEvent
 														}
 													});// eof View
 												}
