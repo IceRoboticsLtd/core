@@ -126,8 +126,12 @@ define(function () {
 
 				// JQuery
 				if(typeof this.jQuery === 'undefined'){
-					this.jQuery = this.require('jquery');
-					this.$ = this.require('jquery');
+					this.require(['jquery'], function (jQuery) {
+	                    console.log('CORE: mainBase: jQuery required');
+	                    console.log(jQuery);
+	                    this.jQuery = jQuery;
+	                    this.$ = jQuery;
+					}, this);
 				}
 				else {
 					this.jQuery = this.jQuery;
@@ -135,7 +139,11 @@ define(function () {
 				}
 				// Lib
 				if(typeof this.lib === 'undefined'){
-					this.lib = this.require('./lib');
+					this.require(['../app/lib'], function (lib) {
+	                    console.log('CORE: mainBase: lib required');
+	                    console.log(lib);
+	                    this.lib = lib;
+					}, this);
 				}
 				else {
 					this.lib = this.lib;
