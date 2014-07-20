@@ -3,20 +3,20 @@
  */
 define(function () {
     console.log('CORE: mainBase called');
-    function mainBase(id) {
+    function mainBase(id, require) {
         this.id = id;
+	    var $ = require('jquery'),
+	        backbone = require('backbone'),
+	        underscore = require('underscore'),
+	        lodash = require('lodash'),
+	        jquery = require('jquery'),
+	        bootstrap = require('bootstrap'), // bootstrap extends jquery
+	        expect = require('expect'),
+	        mocha = require('mocha'),
+	        jquerypp = require('jquerypp.custom'),
+	        framewarp = require('framewarp');
     };
     mainBase.prototype = {
-        setRequire: function(_require) {
-        	console.log('CORE: mainBase setRequire(_require) called: require =');
-        	console.log(_require);
-        	this.require = _require;
-        },
-        setJQuery: function(_jQuery) {
-        	console.log('CORE: mainBase setJQuery(_jQuery) called');
-        	this.jQuery = _jQuery;
-        	this.$ = _JQuery;
-        },
         setLib: function(lib) {
         	console.log('CORE: mainBase setLib(lib) called');
         	this.lib = lib;
@@ -74,38 +74,6 @@ define(function () {
         setViewEvent: function(viewEvent) {
         	console.log('CORE: mainBase setViewEvent(viewEvent) called');
         	this.viewEvent = viewEvent;
-        },
-        setBackbone: function(_backbone) {
-        	console.log('CORE: mainBase setBackbone(_backbone) called');
-        	this.backbone = _backbone;
-        },
-        setUnderscore: function(_underscore) {
-        	console.log('CORE: mainBase setUnderscore(_underscore) called');
-        	this.underscore = _underscore;
-        },
-        setLodash: function(_lodash) {
-        	console.log('CORE: mainBase setLodash(_lodash) called');
-        	this.lodash = _lodash;
-        },
-        setBootstrap: function(_bootstrap) {
-        	console.log('CORE: mainBase setBootstrap(_bootstrap) called');
-        	this.bootstrap = _bootstrap;
-        },
-        setExpect: function(_expect) {
-        	console.log('CORE: mainBase setExpect(_expect) called');
-        	this.expect = _expect;
-        },
-        setMocha: function(_mocha) {
-        	console.log('CORE: mainBase setMocha(_mocha) called');
-        	this.mocha = _mocha;
-        },
-        setJQueryPP: function(_jQueryPP) {
-        	console.log('CORE: mainBase setJQueryPP(_jQueryPP) called');
-        	this.jQueryPP = _jQueryPP;
-        },
-        setFrameWarp: function(_frameWarp) {
-        	console.log('CORE: mainBase setFrameWarp(_frameWarp) called');
-        	this.frameWarp = _frameWarp;
         },
         setViewIndex: function(viewIndex) {
         	console.log('CORE: mainBase setViewIndex(viewIndex) called');
@@ -580,6 +548,7 @@ define(function () {
 																	console.log('CORE: mainBase ready this.controller.subscribeViewService()');			    
 				    												me.controller.subscribeViewService();
 				    												// More ...
+
 
 
 																}
