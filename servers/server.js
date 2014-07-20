@@ -326,7 +326,7 @@ app.get('/', function(req, res) {
 			css_file_location = css_file_location.replace('style', app_name);
 		}
 	}
-    res.render(app, { title: title, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, layout: false });
+    res.render(app, { title: title, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, app_name: app_name, layout: false });
 });
 
 var app_server = app.listen(app_port, function() {
