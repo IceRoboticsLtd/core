@@ -5,6 +5,7 @@ define(function () {
     console.log('CORE: mainBase called');
     function mainBase(id, require) {
         this.id = id;
+        this.require = require;
 	    var $ = require('jquery'),
 	        backbone = require('backbone'),
 	        underscore = require('underscore'),
@@ -90,188 +91,188 @@ define(function () {
         readyController: function(me, callback) {
         	console.log('CORE: mainBase readyController(me, callback) called');
         	var err = null;
-			if(typeof this.controller === 'undefined') {
-				this.require(['../app/controller/controller'], function (controller) {
+			if(typeof me.controller === 'undefined') {
+				me.require(['../app/controller/controller'], function (controller) {
                     console.log('CORE: mainBase: controller required');
                     console.log(controller);
-                    this.controller = controller; 
-                    callback(me, err, this.controller);
+                    me.controller = controller; 
+                    callback(me, err, me.controller);
             	});
             }
 			else {
-				this.controller = this.controller;
-				console.log(this.controller);
-        		callback(me, err, this.controller);
+				me.controller = me.controller;
+				console.log(me.controller);
+        		callback(me, err, me.controller);
         	}
     	},
         readyConfig: function(me, callback) {
         	console.log('CORE: mainBase readyConfig(me, callback) called');
         	var err = null;
-			if(typeof this.config === 'undefined') {
-				this.require(['../app/config/config'], function (config) {
+			if(typeof me.config === 'undefined') {
+				me.require(['../app/config/config'], function (config) {
                     console.log('CORE: mainBase: config required');
                     console.log(config);
-                    this.config = config; 
-                    callback(me, err, this.config);
+                    me.config = config; 
+                    callback(me, err, me.config);
             	});
             }
 			else {
-				this.config = this.config;
-				console.log(this.config);
-        		callback(me, err, this.config);
+				me.config = me.config;
+				console.log(me.config);
+        		callback(me, err, me.config);
         	}
     	},
         readyServiceBus: function(me, callback) {
         	console.log('CORE: mainBase readyServiceBus(me, callback) called');
         	var err = null;
-			if(typeof this.serviceBus === 'undefined') {
-				this.require(['../app/serviceBus/serviceBus'], function (serviceBus) {
+			if(typeof me.serviceBus === 'undefined') {
+				me.require(['../app/serviceBus/serviceBus'], function (serviceBus) {
                     console.log('CORE: mainBase: serviceBus required');
                     console.log(serviceBus);
-                    this.serviceBus = serviceBus; 
-                    callback(me, err, this.serviceBus);
+                    me.serviceBus = serviceBus; 
+                    callback(me, err, me.serviceBus);
             	});
             }
 			else {
-				this.serviceBus = this.serviceBus;
-				console.log(this.serviceBus);
-        		callback(me, err, this.serviceBus);
+				me.serviceBus = me.serviceBus;
+				console.log(me.serviceBus);
+        		callback(me, err, me.serviceBus);
         	}
     	},
         readyModelController: function(me, callback) {
         	console.log('CORE: mainBase readyModelController(me, callback) called');
         	var err = null;
-			if(typeof this.modelController === 'undefined') {
-				this.require(['../app/modelController/modelController'], function (modelController) {
+			if(typeof me.modelController === 'undefined') {
+				me.require(['../app/modelController/modelController'], function (modelController) {
                     console.log('CORE: mainBase: modelController required');
                     console.log(modelController);
-                    this.modelController = modelController; 
-                    callback(me, err, this.modelController);
+                    me.modelController = modelController; 
+                    callback(me, err, me.modelController);
             	});
             }
 			else {
-				this.modelController = this.modelController;
-				console.log(this.modelController);
-        		callback(me, err, this.modelController);
+				me.modelController = me.modelController;
+				console.log(me.modelController);
+        		callback(me, err, me.modelController);
         	}
     	},
         readyModelService: function(me, callback) {
         	console.log('CORE: mainBase readyModelService(me, callback) called');
         	var err = null;
-			if(typeof this.modelService === 'undefined') {
-				this.require(['../app/modelService/modelService'], function (modelService) {
+			if(typeof me.modelService === 'undefined') {
+				me.require(['../app/modelService/modelService'], function (modelService) {
                     console.log('CORE: mainBase: modelService required');
                     console.log(modelService);
-                    this.modelService = modelService; 
-                    callback(me, err, this.modelService);
+                    me.modelService = modelService; 
+                    callback(me, err, me.modelService);
             	});
             }
 			else {
-				this.modelService = this.modelService;
-				console.log(this.modelService);
-        		callback(me, err, this.modelService);
+				me.modelService = me.modelService;
+				console.log(me.modelService);
+        		callback(me, err, me.modelService);
         	}
     	},
         readyModel: function(me, callback) {
         	console.log('CORE: mainBase readyModel(me, callback) called');
         	var err = null;
-			if(typeof this.model === 'undefined') {
-				this.require(['../app/model/model'], function (model) {
+			if(typeof me.model === 'undefined') {
+				me.require(['../app/model/model'], function (model) {
                     console.log('CORE: mainBase: model required');
                     console.log(model);
-                    this.model = model; 
-                    callback(me, err, this.model);
+                    me.model = model; 
+                    callback(me, err, me.model);
             	});
             }
 			else {
-				this.model = this.model;
-				console.log(this.model);
-        		callback(me, err, this.model);
+				me.model = me.model;
+				console.log(me.model);
+        		callback(me, err, me.model);
         	}
     	},
         readyModelEvent: function(me, callback) {
         	console.log('CORE: mainBase readyModelEvent(me, callback) called');
         	var err = null;
-			if(typeof this.modelEvent === 'undefined') {
-				this.require(['../app/modelEvent/modelEvent'], function (modelEvent) {
+			if(typeof me.modelEvent === 'undefined') {
+				me.require(['../app/modelEvent/modelEvent'], function (modelEvent) {
                     console.log('CORE: mainBase: modelEvent required');
                     console.log(modelEvent);
-                    this.modelEvent = modelEvent; 
-                    callback(me, err, this.modelEvent);
+                    me.modelEvent = modelEvent; 
+                    callback(me, err, me.modelEvent);
             	});
             }
 			else {
-				this.modelEvent = this.modelEvent;
-				console.log(this.modelEvent);
-        		callback(me, err, this.modelEvent);
+				me.modelEvent = me.modelEvent;
+				console.log(me.modelEvent);
+        		callback(me, err, me.modelEvent);
         	}
     	},
         readyViewController: function(me, callback) {
         	console.log('CORE: mainBase readyViewController(me, callback) called');
         	var err = null;
-			if(typeof this.viewController === 'undefined') {
-				this.require(['../app/viewController/viewController'], function (viewController) {
+			if(typeof me.viewController === 'undefined') {
+				me.require(['../app/viewController/viewController'], function (viewController) {
                     console.log('CORE: mainBase: viewController required');
                     console.log(viewController);
-                    this.viewController = viewController; 
-                    callback(me, err, this.viewController);
+                    me.viewController = viewController; 
+                    callback(me, err, me.viewController);
             	});
             }
 			else {
-				this.viewController = this.viewController;
-				console.log(this.viewController);
-        		callback(me, err, this.viewController);
+				me.viewController = me.viewController;
+				console.log(me.viewController);
+        		callback(me, err, me.viewController);
         	}
     	},
         readyViewService: function(me, callback) {
         	console.log('CORE: mainBase readyViewService(me, callback) called');
         	var err = null;
-			if(typeof this.viewService === 'undefined') {
-				this.require(['../app/viewService/viewService'], function (viewService) {
+			if(typeof me.viewService === 'undefined') {
+				me.require(['../app/viewService/viewService'], function (viewService) {
                     console.log('CORE: mainBase: viewService required');
                     console.log(viewService);
-                    this.viewService = viewService; 
-                    callback(me, err, this.viewService);
+                    me.viewService = viewService; 
+                    callback(me, err, me.viewService);
             	});
             }
 			else {
-				this.viewService = this.viewService;
-				console.log(this.viewService);
-        		callback(me, err, this.viewService);
+				me.viewService = me.viewService;
+				console.log(me.viewService);
+        		callback(me, err, me.viewService);
         	}
     	},
         readyView: function(me, callback) {
         	console.log('CORE: mainBase readyView(me, callback) called');
         	var err = null;
-			if(typeof this.view === 'undefined') {
-				this.require(['../app/view/view'], function (view) {
+			if(typeof me.view === 'undefined') {
+				me.require(['../app/view/view'], function (view) {
                     console.log('CORE: mainBase: view required');
                     console.log(view);
-                    this.view = view; 
-                    callback(me, err, this.view);
+                    me.view = view; 
+                    callback(me, err, me.view);
             	});
             }
 			else {
-				this.view = this.view;
-				console.log(this.view);
-        		callback(me, err, this.view);
+				me.view = me.view;
+				console.log(me.view);
+        		callback(me, err, me.view);
         	}
     	},
         readyViewEvent: function(me, callback) {
         	console.log('CORE: mainBase readyViewEvent(me, callback) called');
         	var err = null;
-			if(typeof this.viewEvent === 'undefined') {
-				this.require(['../app/viewEvent/viewEvent'], function (viewEvent) {
+			if(typeof me.viewEvent === 'undefined') {
+				me.require(['../app/viewEvent/viewEvent'], function (viewEvent) {
                     console.log('CORE: mainBase: viewEvent required');
                     console.log(viewEvent);
-                    this.viewEvent = viewEvent; 
-                    callback(me, err, this.viewEvent);
+                    me.viewEvent = viewEvent; 
+                    callback(me, err, me.viewEvent);
             	});
             }
 			else {
-				this.viewEvent = this.viewEvent;
-				console.log(this.viewEvent);
-        		callback(me, err, this.viewEvent);
+				me.viewEvent = me.viewEvent;
+				console.log(me.viewEvent);
+        		callback(me, err, me.viewEvent);
         	}
     	},
         ready: function() {
@@ -543,14 +544,36 @@ define(function () {
 																		me.viewEvent = me.viewEvent;
 																		console.log(me.viewEvent);
 																		me.controller.setViewEvent(me.viewEvent);
-																	}
+																	} // eof ViewEvent
 																	// Subscribe ViewService
-																	console.log('CORE: mainBase ready this.controller.subscribeViewService()');			    
+																	console.log('CORE: mainBase ready me.controller.subscribeViewService()');			    
 				    												me.controller.subscribeViewService();
-				    												// More ...
-
-
-
+				    												// LoadView, before renderView
+                                                                    console.log('CORE: mainBase ready me.controller.loadView(viewIndex):')
+                                                                    // ViewIndex
+                                                                    if(typeof me.viewIndex === 'undefined') {
+                                                                        me.viewIndex = 0; // default
+                                                                        console.log(me.viewIndex);
+                                                                        me.controller.loadView(me.viewIndex);
+                                                                    }
+                                                                    else {
+                                                                        me.viewIndex = me.viewIndex;
+                                                                        console.log(me.viewIndex);
+                                                                        me.controller.loadView(me.viewIndex);
+                                                                    }// oef ViewIndex
+                                                                    // RenderView, after loadView
+                                                                    console.log('CORE: mainBase ready me.controller.renderView(elementId):'); 
+                                                                    // ElementId
+                                                                    if(typeof me.elementId === 'undefined'){
+                                                                        me.elementId = 'unknown'; // default
+                                                                        console.log(me.elementId);            
+                                                                        me.controller.renderView(me.elementId);
+                                                                    }
+                                                                    else {
+                                                                        me.elementId = me.elementId;
+                                                                        console.log(me.elementId);
+                                                                        me.controller.renderView(me.elementId);
+                                                                    }// eof ElementId
 																}
 															});// eof ViewEvent
 														}
