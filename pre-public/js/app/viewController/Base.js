@@ -74,6 +74,8 @@ define(function () {
 						this.viewArray[i] = newView;
 						console.log('CORE: viewControllerBase viewArray [' + i + ']');
 						console.log(this.viewArray[i]);
+						// Increase i by 1
+						i++;
 					}
 					console.log('CORE: viewControllerBase viewArray');
 					console.log(this.viewArray);			

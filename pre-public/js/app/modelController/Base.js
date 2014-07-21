@@ -74,6 +74,8 @@ define(function () {
 						this.modelArray[i] = newModel;
 						console.log('CORE: modelControllerBase modelArray [' + i + ']');
 						console.log(this.modelArray[i]);
+						// Increase i by 1
+						i++;
 					}
 					console.log('CORE: modelControllerBase modelArray');
 					console.log(this.modelArray);			
