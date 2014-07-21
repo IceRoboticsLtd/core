@@ -67,12 +67,12 @@
                     require(['app/main'], function (main) {
                          console.log('CORE: page: main required');
                          console.log(main);
-                         // Set require
-                         console.log('CORE: page: main.setRequire(require)');
-                         main.setRequire(require);
                          // Set app (e.g. 'calculator')
                          console.log('CORE: page: main.setAppName("<%= app_name %>")');
                          main.setAppName('<%= app_name %>');
+                         // Set viewIndex (e.g. 0)
+                         console.log('CORE: page: main.setViewIndex(<%= view_index %>)');
+                         main.setViewIndex(<%= view_index %>);
                          // Set elementId (e.g. 'page')
                          console.log('CORE: page: main.setElementId("page")');
                          main.setElementId('page');
