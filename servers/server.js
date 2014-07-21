@@ -253,13 +253,6 @@ app.all('*', function(req, res, next){
   next();
 });
 
-/********************** HARDCODED - MAKE DYNAMIC *************
- *  The app name requested should follow from the URL, 
- *  like http://localhost:4000/?app=store
- */
-//var app_name = 'calculator'; // FOR DEMO PURPOSES ONLY !!!
-/*********************** END OF HARDCODED ********************/
-
 if(typeof configs.title === 'undefined'){
 	var title = 'Untitled';
 }
@@ -287,11 +280,8 @@ if(typeof configs.host === 'undefined'){
 else {
 	var host = configs.host;
 }
-
 // routing to pages
 app.get('/', function(req, res) {
-
-	// TO DO: Find requested app (e.g. /?app='calculator') from app list, then supply page with app config
 	// Distinguish based on an optional key-value parameter in the request url (e.g. '/?app=calculator')
 	var app = 'page'; // default
 	var app_name = ''; // default
@@ -313,6 +303,39 @@ app.get('/', function(req, res) {
 		}
 	}
 	console.log(server_prefix + " - App requested: " + app_name);
+	// Distinguish based on an optional key-value parameter in the request url (e.g. '/?view=0')
+	var view = 0; // default
+	var views = 'views';
+	var view_index = 0; // default
+	// Update view_index variable here with value from 'view' key (e.g. view=0) sets view to 0 
+	if(req.query.view) {
+		view_index = req.query.view;
+		var view_not_found = true; // default to true
+		// Lookup view in app list, if found set not_found to false
+		for (key in app_list) {
+			if(key == app_name) {
+				app_name = key;
+				app_value = app_list[key];
+				for(key in app_value) {
+					if(key == views) {
+						views = key;
+						views_value = app_value[key];
+						for(key in views_value) {
+							if(key == view_index) {
+								view_not_found = false;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}//eof for
+		if(view_not_found) {
+			console.log(server_prefix + " - View requested, but not found: " + view_index);
+			view = 'not_found';
+		}
+	}
+	console.log(server_prefix + " - View requested: " + view_index);
 	if(typeof configs.css_file_location === 'undefined') {
 		var css_file_location = 'css/style.css';
 	}
@@ -326,7 +349,7 @@ app.get('/', function(req, res) {
 			css_file_location = css_file_location.replace('style', app_name);
 		}
 	}
-    res.render(app, { title: title, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, app_name: app_name, layout: false });
+    res.render(app, { title: title, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, app_name: app_name, view_index: view_index, layout: false });
 });
 
 var app_server = app.listen(app_port, function() {
