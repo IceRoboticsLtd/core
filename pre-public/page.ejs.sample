@@ -15,7 +15,7 @@
         <![endif]-->
         <!--CSS-->
         <link rel="stylesheet" type="text/css" media="all" href="<%= css_file_location %>">
-        <script >
+        <script>
         // See http://www.ejeliot.com/blog/109
             function loadScript(src, async, elem, callback){
                 console.log('CORE: loadScript called');
@@ -85,7 +85,6 @@
         </script>
     </head>
     <body onload="loadScript('js/lib/require.js', true, null, doNext)">
-        <!--<a id="#close-app" href="#" onclick="$('.popupBG',parent.document).trigger('click');">Close</a>-->
         <div id="page">
             <!-- loadingCSS -->
             <style type="text/css">
