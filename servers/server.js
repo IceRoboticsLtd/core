@@ -170,13 +170,10 @@ api.post('/login', function(req, res){
  * echo %NODE_ENV% 
  */
 if('development' == app.settings.env){
-
 	console.log(server_prefix + " - Using development configurations");
-
 	app.set('view engine', 'ejs');
 	app.set('view options', { layout: true });
 	app.set('views', __dirname + '/../public');
-
 	/*
 	 * bodyParser() is the composition of three middlewares:
 	 * - json: parses application/json request bodies
@@ -184,18 +181,14 @@ if('development' == app.settings.env){
 	 * - multipart: parses multipart/form-data request bodies
 	 */
     app.use(bodyParser()); // pull information from html in POST
-
     app.use(methodOverride());
     app.use(cookieParser());
     app.use(device.capture());
-    
     app.enableDeviceHelpers();
     app.enableViewRouting();
-
     app.use('/resources', express.static(__dirname + '/../public/resources'));
     app.use('/app', express.static(__dirname + '/../public/app'));
     app.use(express.static(__dirname + '/../public')); // Fall back to this as a last resort
-
     app.use(errorHandler({ dumpExceptions: true, showStack: true })); // specific for development    
 };
 /*
@@ -213,13 +206,10 @@ if('development' == app.settings.env){
  * echo %NODE_ENV% 
  */
 if('production' == app.settings.env){
-
 	console.log(server_prefix + " - Using production configurations");
-
 	app.set('view engine', 'ejs');
 	app.set('view options', { layout: true });
 	app.set('views', __dirname + '/../public');	
-
 	/*
 	 * bodyParser() is the composition of three middlewares:
 	 * - json: parses application/json request bodies
@@ -227,18 +217,14 @@ if('production' == app.settings.env){
 	 * - multipart: parses multipart/form-data request bodies
 	 */
     app.use(bodyParser()); // pull information from html in POST
-
     app.use(methodOverride());
     app.use(cookieParser());
     app.use(device.capture());
-    
     app.enableDeviceHelpers();
     app.enableViewRouting();
-
     app.use('/resources', express.static(__dirname + '/../public/resources'));
     app.use('/app', express.static(__dirname + '/../public/app'));
     app.use(express.static(__dirname + '/../public')); // Fall back to this as a last resort
-
     app.use(errorHandler({ dumpExceptions: false, showStack: false })); // specific for production    
 };
 
