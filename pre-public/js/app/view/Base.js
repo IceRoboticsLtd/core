@@ -51,16 +51,6 @@ define(function () {
         // A view might have a function that returns the rendered output.
         getView: function(key) {
             console.log('CORE: ViewBase getView() called');
-
-    //      // Data used to create a template may come from anywhere
-    //      // but in this case template comes from the inline string.
-    //      var ourData = '<h1><%= myProperty %></h1>';
-    //      // Store the instance for reference in the replace function below.
-    //      var instance = this;
-    //      // Return the template using the values from the viewService.
-    //      return ourData.replace(/<%=\s+(.*?)\s+%>/g, function (m,m1) {
-    //          return instance.viewService[m1];
-    //      });
             try {
                 this.view = this.getValue(key);
                 console.log('CORE: ViewBase this.view:');
@@ -73,14 +63,11 @@ define(function () {
                 return;
             }
         },
-        // A view might have a function that renders the view.
         renderView: function (elementId) {
             console.log('CORE: ViewBase renderView(elementId) called');
             console.log('elementId = ' + elementId);
-            // This view renders to the element with the id provided.
             try {
                 document.getElementById(elementId).innerHTML = this.getView('htmlSource');
-                // Add the view's script element
                 var scriptTag = document.createElement('script');
                 scriptTag.type = "text/javascript";
                 scriptTag.src = this.getValue('scriptSource');
