@@ -37,6 +37,10 @@ define(function () {
 			console.log('CORE: controllerBase loadModel(id) called');			
 			this.modelController.loadModel(id);
 		},
+        renderModel: function () {
+        	console.log('CORE: controllerBase renderModel() called');     	
+			this.modelController.renderModel();
+        },		
         subscribeModelService: function() {
         	console.log('CORE: controllerBase subscribeModelService() called');
         	this.modelController.subscribeModelService(); 
