@@ -98,17 +98,19 @@ define(function () {
 			this.config = config;
 		},
     	loadModel: function (id) {
-			console.log('CORE: modelControllerBase loadModel(id) called');    		
-	        // Get the model from the model array.
-	    // OLD    var modelService = this.modelService.find(id);
-	    // OLD Get a new model
-	    // OLD    var model = new this.model(modelService);
-	        // run the model's render function
-	    // OLD    model.render();
+			console.log('CORE: modelControllerBase loadModel(id) called');		
+	        try {
+	        	this.loadedModel = this.modelArray[id];
+				console.log('CORE: modelControllerBase loadedModel:');
+	        	console.log(this.loadedModel);
+	        }
+	        catch(e) {
+	        	console.log('CORE: modelControllerBase loadModel(id) error:');
+	        	console.log(e);
+	        }
 	    },
 	    subscribeModelService: function() {
-			console.log('CORE: modelControllerBase subscribeModelService() called'); 	    	
-	        // Get the modelService from the model in the modelArray
+			console.log('CORE: modelControllerBase subscribeModelService() called');
 	        for (key in this.modelArray) {
 	        	console.log('CORE: modelControllerBase model ' + key + ' in modelArray');
 	        	var model = this.modelArray[key];
@@ -121,10 +123,9 @@ define(function () {
 	        	}
 	        }
 	    },	    
-        renderView: function (bodyDom) {
-			console.log('CORE: modelControllerBase renderView(bodyDom) called');    	
-        // OLD    bodyDom.prepend('<h2>ModelController ' + this.id + ' says "' +
-        // OLD              this.model.getTitle() + '"</h2>');
+        renderModel: function () {
+			console.log('CORE: modelControllerBase renderModel() called');    	
+			this.loadedModel.renderModel(); // NOTE: Use the loaded Model !!
         }
     };
     return modelControllerBase;
