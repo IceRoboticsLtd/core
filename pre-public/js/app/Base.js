@@ -48,13 +48,25 @@ define(function () {
         	console.log('CORE: mainBase setModelController(modelController) called');
         	this.modelController = modelController;
         },
-        setModelEvent: function(modelEvent) {
-        	console.log('CORE: mainBase setModelEvent(modelEvent) called');
-        	this.modelEvent = modelEvent;
-        },
         setModelService: function(modelService) {
         	console.log('CORE: mainBase setModelService(modelService) called');
         	this.modelService = modelService;
+        },
+        setModelEvent: function(modelEvent) {
+            console.log('CORE: mainBase setModelEvent(modelEvent) called');
+            this.modelEvent = modelEvent;
+        },        
+        setModelIndex: function(modelIndex) {
+            console.log('CORE: mainBase setModelIndex(modelIndex) called');
+            this.modelIndex = modelIndex;
+        },
+        loadModel: function(modelIndex) {
+            console.log('CORE: mainBase loadModel(modelIndex) called');
+            this.controller.loadModel(modelIndex);
+        },
+        renderModel: function() {
+            console.log('CORE: mainBase renderModel() called');
+            this.controller.renderModel();
         },
         setServiceBus: function(serviceBus) {
         	console.log('CORE: mainBase setServiceBus(serviceBus) called');
@@ -442,9 +454,22 @@ define(function () {
 																	// Subscribe ModelService
 																	console.log('CORE: mainBase ready this.controller.subscribeModelService()');			    
 				    												me.controller.subscribeModelService();
-				    												// More ...
-
-
+                                                                    // LoadModel, before renderModel
+                                                                    console.log('CORE: mainBase ready me.controller.loadModel(modelIndex):')
+                                                                    // ModelIndex
+                                                                    if(typeof me.modelIndex === 'undefined') {
+                                                                        me.modelIndex = 0; // default
+                                                                        console.log(me.modelIndex);
+                                                                        me.controller.loadModel(me.modelIndex);
+                                                                    }
+                                                                    else {
+                                                                        me.modelIndex = me.modelIndex;
+                                                                        console.log(me.modelIndex);
+                                                                        me.controller.loadModel(me.loadIndex);
+                                                                    }// oef ModelIndex
+                                                                    // RenderModel, after loadModel
+                                                                    console.log('CORE: mainBase ready me.controller.renderModel():'); 
+                                                                    me.controller.renderModel();
 																}
 															});// eof ModelEvent
 														}
