@@ -5,7 +5,7 @@ define(function () {
 	console.log('CORE: viewControllerBase called');
     function viewControllerBase(id) {
         this.id = id;
-        this.viewArray = {};        
+        this.viewArray = {};
     };
     function cloneObject(oldObject) {
     	function F() {}
