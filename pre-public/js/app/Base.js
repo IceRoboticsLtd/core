@@ -15,7 +15,8 @@ define(function () {
 	        expect = require('expect'),
 	        mocha = require('mocha'),
 	        jquerypp = require('jquerypp.custom'),
-	        framewarp = require('framewarp');
+	        framewarp = require('framewarp'),
+            individual = require('../../js/calculator/models/individual'); // FOR TESTING ONLY !!
     };
     mainBase.prototype = {
         setLib: function(lib) {
