@@ -1,15 +1,15 @@
 /*
- * Base
+ * IndividualBase
  */
 define(function () {
-    console.log('CORE: Base called');	
+    console.log('CORE: individualBase called');	
     function individualBase(id, configs) {
         this.id = id;
         this.configs = configs;
     };
     individualBase.prototype = {
         getConfigs: function () {
-            console.log('CORE: Base getConfigs() called');            
+            console.log('CORE: individualBase getConfigs() called');            
             return this.configs;
         }
     };
