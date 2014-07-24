@@ -20,5 +20,5 @@ $(function(){
 });
 /////////////////////////// ON DOCUMENT READY /////////////////////////////
 $(document).ready(function() {
-	console.log('CORE: Calculator document ready');
+	console.log('CORE: calculator view Calculator document ready');
 });
