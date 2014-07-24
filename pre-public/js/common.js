@@ -18,7 +18,8 @@ requirejs.config({
         mocha: 'mocha',
         jquery: 'jquery',
         jquerypp: 'jquerypp.custom',
-        framewarp: 'framewarp' 
+        framewarp: 'framewarp',
+        individual: '../calculator/models/individual/individual' // FOR TESTING ONLY !!
         //bootstrap: 'postal/bower/bootstrap/dist/js/bootstrap',
         //conduitjs: 'postal/bower/conduitjs/lib/conduit',
         //postal: 'postal/lib/postal'
@@ -41,6 +42,9 @@ requirejs.config({
         },
         mocha: {
             exports: 'mocha'
+        },
+        individual: { // FOR TESTING ONLY !!
+            exports: 'Individual'
         }
     //    bootstrap: {
     //        deps: ['jquery'] // bootstrap has nothing to export
