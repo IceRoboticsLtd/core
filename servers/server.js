@@ -188,6 +188,7 @@ if('development' == app.settings.env){
     app.enableViewRouting();
     app.use('/resources', express.static(__dirname + '/../public/resources'));
     app.use('/app', express.static(__dirname + '/../public/app'));
+    app.use('/tests', express.static(__dirname + '/../tests'));
     app.use(express.static(__dirname + '/../public')); // Fall back to this as a last resort
     app.use(errorHandler({ dumpExceptions: true, showStack: true })); // specific for development    
 };
@@ -224,6 +225,7 @@ if('production' == app.settings.env){
     app.enableViewRouting();
     app.use('/resources', express.static(__dirname + '/../public/resources'));
     app.use('/app', express.static(__dirname + '/../public/app'));
+    app.use('/tests', express.static(__dirname + '/../tests'));
     app.use(express.static(__dirname + '/../public')); // Fall back to this as a last resort
     app.use(errorHandler({ dumpExceptions: false, showStack: false })); // specific for production    
 };
@@ -266,6 +268,12 @@ if(typeof configs.host === 'undefined'){
 else {
 	var host = configs.host;
 }
+// routing to tests, use before pages
+app.get('/tests/', function(req, res) {	
+	// Distinguish based on an optional key-value parameter in the request url (e.g. '/tests/?app=calculator')
+	var app = 'test'; // default
+    res.render(app, { title: title, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, layout: false });
+});
 // routing to pages
 app.get('/', function(req, res) {
 	// Distinguish based on an optional key-value parameter in the request url (e.g. '/?app=calculator')
