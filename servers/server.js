@@ -284,6 +284,7 @@ if('development' == app.settings.env){
 						console.log(server_prefix + " - Error: " + err);
 						done(err);
 					}
+					hash = hash.toString('hex'); // NOTE: necessary for string comparison
 					if(hash == user_values.hash) {
 						console.log(server_prefix + " - Correct password");
 						return done(null, user_values);
@@ -403,11 +404,12 @@ if('production' == app.settings.env){
 			}
 			else {
 				var salt = user_values.salt;
-				hash(password, salt, function (err, hash) {
+		      	hash(password, salt, function (err, hash) {
 					if(err) {
 						console.log(server_prefix + " - Error: " + err);
 						done(err);
 					}
+					hash = hash.toString('hex'); // NOTE: necessary for string comparison
 					if(hash == user_values.hash) {
 						console.log(server_prefix + " - Correct password");
 						return done(null, user_values);
@@ -592,7 +594,7 @@ function loginPost(req, res, next) {
 	    	// set the message
 	    	console.log(server_prefix + " - Login successful, redirecting ...");
 	    	req.session.messages = "Login successfully";
-	    	return res.redirect('/');
+	    	return res.redirect('/?app=calculator'); // TODO make dynamic
 	    });
 	})(req, res, next);
 };
