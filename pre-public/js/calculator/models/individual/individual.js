@@ -1452,7 +1452,7 @@ $(document).ready(function() {
             // you wish to modify the current URL without adding an entry to the history.
             navigate: function(fragment, options) {
                 if (!History.started) return false;
-                if (true) {}; (!options || options === true) options = {trigger: !!options};
+// TEMP COMMENTED                if (true) {}; (!options || options === true) options = {trigger: !!options};
 
                 var url = this.root + (fragment = this.getFragment(fragment || ''));
 
