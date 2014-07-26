@@ -3,6 +3,7 @@
  */ 
 var express = require('express'),
 	device = require('../lib/device.js'),
+	hash = require('../lib/pass.js').hash,
 	redirect = require('express-redirect'),
 	bodyParser = require('body-parser'),
 	cookieParser = require('cookie-parser'),
@@ -139,6 +140,13 @@ if(typeof configs.format_list === 'undefined'){
 }
 else {
 	var format_list = configs.format_list;
+}
+// User List
+if(typeof configs.user_list === 'undefined'){
+	var user_list = {};
+}
+else {
+	var user_list = configs.user_list;
 }
 // API All
 api.all('*', function(req, res, next){
@@ -330,7 +338,9 @@ if('production' == app.settings.env){
 		}
 	));
 };
-
+/** 
+ * ALL requests
+ */
 app.all('*', function(req, res, next){
   if (!req.get('Origin')) return next();
   // use "*" here to accept any origin
@@ -369,14 +379,36 @@ if(typeof configs.host === 'undefined'){
 else {
 	var host = configs.host;
 }
-// routing to tests, use before pages
-app.get('/tests/', function(req, res) {	
-	// Distinguish based on an optional key-value parameter in the request url (e.g. '/tests/?app=calculator')
+/** 
+ * GET requests
+ */
+// routing to test, use before '/'
+app.get('/test', testGet);
+function testGet(req, res) {
+	// Distinguish based on an optional key-value parameter in the request url (e.g. '/test/?app=calculator')
+	console.log(server_prefix + " - Test requested");
 	var app = 'test'; // default
     res.render(app, { title: title, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, layout: false });
-});
-// routing to pages
-app.get('/', function(req, res) {
+};
+// routing to login, use before '/'
+app.get('/login', loginGet);
+function loginGet(req, res) {
+  if(req.user){
+    // already logged in
+    res.redirect('/');
+  } else {
+    // not logged in, show the login form, remember to pass the message
+    // for displaying when error happens
+    console.log(server_prefix + " - Login requested");
+	var app = 'login'; // default  
+    res.render(app, { title: title, message: req.session.messages });
+    // and then remember to clear the message
+    req.session.messages = null;
+  }
+};
+// routing to page
+app.get('/', pageGet);
+function pageGet(req, res) {
 	// Distinguish based on an optional key-value parameter in the request url (e.g. '/?app=calculator')
 	var app = 'page'; // default
 	var app_name = ''; // default
@@ -445,8 +477,45 @@ app.get('/', function(req, res) {
 		}
 	}
     res.render(app, { title: title, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, app_name: app_name, view_index: view_index, layout: false });
-});
-
+};
+/** 
+ * POST requests
+ */
+// routing to login, use before '/' 
+app.post('/login', loginPost);
+function loginPost(req, res, next) {
+	// ask passport to authenticate
+	passport.authenticate('local', function(err, username, info) {
+	    if (err) {
+	    	console.log(server_prefix + " - Login, error: " + err);
+	    	// if error happens
+	    	return next(err);
+	    }
+	    if (!username) {
+	    	// if authentication fail, get the error message that we set
+	    	// from previous (info.message) step, assign it into to
+	    	// req.session and redirect to the login page again to display
+	    	console.log(server_prefix + " - Login, no username: " + info.message);
+	    	req.session.messages = info.message;
+	    	return res.redirect('/login');
+	    }
+	    // if everything is OK
+	    req.logIn(username, function(err) {
+	    	if (err) {
+	    		console.log(server_prefix + " - Login, error: " + err);
+	        	req.session.messages = "Error";
+	        	return next(err);
+	    	}
+	    	// set the message
+	    	console.log(server_prefix + " - Login successful, redirecting ...");
+	    	req.session.messages = "Login successfully";
+	    	return res.redirect('/');
+	    });
+	})(req, res, next);
+};
+/**
+ * LISTEN
+ */ 
 var app_server = app.listen(app_port, function() {
 	console.log(server_prefix + " - Express app server listening on port %d in %s mode", app_port, app.settings.env);
 });
