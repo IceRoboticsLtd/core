@@ -1,3 +1,5 @@
 /page.ejs
 /favicon.png
 /login.ejs
+/layout.ejs
+/layout_content_container_no_sidebar.ejs
