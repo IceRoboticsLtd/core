@@ -24,7 +24,7 @@ var express = require('express'),
 config = require('../configs/server.js');
 var configs = config.configs,
 	server_prefix = configs.server_prefix || 'CORE';
-	
+
 /*
  * ROUTER - The Router
  */
@@ -233,10 +233,12 @@ if('development' == app.settings.env){
     app.use(device.capture());
     app.enableDeviceHelpers();
     app.enableViewRouting();
-    app.use('/resources', express.static(__dirname + '/../public/resources'));
-    app.use('/app', express.static(__dirname + '/../public/app'));
-    app.use('/tests', express.static(__dirname + '/../tests'));
-    app.use(express.static(__dirname + '/../public')); // Fall back to this as a last resort
+    // OLD app.use('/resources', express.static(__dirname + '/../public/resources'));
+	app.use('/resources', express.static(path.join(__dirname, '/../public/resources')));
+    app.use('/app', express.static(path.join(__dirname, '/../public/app')));
+    app.use('/tests', express.static(path.join(__dirname, '/../tests')));
+    // OLD app.use(express.static(__dirname + '/../public')); // Fall back to this as a last resort
+    app.use(express.static(path.join(__dirname, '/../public'))); // Fall back to this as a last resort
     router.use(function(req, res, next) {
     	// process each request
     });    
@@ -379,10 +381,11 @@ if('production' == app.settings.env){
     app.use(device.capture());  
     app.enableDeviceHelpers();
     app.enableViewRouting();
-    app.use('/resources', express.static(__dirname + '/../public/resources'));
-    app.use('/app', express.static(__dirname + '/../public/app'));
-    app.use('/tests', express.static(__dirname + '/../tests'));
-    app.use(express.static(__dirname + '/../public')); // Fall back to this as a last resort
+    // OLD app.use('/resources', express.static(__dirname + '/../public/resources'));
+    app.use('/resources', express.static(path.join(__dirname, '/../public/resources')));
+    app.use('/app', express.static(path.join(__dirname, '/../public/app')));
+    app.use('/tests', express.static(path.join(__dirname, '/../tests')));
+    app.use(express.static(path.join(__dirname, '/../public'))); // Fall back to this as a last resort
     router.use(function(req, res, next) {
     	// process each request
     });
