@@ -24,6 +24,11 @@ var express = require('express'),
 config = require('../configs/server.js');
 var configs = config.configs,
 	server_prefix = configs.server_prefix || 'CORE';
+	
+/*
+ * ROUTER - The Router
+ */
+var router = express.Router();
 
 /* 
  * ROUTES - The Routes
@@ -211,6 +216,7 @@ if('development' == app.settings.env){
 	 * - multipart: parses multipart/form-data request bodies
 	 */
 	app.use(partials());
+	app.use(morgan('dev'));
     app.use(bodyParser()); // pull information from html in POST
     app.use(methodOverride());
     app.use(cookieParser('s3cr3t')); // TODO get from config
@@ -231,6 +237,9 @@ if('development' == app.settings.env){
     app.use('/app', express.static(__dirname + '/../public/app'));
     app.use('/tests', express.static(__dirname + '/../tests'));
     app.use(express.static(__dirname + '/../public')); // Fall back to this as a last resort
+    router.use(function(req, res, next) {
+    	// process each request
+    });    
     app.use(errorHandler({ dumpExceptions: true, showStack: true })); // specific for development 
     // These next instructions are placed after express.static to avoid passport.deserializeUser to be called several times
     app.use(session({secret: 'default', saveUninitialized: true, resave: true})); // required by passport, default values required
@@ -352,7 +361,8 @@ if('production' == app.settings.env){
 	 * - urlencoded: parses x-ww.form-urlencoded request bodies
 	 * - multipart: parses multipart/form-data request bodies
 	 */
-	app.use(partials()); 
+	app.use(partials());
+	app.use(morgan('prod'));	
     app.use(bodyParser()); // pull information from html in POST
     app.use(methodOverride());
     app.use(cookieParser('s3cr3t')); // TODO get from config
@@ -373,6 +383,9 @@ if('production' == app.settings.env){
     app.use('/app', express.static(__dirname + '/../public/app'));
     app.use('/tests', express.static(__dirname + '/../tests'));
     app.use(express.static(__dirname + '/../public')); // Fall back to this as a last resort
+    router.use(function(req, res, next) {
+    	// process each request
+    });
     app.use(errorHandler({ dumpExceptions: false, showStack: false })); // specific for production
     // These next instructions are placed after express.static to avoid passport.deserializeUser to be called several times
     app.use(session({secret: 'default', saveUninitialized: true, resave: true})); // required by passport, default values required
