@@ -26,9 +26,13 @@ var configs = config.configs,
 	server_prefix = configs.server_prefix || 'CORE';
 
 /*
- * ROUTER - The Router
+ * ROUTER - The Routers
  */
-var router = express.Router();
+var indexRouter = express.Router();
+var testRouter = express.Router();
+var loginRouter = express.Router();
+var logoutRouter = express.Router();
+var adminRouter = express.Router();
 
 /* 
  * ROUTES - The Routes
@@ -237,9 +241,16 @@ if('development' == app.settings.env){
     app.use('/app', express.static(path.join(__dirname, '/../public/app')));
     app.use('/tests', express.static(path.join(__dirname, '/../tests')));
     app.use(express.static(path.join(__dirname, '/../public'))); // Fall back to this as a last resort
-    router.use(function(req, res, next) {
-    	// process each request
-    });    
+    indexRouter.use(function(req, res, next) {
+    	console.log(server_prefix + ' - indexRouter process');
+    	// process each index request
+    	next();
+    });
+    testRouter.use(function(req, res, next) {
+    	console.log(server_prefix + ' - testRouter process');
+    	// process each test request
+    	next();
+    });
     app.use(errorHandler({ dumpExceptions: true, showStack: true })); // specific for development 
     // These next instructions are placed after express.static to avoid passport.deserializeUser to be called several times
     app.use(session({secret: 'default', saveUninitialized: true, resave: true})); // required by passport, default values required
@@ -332,6 +343,266 @@ if('development' == app.settings.env){
 	));
 	// TODO:
 	// passport.use(new FacebookStrategy({})); 
+	/*
+	 * IndexRouter routes starting with '/'
+	 */
+	indexRouter.route('/')
+		.all(function(req, res, next) {
+			console.log(server_prefix + " - Index all");
+			// process all, runs each time
+			next();
+		})
+		.get(function(req, res, next) {
+			console.log(server_prefix + " - Index get");
+			// process the get (e.g. render)
+			console.log(server_prefix + " - Page requested");
+			// Distinguish based on an optional key-value parameter in the request url (e.g. '/?app=calculator')
+			var app = 'page'; // default
+			var app_name = ''; // default
+			// Update app_name variable here with value from 'app' key (e.g. app=calculator) sets app to 'calculator' 
+			if(req.query.app) {
+				app_name = req.query.app;
+				var app_not_found = true; // default to true
+				// Lookup app in app list, if found set not_found to false
+				for (key in app_list) {
+					if(key == app_name) {
+						app_name = key;
+						app_not_found = false;
+						break;
+					}
+				}//eof for
+				if(app_not_found) {
+					console.log(server_prefix + " - App requested, but not found: " + app_name);
+					app = 'not_found';
+				}
+			}
+			console.log(server_prefix + " - App requested: " + app_name);
+			// Distinguish based on an optional key-value parameter in the request url (e.g. '/?view=0')
+			var view = 0; // default
+			var views = 'views';
+			var view_index = 0; // default
+			// Update view_index variable here with value from 'view' key (e.g. view=0) sets view to 0 
+			if(req.query.view) {
+				view_index = req.query.view;
+				var view_not_found = true; // default to true
+				// Lookup view in app list, if found set not_found to false
+				for (key in app_list) {
+					if(key == app_name) {
+						app_name = key;
+						app_value = app_list[key];
+						for(key in app_value) {
+							if(key == views) {
+								views = key;
+								views_value = app_value[key];
+								for(key in views_value) {
+									if(key == view_index) {
+										view_not_found = false;
+										break;
+									}
+								}
+							}
+						}
+					}
+				}//eof for
+				if(view_not_found) {
+					console.log(server_prefix + " - View requested, but not found: " + view_index);
+					view = 'not_found';
+				}
+			}
+			console.log(server_prefix + " - View requested: " + view_index);
+			if(typeof configs.css_file_location === 'undefined') {
+				var css_file_location = 'css/style.css';
+			}
+			else {
+				var css_file_location = configs.css_file_location;
+				// replace the css file name by the app name, if provided
+				if(typeof app_name === 'undefined'){
+					// continue without replacement
+				}
+				else {
+					css_file_location = css_file_location.replace('style', app_name);
+				}
+			}
+		    res.render(app, { title: title, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, app_name: app_name, view_index: view_index, layout: false });
+		})
+		.put(function(req, res, next) {
+			console.log(server_prefix + " - Index put");
+			// process the put (e.g. update)
+			next();
+		})
+		.post(function(req, res, next) {
+			console.log(server_prefix + " - Index post");
+			// process the post (e.g. insert)
+			next();
+		})
+		.delete(function(req, res, next) {
+			console.log(server_prefix + " - Index delete");
+			// process the delete (e.g. delete)
+			next();
+		});
+	/*
+	 * TestRouter: routes starting with '/test'
+	 */
+	testRouter.route('/')
+		.all(function(req, res, next) {
+			console.log(server_prefix + " - Test all");
+			// process all, runs each time
+			next();
+		})
+		.get(function(req, res, next) {
+			console.log(server_prefix + " - Test get");
+			// process the get (e.g. render)
+			var app = 'test'; // default
+		    res.render(app, { title: title, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, layout: false });
+		})
+		.put(function(req, res, next) {
+			console.log(server_prefix + " - Test put");
+			// process the put (e.g. update)
+			next();
+		})
+		.post(function(req, res, next) {
+			console.log(server_prefix + " - Test post");
+			// process the post (e.g. insert)
+			next();
+		})
+		.delete(function(req, res, next) {
+			console.log(server_prefix + " - Test delete");
+			// process the delete (e.g. delete)
+			next();
+		});
+	/*
+	 * LoginRouter: routes starting with '/login'
+	 */
+	loginRouter.route('/')
+		.all(function(req, res, next) {
+			console.log(server_prefix + " - Login all");
+			// process all, runs each time
+			next();
+		})
+		.get(function(req, res, next) {
+			console.log(server_prefix + " - Login get");
+			// process the get (e.g. render)
+			if(req.user) {
+		    	// already logged in
+		    	res.redirect('/?app=calculator'); // TODO make dynamic
+			} else {
+		    	// not logged in, show the login form, remember to pass the message
+		    	// for displaying when error happens
+		    	console.log(server_prefix + " - Login requested");
+				var app = 'login'; // default  
+		    	res.render(app, { title: title, message: req.session.messages, layout: 'layout_content_container_no_sidebar' });
+		    	// and then remember to clear the message
+		    	req.session.messages = null;
+			}
+		})
+		.put(function(req, res, next) {
+			console.log(server_prefix + " - Login put");
+			// process the put (e.g. update)
+			next();
+		})
+		.post(function(req, res, next) {
+			console.log(server_prefix + " - Login post");
+			// process the post (e.g. insert)
+			// ask passport to authenticate
+			passport.authenticate('local', function(err, username, info) {
+			    if (err) {
+			    	console.log(server_prefix + " - Login, error: " + err);
+			    	// if error happens
+			    	return next(err);
+			    }
+			    if (!username) {
+			    	// if authentication fail, get the error message that we set
+			    	// from previous (info.message) step, assign it into to
+			    	// req.session and redirect to the login page again to display
+			    	console.log(server_prefix + " - Login, message: " + info.message);
+			    	req.session.messages = req.i18n.__(info.message);
+			    	return res.redirect('/login');
+			    }
+			    // if everything is OK
+			    req.logIn(username, function(err) {
+			    	if (err) {
+			    		console.log(server_prefix + " - Login, error: " + err);
+			        	req.session.messages = req.i18n.__("Error");
+			        	return next(err);
+			    	}
+			    	// set the message
+			    	console.log(server_prefix + " - Login successful, redirecting ...");
+			    	req.session.messages = req.i18n.__("Login successfully.");
+			    	return res.redirect('/?app=calculator'); // TODO make dynamic
+			    });
+			})(req, res, next);
+		})
+		.delete(function(req, res, next) {
+			console.log(server_prefix + " - Test delete");
+			// process the delete (e.g. delete)
+			next();
+		});		
+	/*
+	 * LogoutRouter: routes starting with '/logout'
+	 */
+	logoutRouter.route('/')
+		.all(function(req, res, next) {
+			console.log(server_prefix + " - Logout all");
+			// process all, runs each time
+			next();
+		})
+		.get(function(req, res, next) {
+			console.log(server_prefix + " - Logout get");
+			if(req.isAuthenticated()) {
+				req.logout();
+				req.session.messages = req.i18n.__("Log out successfully.");
+			}
+			res.redirect('/login'); // TODO Choose what page to go to
+		})
+		.put(function(req, res, next) {
+			console.log(server_prefix + " - Logout put");
+			// process the put (e.g. update)
+			next();
+		})
+		.post(function(req, res, next) {
+			console.log(server_prefix + " - Logout post");
+			// process the post (e.g. insert)
+			next();
+		})
+		.delete(function(req, res, next) {
+			console.log(server_prefix + " - Logout delete");
+			// process the delete (e.g. delete)
+			next();
+		});
+	/*
+	 * AdminRouter: routes starting with '/admin'
+	 */
+	adminRouter.route('/')
+		.all(function(req, res, next) {
+			console.log(server_prefix + " - Admin all");
+			// process all, runs each time
+			next();
+		})
+		.get(function(req, res, next) {
+			console.log(server_prefix + " - Admin get");
+			// process the get (e.g. render)
+			if(!req.isAuthenticated()) {
+				req.session.messages = req.i18n.__("You need to login to view this page.");
+				res.redirect('/login');
+			}
+			// process the get, authenticated (e.g. render)
+			// to do ...
+		})
+		.put(function(req, res, next) {
+			console.log(server_prefix + " - Admin put");
+			// process the put (e.g. update)
+			next();
+		})
+		.post(function(req, res, next) {
+			console.log(server_prefix + " - Admin post");
+			// process the post (e.g. insert)
+			next();
+		})
+		.delete(function(req, res, next) {
+			console.log(server_prefix + " - Admin delete");
+			// process the delete (e.g. delete)
+			next();
+		});
 };
 /*
  * APP PRODUCTION
@@ -383,9 +654,16 @@ if('production' == app.settings.env){
     app.use('/app', express.static(path.join(__dirname, '/../public/app')));
     app.use('/tests', express.static(path.join(__dirname, '/../tests')));
     app.use(express.static(path.join(__dirname, '/../public'))); // Fall back to this as a last resort
-    router.use(function(req, res, next) {
-    	// process each request
+    indexRouter.use(function(req, res, next) {
+    	console.log(server_prefix + ' - indexRouter process');    	
+    	// process each index request
+    	next();
     });
+    testRouter.use(function(req, res, next) {
+    	console.log(server_prefix + ' - testRouter process'); 	
+    	// process each test request
+    	next();
+    });    
     app.use(errorHandler({ dumpExceptions: false, showStack: false })); // specific for production
     // These next instructions are placed after express.static to avoid passport.deserializeUser to be called several times
     app.use(session({secret: 'default', saveUninitialized: true, resave: true})); // required by passport, default values required
@@ -478,6 +756,64 @@ if('production' == app.settings.env){
 	));
 	// TODO:
 	// passport.use(new FacebookStrategy({})); 
+	/*
+	 * IndexRouter routes starting with '/'
+	 */
+	indexRouter.route('/')
+		.all(function(req, res, next) {
+			console.log(server_prefix + " - Index all");
+			// process all, runs each time
+			next();
+		})
+		.get(function(req, res, next) {
+			console.log(server_prefix + " - Index get");
+			// process the get (e.g. render)
+			next();
+		})
+		.put(function(req, res, next) {
+			console.log(server_prefix + " - Index put");
+			// process the put (e.g. update)
+			next();
+		})
+		.post(function(req, res, next) {
+			console.log(server_prefix + " - Index post");
+			// process the post (e.g. insert)
+			next();
+		})
+		.delete(function(req, res, next) {
+			console.log(server_prefix + " - Index delete");
+			// process the delete (e.g. delete)
+			next();
+		});
+	/*
+	 * TestRouter: routes starting with '/test'
+	 */
+	testRouter.route('/')
+		.all(function(req, res, next) {
+			console.log(server_prefix + " - Test all");
+			// process all, runs each time
+			next();
+		})
+		.get(function(req, res, next) {
+			console.log(server_prefix + " - Test get");
+			// process the get (e.g. render)
+			next();
+		})
+		.put(function(req, res, next) {
+			console.log(server_prefix + " - Test put");
+			// process the put (e.g. update)
+			next();
+		})
+		.post(function(req, res, next) {
+			console.log(server_prefix + " - Test post");
+			// process the post (e.g. insert)
+			next();
+		})
+		.delete(function(req, res, next) {
+			console.log(server_prefix + " - Test delete");
+			// process the delete (e.g. delete)
+			next();
+		});	
 };
 /** 
  * ALL requests
@@ -520,168 +856,21 @@ if(typeof configs.host === 'undefined'){
 else {
 	var host = configs.host;
 }
-/** 
- * GET requests
+
+/**
+ * ALL using router
  */
-// routing to test, use before '/'
-app.get('/test', testGet);
-function testGet(req, res) {
-	// Distinguish based on an optional key-value parameter in the request url (e.g. '/test/?app=calculator')
-	console.log(server_prefix + " - Test requested");
-	var app = 'test'; // default
-    res.render(app, { title: title, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, layout: false });
-};
-// routing to login, use before '/'
-app.get('/login', loginGet);
-function loginGet(req, res) {
-	console.log(server_prefix + " - Login requested");
-	if(req.user) {
-    	// already logged in
-    	res.redirect('/?app=calculator'); // TODO make dynamic
-	} else {
-    	// not logged in, show the login form, remember to pass the message
-    	// for displaying when error happens
-    	console.log(server_prefix + " - Login requested");
-		var app = 'login'; // default  
-    	res.render(app, { title: title, message: req.session.messages, layout: 'layout_content_container_no_sidebar' });
-    	// and then remember to clear the message
-    	req.session.messages = null;
-	}
-};
-// routing to logout, use before '/'
-app.get('/logout', logoutGet);
-function logoutGet(req, res) {
-	console.log(server_prefix + " - Logout requested");
-	if(req.isAuthenticated()) {
-		req.logout();
-		req.session.messages = req.i18n.__("Log out successfully.");
-	}
-	res.redirect('/login'); // TODO Choose what page to go to
-}
-// routing to admin, use before '/'
-app.get('/admin', requireAuth, adminGet);
-function adminGet(req, res) {
-	console.log(server_prefix + " - Admin requested");
-	// TODO	
-}
-// general function that can be called first
-function requireAuth(req, res, next) {
-	console.log(server_prefix + " - Require authentication requested");	
-	if(!req.isAuthenticated()) {
-		req.session.messages = req.i18n.__("You need to login to view this page.");
-		res.redirect('/login');
-	}
-	next();
-}
-// routing to page
-app.get('/', pageGet);
-function pageGet(req, res) {
-	console.log(server_prefix + " - Page requested");
-	// Distinguish based on an optional key-value parameter in the request url (e.g. '/?app=calculator')
-	var app = 'page'; // default
-	var app_name = ''; // default
-	// Update app_name variable here with value from 'app' key (e.g. app=calculator) sets app to 'calculator' 
-	if(req.query.app) {
-		app_name = req.query.app;
-		var app_not_found = true; // default to true
-		// Lookup app in app list, if found set not_found to false
-		for (key in app_list) {
-			if(key == app_name) {
-				app_name = key;
-				app_not_found = false;
-				break;
-			}
-		}//eof for
-		if(app_not_found) {
-			console.log(server_prefix + " - App requested, but not found: " + app_name);
-			app = 'not_found';
-		}
-	}
-	console.log(server_prefix + " - App requested: " + app_name);
-	// Distinguish based on an optional key-value parameter in the request url (e.g. '/?view=0')
-	var view = 0; // default
-	var views = 'views';
-	var view_index = 0; // default
-	// Update view_index variable here with value from 'view' key (e.g. view=0) sets view to 0 
-	if(req.query.view) {
-		view_index = req.query.view;
-		var view_not_found = true; // default to true
-		// Lookup view in app list, if found set not_found to false
-		for (key in app_list) {
-			if(key == app_name) {
-				app_name = key;
-				app_value = app_list[key];
-				for(key in app_value) {
-					if(key == views) {
-						views = key;
-						views_value = app_value[key];
-						for(key in views_value) {
-							if(key == view_index) {
-								view_not_found = false;
-								break;
-							}
-						}
-					}
-				}
-			}
-		}//eof for
-		if(view_not_found) {
-			console.log(server_prefix + " - View requested, but not found: " + view_index);
-			view = 'not_found';
-		}
-	}
-	console.log(server_prefix + " - View requested: " + view_index);
-	if(typeof configs.css_file_location === 'undefined') {
-		var css_file_location = 'css/style.css';
-	}
-	else {
-		var css_file_location = configs.css_file_location;
-		// replace the css file name by the app name, if provided
-		if(typeof app_name === 'undefined'){
-			// continue without replacement
-		}
-		else {
-			css_file_location = css_file_location.replace('style', app_name);
-		}
-	}
-    res.render(app, { title: title, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, app_name: app_name, view_index: view_index, layout: false });
-};
-/** 
- * POST requests
- */
-// routing to login, use before '/' 
-app.post('/login', loginPost);
-function loginPost(req, res, next) {
-	console.log(server_prefix + " - Login requested");
-	// ask passport to authenticate
-	passport.authenticate('local', function(err, username, info) {
-	    if (err) {
-	    	console.log(server_prefix + " - Login, error: " + err);
-	    	// if error happens
-	    	return next(err);
-	    }
-	    if (!username) {
-	    	// if authentication fail, get the error message that we set
-	    	// from previous (info.message) step, assign it into to
-	    	// req.session and redirect to the login page again to display
-	    	console.log(server_prefix + " - Login, message: " + info.message);
-	    	req.session.messages = req.i18n.__(info.message);
-	    	return res.redirect('/login');
-	    }
-	    // if everything is OK
-	    req.logIn(username, function(err) {
-	    	if (err) {
-	    		console.log(server_prefix + " - Login, error: " + err);
-	        	req.session.messages = req.i18n.__("Error");
-	        	return next(err);
-	    	}
-	    	// set the message
-	    	console.log(server_prefix + " - Login successful, redirecting ...");
-	    	req.session.messages = req.i18n.__("Login successfully.");
-	    	return res.redirect('/?app=calculator'); // TODO make dynamic
-	    });
-	})(req, res, next);
-};
+app.use('/test', testRouter); // test, place before '/'
+app.use('/login', loginRouter); // login, place before '/'
+app.use('/logout', logoutRouter); // logout, place before '/'
+app.use('/admin', adminRouter); // admin, place before '/'
+
+// indexRouter.get('/', function(req, res) {
+// 	res.send('I am the index page!');
+// });
+
+app.use('/', indexRouter); // index
+
 /**
  * LISTEN
  */ 
