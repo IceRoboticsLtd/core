@@ -26,32 +26,15 @@ var configs = config.configs,
 /*
  * ROUTER - The Router
  */
-var router = require('../routers/router.js'); // THIS WILL REPLACE ALL BELOW ROUTERS
-
-// console.log('router:');
-// console.log(router);
-
-// OLD var indexRouter = express.Router();
-// var indexRouter = router.index;
-
-// console.log('***************************indexRouter:');
-// console.log(indexRouter);
-
-// var testRouter = router.test;
-// var loginRouter = router.login;
-// var logoutRouter = router.logout;
-// var adminRouter = router.admin;
-
+var router = require('../routers/router.js');
 /* 
  * ROUTES - The Routes
  */
 var routes = require('../routes'); // it seems that we have to start each required file as its own var 
-
 /*
  * SERVICES - The Services
  */
 var services = require('../routes/services'); // it seems that we have to start each required file as its own var 
-
 /*
  * SERVER - The Server used for shutdown etc
  * See: https://www.exratione.com/2011/07/running-a-nodejs-server-as-a-service-using-forever/
@@ -86,7 +69,7 @@ server.get('/prepareForShutdown', function(req, res) {
 		res.end();
 	}
 });
-
+// Manage prepare for shutdown
 var managePreparationForShutdown = function(callback) {
 	// perform all the cleanup and other operations needed prior to shutdown,
 	// but do not actually shutdown. Call the callback function only when
@@ -542,7 +525,6 @@ catch(err) {
 var app_server = app.listen(app_port, function() {
 	console.log(server_prefix + " - Express app server listening on port %d in %s mode", app_port, app.settings.env);
 });
-
 var api_server = api.listen(api_port, function() {
 	console.log(server_prefix + " - Express api server listening on port %d in %s mode", api_port, api.settings.env);
 });
