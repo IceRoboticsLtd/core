@@ -77,7 +77,7 @@ module.exports = function(req, res, next) {
 			})(req, res, next);
 		})
 		.delete(function(req, res, next) {
-			console.log(server_prefix + " - Test delete");
+			console.log(server_prefix + " - Login delete");
 			// process the delete (e.g. delete)
 			next();
 		});
