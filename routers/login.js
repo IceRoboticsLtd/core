@@ -9,7 +9,8 @@ module.exports = function(req, res, next) {
 	console.log(server_prefix + " - Login router required.");
 	var express = require('express'),
 		redirect = require('express-redirect'),
-		bodyParser = require('body-parser');
+		bodyParser = require('body-parser'),
+		passport = require('passport');
 	_Login = express.Router();
 	_Login.use(function(req, res, next) {
 		console.log(server_prefix + ' - Login router process');
@@ -33,7 +34,13 @@ module.exports = function(req, res, next) {
 		    	// not logged in, show the login form, remember to pass the message
 		    	// for displaying when error happens
 		    	console.log(server_prefix + " - Login requested");
-				var app = 'login'; // default  
+				var app = 'login'; // default 
+				if(typeof configs.title === 'undefined'){
+					var title = 'Untitled';
+				}
+				else {
+					var title = configs.title;
+				} 
 		    	res.render(app, { title: title, message: req.session.messages, layout: 'layout_content_container_no_sidebar' });
 		    	// and then remember to clear the message
 		    	req.session.messages = null;
