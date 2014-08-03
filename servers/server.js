@@ -200,10 +200,11 @@ if('development' == app.settings.env){
 	console.log(server_prefix + " - Using development configurations");
 	app.set('view engine', 'ejs');
     app.set('view options', { 
-    	layout: '/../public/layout.ejs', 
-    	layout_content_container_no_sidebar: '/../public/layout_content_container_no_sidebar.ejs' 
+    	// layout: '/../public/layout.ejs', 
+    	// layout_content_container_no_sidebar: '/../public/layout_content_container_no_sidebar.ejs' 
     });
-	app.set('views', __dirname + '/../public');
+    // OLD app.set('views', __dirname + '/../public');
+	app.set('views', __dirname + '/../views');
 	/*
 	 * bodyParser() is the composition of three middlewares:
 	 * - json: parses application/json request bodies
@@ -228,7 +229,6 @@ if('development' == app.settings.env){
     app.use(device.capture());
     app.enableDeviceHelpers();
     app.enableViewRouting();
-	app.use('/resources', express.static(path.join(__dirname, '/../public/resources')));
     app.use('/app', express.static(path.join(__dirname, '/../public/app')));
     app.use('/tests', express.static(path.join(__dirname, '/../tests')));
     app.use(express.static(path.join(__dirname, '/../public'))); // Fall back to this as a last resort
@@ -371,7 +371,6 @@ if('production' == app.settings.env){
     app.use(device.capture());  
     app.enableDeviceHelpers();
     app.enableViewRouting();
-    app.use('/resources', express.static(path.join(__dirname, '/../public/resources')));
     app.use('/app', express.static(path.join(__dirname, '/../public/app')));
     app.use('/tests', express.static(path.join(__dirname, '/../tests')));
     app.use(express.static(path.join(__dirname, '/../public'))); // Fall back to this as a last resort    
