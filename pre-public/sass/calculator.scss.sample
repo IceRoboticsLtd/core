@@ -30,9 +30,11 @@ body {
   background-image: radial-gradient(circle closest-corner, #eee 0%, #e0e0e0 100%);
 }
 
+/* These instructions break the SCSS compilation
 :: selection { background: #dae3eb; color: #333; }
 ::-moz-selection { background: #dae3eb; color #333; }
 ::-webkit-selection { background: dae3eb; color: #333; }
+*/
 
 br { display: block; line-height: 1.6em; }
 
