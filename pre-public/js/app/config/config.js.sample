@@ -34,7 +34,7 @@ define(['./Base'], function (Base) {
 			'slider': {
 				views: {
 					slideOne: {
-						htmlSource: '<span>Slide One</span>',
+						htmlSource: '<span>Slide One</span><img src="http://localhost:2000/source/?app=mydefaulttheme&content_type=image/png&source=img/deal.png" />',
 						scriptSource: 'js/slider/views/slideOne/slideOne.js',
 						subscriptions: [
 							{
