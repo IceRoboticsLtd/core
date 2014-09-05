@@ -31,6 +31,8 @@ $(document).ready(function() {
         });    
         var configs = {
             // to do
+            themeServer: 'localhost:2000',
+            theme: 'mydefaulttheme'            
         };
         var Calculator = new Base(uuid, configs);
         // Initial Setup
