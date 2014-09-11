@@ -497,7 +497,7 @@ app.all('*', function(req, res, next){
 	// res.set('Access-Control-Allow-Max-Age', 3600);
 	if ('OPTIONS' == req.method) return res.send(200);
 	// for static file requests
-	var static_file_path = "../public/"; 
+	var static_file_path = "../public/";
 	var uri = url.parse(req.url).pathname;
 	var filename = path.join(static_file_path, uri);
 	fs.exists(filename, function(exists) {
@@ -510,7 +510,7 @@ app.all('*', function(req, res, next){
 			return;
 		}
 		if(fs.statSync(filename).isDirectory()) {
-			// filename += '/index.html'; 
+			// filename += '/index.html';
 			next();
 		}
 		fs.readFile(filename, "binary", function(err, file) {
@@ -561,7 +561,7 @@ try {
 }
 catch(err) {
 	console.log(err);
-}	
+}
 // index, place last
 try {
 	app.use('/', router.index);
