@@ -34,7 +34,7 @@ define(['./Base'], function (Base) {
 			'slider': {
 				views: {
 					slideOne: {
-						htmlSource: '<span>Slide One</span><img src="http://localhost:2000/source/?app=mydefaulttheme&content_type=image/png&source=img/deal.png" />',
+						htmlSource: '<span>Slide One</span><img src="http://localhost:2000/themes/mydefaulttheme/img/deal.png" />',
 						scriptSource: 'js/slider/views/slideOne/slideOne.js',
 						subscriptions: [
 							{
@@ -72,6 +72,32 @@ define(['./Base'], function (Base) {
 							{
 								channel: 'slider',
 								topic: 'doSlide'
+							}
+						]
+					}
+				}
+			},
+			'todo': {
+				views: {
+					todo: {
+						htmlSource: '<span>ToDo</span>',
+						scriptSource: 'js/todo/views/todo/todo.js',
+						subscriptions: [
+							{
+								channel: 'todo',
+								topic: 'doneToDo'
+							}
+						]
+					}
+				},
+				models: {
+					individual: {
+						someKey: 'someValue',
+						scriptSource: 'js/todo/models/individual/individual.js',
+						subscriptions: [
+							{
+								channel: 'todo',
+								topic: 'doToDo'
 							}
 						]
 					}
