@@ -8,7 +8,8 @@ module.exports.configs = {
 	app_list: {
 		'calculator': { views: [0], themeServer: 'http://localhost:2000', theme: 'mydefaulttheme' },
 		'slider': { views: [0, 1, 2], themeServer: 'http://localhost:2000', theme: 'mydefaulttheme' },
-		'todo': { views: [0], themeServer: 'http://localhost:2000', theme: 'mydefaulttheme' }
+		'todo': { views: [0], themeServer: 'http://localhost:2000', theme: 'mydefaulttheme' },
+		'quizengine': { views: [0], themeServer: 'http://localhost:2000', theme: 'mydefaulttheme' }
 	}, // put your apps here
 	api_port : 4001, // put your port number here
 	api_gid : 'root', // put your group id here
@@ -39,6 +40,9 @@ module.exports.configs = {
 	},
 	access_control_allow_origin : '*', // put the allowed page requesters here, * means anyone
 	title : 'Your Company', // put the page title here
+	description: 'Your Description', // put the page description here
+	keywords: 'Your Keywords', // put the page keywords here
+	author: 'Your Name', // put the page author here
 	css_file_location: 'css/style.css', // put the css file location here. NOTE: the server can overwrite 'style.css' by the app name (e.g. calculator.css')
 	web_root : '/core/public' // put your web root here, starting with a slash forward (/)
 }

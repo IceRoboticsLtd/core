@@ -1,1 +1,0 @@
-define([],function(){function e(e){this.configs=e}return console.log("CORE: configBase called"),e.prototype={getConfigs:function(){return console.log("CORE: configBase getConfigs() called"),this.configs}},e});

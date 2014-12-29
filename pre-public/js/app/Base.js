@@ -76,6 +76,10 @@ define(function () {
         	console.log('CORE: mainBase setView(view) called');
         	this.view = view;
         },
+        setViewTemplate: function(viewTemplate) {
+            console.log('CORE: mainBase setViewTemplate(viewTemplate) called');
+            this.viewTemplate = viewTemplate;
+        },        
         setViewController: function(viewController) {
         	console.log('CORE: mainBase setViewController(viewController) called');
         	this.viewController = viewController;
@@ -270,6 +274,23 @@ define(function () {
         		callback(me, err, me.view);
         	}
     	},
+        readyViewTemplate: function(me, callback) {
+            console.log('CORE: mainBase readyViewTemplate(me, callback) called');
+            var err = null;
+            if(typeof me.viewTemplate === 'undefined') {
+                me.require(['../app/viewTemplate/viewTemplate'], function (viewTemplate) {
+                    console.log('CORE: mainBase: viewTemplate required');
+                    console.log(viewTemplate);
+                    me.viewTemplate = viewTemplate; 
+                    callback(me, err, me.viewTemplate);
+                });
+            }
+            else {
+                me.viewTemplate = me.viewTemplate;
+                console.log(me.viewTemplate);
+                callback(me, err, me.viewTemplate);
+            }
+        },        
         readyViewEvent: function(me, callback) {
         	console.log('CORE: mainBase readyViewEvent(me, callback) called');
         	var err = null;

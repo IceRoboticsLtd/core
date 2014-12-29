@@ -106,8 +106,20 @@ define(['./Base'], function (Base) {
 			},
 			'quizengine': {
 				views: {
-					todo: {
-						htmlSource: '<span>QuizEngine</span>',
+					quizengine: {
+						htmlSource: '<div class="navbar navbar-fixed-top bs-docs-nav" role="banner"></div><!-- Header starts --><header data-region="header" class="navbar navbar-inverse navbar-fixed-top"><div class="container"><div class="navbar-header"><a href="#list" class="navbar-brand">Quiz Engine</a></div></div></header><!-- Header ends --><!-- Main content starts --><div class="content"><div class="container"><section id="appBody" data-region="body" class="row"></section></div></div><!-- Content ends --><!-- Footer starts --><footer data-region="footer" class="row"><p class="col-xs-12 text-muted">Copyright &copy; 2013 Joe Zimmerman. This is an example application used in the book, <em>A Thorough Introduction to MarionetteJS</em>.</p></footer><!-- Footer ends --><!-- Scroll to top --><span class="totop"><a href="#"><i class="fa fa-chevron-up"></i></a></span><templates></templates>',
+						templates: [
+							{
+								'quizlist-quizzes': '<div class="col-xs-12"><div><a href="#new-quiz" class="btn btn-primary">Start a New Quiz</a></div><h3>Quizzes</h3><table class="table table-striped"><thead><tr><th class="col-xs-6">Quiz</th><th class="col-xs-3">Score</th><th class="col-xs-3">Actions</th></tr></thead><tbody data-item-view-container></tbody></table></div>',
+								'quizlist-quiz': '<td class="lead"><%= name %></td><td><%= score() %></td><td><a href="#quiz/<%= id() %>" class="btn btn-link col-xs-12 col-sm-6"><%= viewAction() %></a><button data-action="delete" class="btn btn-link col-xs-12 col-sm-6">Delete</button></td>',
+								'quizlist-noquizzes': '<td colspan="3" class="text-center">You have no quizzes here. Click the "Start a New Quiz" button to kick things off!</td>',
+								'quizcreator-form': '<div class="col-xs-12"><h3>Create a Quiz</h3><form><div class="form-group row"><label for="quizName" class="col-xs-4 col-sm-2">Quiz Name</label><div class="col-xs-8 col-sm-10"><input class="form-control" id="quizName" type="text" value="Quiz"></div></div><div class="form-group row"><label class="col-xs-4 col-sm-2">Question Categories</label><div class="col-xs-8 col-sm-10"><p class="help-block">Choose at least one category below. Your quiz will be comprised of all the questions from each of the categories selected.</p><% _.each(items, function(category) { %><div class="checkbox"><label><input type="checkbox" value="<%= category.id %>"> <%= category.name %></label></div><% }); %></div></div></form><button data-action="start" class="btn btn-primary">Start Quiz</button><a href="#list" class="btn btn-default">Cancel</a></div>',
+								'quiz-quiz': '<div class="col-xs-12"><h3><%= name %></h3><div data-region="quizData"></div></div>',
+								'quiz-quiz404': '<div class="col-xs-12 text-center"><h3>This Quiz Does Not Exist</h3><p><a href="#list">Return to Your Quizzes</a></p></div>',
+								'quiz-quizreview': '<div class="col-xs-12 col-sm-4"><div class="row"><h4 class="col-xs-4 col-sm-12 text-center">Correct: <%= getCorrect() %></h4><h4 class="col-xs-4 col-sm-12 text-center">Total: <%= getTotal() %></h4><h4 class="col-xs-4 col-sm-12 text-center">Score: <%= getScore() %></h4></div></div><div class="col-xs-12 col-sm-8"><table class="table"><thead><th class="col-xs-4">Question</th><th class="col-xs-4">Correct</th></thead><tbody><% _.each(questions, function(question, index) { %><tr><td><%= index + 1 %></td><td><% if (isCorrect(question.id)) { %><span class="glyphicon glyphicon-ok green"></span><% } else { %><span class="glyphicon glyphicon-remove red"></span><% } %></td></tr><% }); %></tbody></table></div>',
+								'quiz-quizquestion': '<p><strong><%= questionNumber() %>. </strong><%= question.text %></p><form id="form"><% _.each(question.answers, function(answer, index) { %><div class="radio"><label><input type="radio" name="answers" value="<%= index %>"><%= answer.text %></label></div><% }); %><button class="btn btn-primary" data-action="next"><%= isLastQuestion() ? "Finish Quiz" : "Next Question" %></button></form>'
+							}
+						],
 						scriptSource: 'js/quizengine/views/quizengine/quizengine.js',
 						subscriptions: [
 							{
