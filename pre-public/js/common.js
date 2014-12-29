@@ -19,6 +19,8 @@ requirejs.config({
         jquery: 'jquery',
         jquerypp: 'jquerypp.custom',
         framewarp: 'framewarp',
+        underscore: 'underscore',   
+        backbone: 'backbone',
         marionette: 'backbone.marionette'
         //bootstrap: 'postal/bower/bootstrap/dist/js/bootstrap',
         //conduitjs: 'postal/bower/conduitjs/lib/conduit',
@@ -32,7 +34,7 @@ requirejs.config({
             exports: 'Backbone'
         },
         marionette: {
-            deps: ['backbone', 'underscore'],
+            deps: ['jquery','underscore','backbone'],
             exports: 'Marionette'
         },
         underscore: {

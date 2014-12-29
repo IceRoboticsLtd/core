@@ -107,6 +107,24 @@ module.exports = function(req, res, next) {
 			else {
 				var title = configs.title;
 			}
+			if(typeof configs.description === 'undefined'){
+				var description = 'undefined';
+			}
+			else {
+				var description = configs.description;
+			}
+			if(typeof configs.keywords === 'undefined'){
+				var keywords = 'undefined';
+			}
+			else {
+				var keywords = configs.keywords;
+			}
+			if(typeof configs.author === 'undefined'){
+				var author = 'undefined';
+			}
+			else {
+				var author = configs.author;
+			}
 			if(typeof configs.css_file_location === 'undefined') {
 				var css_file_location = 'css/style.css';
 			}
@@ -141,7 +159,7 @@ module.exports = function(req, res, next) {
 			else {
 				var web_root = configs.web_root;
 			}
-		    res.render('pages/page', { title: title, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, app_name: app_name, view_index: view_index, layout: false });
+		    res.render('pages/page', { title: title, description: description, keywords: keywords, author: author, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, app_name: app_name, view_index: view_index, layout: false });
 		})
 		.put(function(req, res, next) {
 			console.log(server_prefix + " - Index put");

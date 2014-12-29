@@ -49,6 +49,10 @@ define(function () {
         	console.log('CORE: controllerBase setConfig(config) called');
             this.config = config;
         },	
+        setPage: function (page) {
+        	console.log('CORE: controllerBase setPage(page) called');
+            this.page = page;
+        },	
 		setServiceBus: function (serviceBus) {
 			console.log('CORE: controllerBase setServiceBus(serviceBus) called');
 			this.serviceBus = serviceBus;		
@@ -74,7 +78,7 @@ define(function () {
 			console.log('CORE: controllerBase setView(view) called');			
 			this.view = view;
 			this.viewController.setView(view);
-		},
+		},		
 		loadView: function (id) {
 			console.log('CORE: controllerBase loadView(id) called');			
 			this.viewController.loadView(id);

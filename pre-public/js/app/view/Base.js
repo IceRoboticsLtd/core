@@ -68,6 +68,20 @@ define(function () {
             console.log('elementId = ' + elementId);
             try {
                 document.getElementById(elementId).innerHTML = this.getView('htmlSource');
+                var templates = this.getValue('templates')[0];
+                console.log("CORE: templates = ");
+                console.log(templates);
+                for(key in templates) {
+                    var templateTag = document.createElement('script');                
+                    // Add the templates of the view
+                    templateTag.type = "text/template";    
+                    templateTag.id = key; // Use key value from templates collection as the id
+                    templateTag.innerHTML = templates[key];
+                    console.log("CORE: template templateTag = ");
+                    console.log(templateTag);
+                    document.getElementsByTagName('templates')[0].appendChild(templateTag);
+                }
+                // Add the scriptSource of the view
                 var scriptTag = document.createElement('script');
                 scriptTag.type = "text/javascript";
                 scriptTag.src = this.getValue('scriptSource');
