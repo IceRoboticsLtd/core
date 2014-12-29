@@ -103,6 +103,32 @@ define(['./Base'], function (Base) {
 						]
 					}
 				}
+			},
+			'quizengine': {
+				views: {
+					todo: {
+						htmlSource: '<span>QuizEngine</span>',
+						scriptSource: 'js/quizengine/views/quizengine/quizengine.js',
+						subscriptions: [
+							{
+								channel: 'quizengine',
+								topic: 'doneQuizEngine'
+							}
+						]
+					}
+				},
+				models: {
+					individual: {
+						someKey: 'someValue',
+						scriptSource: 'js/quizengine/models/individual/individual.js',
+						subscriptions: [
+							{
+								channel: 'quizengine',
+								topic: 'doQuizEngine'
+							}
+						]
+					}
+				}
 			}
 		}
 	};
