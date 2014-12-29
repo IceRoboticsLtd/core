@@ -57,6 +57,10 @@ define(function () {
         	console.log('CORE: controllerBase setPageController(pageController) called');
             this.pageController = pageController;
         },
+        setPageRouter: function (pageRouter) {
+        	console.log('CORE: controllerBase setPageRouter(pageRouter) called');
+            this.pageRouter = pageRouter;
+        },        
 		setServiceBus: function (serviceBus) {
 			console.log('CORE: controllerBase setServiceBus(serviceBus) called');
 			this.serviceBus = serviceBus;		
