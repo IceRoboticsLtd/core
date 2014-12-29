@@ -52,7 +52,11 @@ define(function () {
         setPage: function (page) {
         	console.log('CORE: controllerBase setPage(page) called');
             this.page = page;
-        },	
+        },
+        setPageController: function (pageController) {
+        	console.log('CORE: controllerBase setPageController(pageController) called');
+            this.pageController = pageController;
+        },
 		setServiceBus: function (serviceBus) {
 			console.log('CORE: controllerBase setServiceBus(serviceBus) called');
 			this.serviceBus = serviceBus;		
