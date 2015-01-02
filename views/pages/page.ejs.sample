@@ -114,6 +114,11 @@
                          // Set elementId (e.g. 'page')
                          console.log('CORE: page: main.setElementId("page")');
                          main.setElementId('page');
+                         // Make main globally accessible, by tying it to the global 'window' object
+                         // It can then be accessed like so: window.CORE.main
+                         console.log('CORE: page: global window.CORE.main');
+                         window.CORE = {};
+                         window.CORE.main = main; 
                          // Call ready()
                          console.log('CORE: page: main.ready()');
                          main.ready();
