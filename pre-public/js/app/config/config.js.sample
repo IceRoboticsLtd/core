@@ -130,16 +130,26 @@ define(['./Base'], function (Base) {
 					}
 				},
 				models: {
-					individual: {
+					answer: {
 						someKey: 'someValue',
-						scriptSource: 'js/quizengine/models/individual/individual.js',
+						scriptSource: 'js/quizengine/models/answer/answer.js',
 						subscriptions: [
 							{
 								channel: 'quizengine',
 								topic: 'doQuizEngine'
 							}
 						]
-					}
+					},
+					answers: {
+						someKey: 'someValue',
+						scriptSource: 'js/quizengine/models/answers/answers.js',
+						subscriptions: [
+							{
+								channel: 'quizengine',
+								topic: 'doQuizEngine'
+							}
+						]
+					}					
 				}
 			}
 		}
