@@ -251,6 +251,73 @@ define(function () {
                     me.model = model; 
                     callback(me, err, me.model);
             	});
+
+                // TEMP START : Make this configurable !!!
+                /*
+                me.require(['../app/model/modelAnswer'], function (modelAnswer) {
+                    console.log('CORE: mainBase: modelAnswer required');
+                    console.log(modelAnswer);
+                    me.modelAnswer = modelAnswer; 
+                    callback(me, err, me.modelAnswer);
+                });                
+                me.require(['../app/model/modelAnswers'], function (modelAnswers) {
+                    console.log('CORE: mainBase: modelAnswers required');
+                    console.log(modelAnswers);
+                    me.modelAnswers = modelAnswers; 
+                    callback(me, err, me.modelAnswers);
+                }); 
+                me.require(['../app/model/modelQuestion'], function (modelQuestion) {
+                    console.log('CORE: mainBase: modelQuestion required');
+                    console.log(modelQuestion);
+                    me.modelQuestion = modelQuestion; 
+                    callback(me, err, me.modelQuestion);
+                }); 
+                me.require(['../app/model/modelQuestions'], function (modelQuestions) {
+                    console.log('CORE: mainBase: modelQuestions required');
+                    console.log(modelQuestions);
+                    me.modelQuestions = modelQuestions; 
+                    callback(me, err, me.modelQuestions);
+                }); 
+                me.require(['../app/model/modelCategory'], function (modelCategory) {
+                    console.log('CORE: mainBase: modelCategory required');
+                    console.log(modelCategory);
+                    me.modelCategory = modelCategory; 
+                    callback(me, err, me.modelCategory);
+                }); 
+                me.require(['../app/model/modelCategories'], function (modelCategories) {
+                    console.log('CORE: mainBase: modelCategories required');
+                    console.log(modelCategories);
+                    me.modelCategories = modelCategories; 
+                    callback(me, err, me.modelCategories);
+                }); 
+                me.require(['../app/model/modelQuizQuestion'], function (modelQuizQuestion) {
+                    console.log('CORE: mainBase: modelQuizQuestion required');
+                    console.log(modelQuizQuestion);
+                    me.modelQuizQuestion = modelQuizQuestion; 
+                    callback(me, err, me.modelQuizQuestion);
+                }); 
+                me.require(['../app/model/modelQuizQuestions'], function (modelQuizQuestions) {
+                    console.log('CORE: mainBase: modelQuizQuestions required');
+                    console.log(modelQuizQuestions);
+                    me.modelQuizQuestions = modelQuizQuestions; 
+                    callback(me, err, me.modelQuizQuestions);
+                }); 
+                me.require(['../app/model/modelQuiz'], function (modelQuiz) {
+                    console.log('CORE: mainBase: modelQuiz required');
+                    console.log(modelQuiz);
+                    me.modelQuiz = modelQuiz; 
+                    callback(me, err, me.modelQuiz);
+                }); 
+                me.require(['../app/model/modelQuizzes'], function (modelQuizzes) {
+                    console.log('CORE: mainBase: modelQuizzes required');
+                    console.log(modelQuizzes);
+                    me.modelQuizzes = modelQuizzes; 
+                    callback(me, err, me.modelQuizzes);
+                }); 
+                */
+                // TEMP END
+
+
             }
 			else {
 				me.model = me.model;
@@ -761,7 +828,13 @@ define(function () {
 					});// eof Config
         		}
         	});// eof Controller
-        }
-    };
+        },// eof ready()
+        // Adopted from Backbone
+        sync: function(method, model, options) {
+            console.log('CORE: mainBase sync(method, model, options) called');
+            // to do: complete function here from Backbone source code
+
+        } // eof sync()
+    }; // eof mainBase.prototype
     return mainBase;
 });
