@@ -17,6 +17,33 @@ define(function () {
 	        mocha = require('mocha'),
 	        jquerypp = require('jquerypp.custom'),
 	        framewarp = require('framewarp');
+        // Adopted from Backbone
+        // Save the previous value of the `mainBase` variable, so that it can be
+        // restored later on, if `noConflict` is used.
+        var previousMainBase = mainBase;
+        // Create local references to array methods we'll want to use later.
+        var array = [];
+        var slice = array.slice;
+        // Current version of the library. Keep in sync with `package.json`.
+        this.VERSION = '1.0.0';
+        // For our purposes, jQuery, Zepto, Ender, or My Library (kidding) owns
+        // the `$` variable.
+        this.$ = $;
+        // Runs Base.js in *noConflict* mode, returning the `main` variable
+        // to its previous owner. Returns a reference to this mainBase object.
+        mainBase.noConflict = function() {
+            mainBase = previousMainBase;
+            return this;
+        };
+        // Turn on `emulateHTTP` to support legacy HTTP servers. Setting this option
+        // will fake `"PATCH"`, `"PUT"` and `"DELETE"` requests via the `_method` parameter and
+        // set a `X-Http-Method-Override` header.
+        this.emulateHTTP = false;
+        // Turn on `emulateJSON` to support legacy servers that can't deal with direct
+        // `application/json` requests ... this will encode the body as
+        // `application/x-www-form-urlencoded` instead and will send the model in a
+        // form param named `model`.
+        this.emulateJSON = false;
     };
     mainBase.prototype = {
         setLib: function(lib) {
@@ -251,73 +278,6 @@ define(function () {
                     me.model = model; 
                     callback(me, err, me.model);
             	});
-
-                // TEMP START : Make this configurable !!!
-                /*
-                me.require(['../app/model/modelAnswer'], function (modelAnswer) {
-                    console.log('CORE: mainBase: modelAnswer required');
-                    console.log(modelAnswer);
-                    me.modelAnswer = modelAnswer; 
-                    callback(me, err, me.modelAnswer);
-                });                
-                me.require(['../app/model/modelAnswers'], function (modelAnswers) {
-                    console.log('CORE: mainBase: modelAnswers required');
-                    console.log(modelAnswers);
-                    me.modelAnswers = modelAnswers; 
-                    callback(me, err, me.modelAnswers);
-                }); 
-                me.require(['../app/model/modelQuestion'], function (modelQuestion) {
-                    console.log('CORE: mainBase: modelQuestion required');
-                    console.log(modelQuestion);
-                    me.modelQuestion = modelQuestion; 
-                    callback(me, err, me.modelQuestion);
-                }); 
-                me.require(['../app/model/modelQuestions'], function (modelQuestions) {
-                    console.log('CORE: mainBase: modelQuestions required');
-                    console.log(modelQuestions);
-                    me.modelQuestions = modelQuestions; 
-                    callback(me, err, me.modelQuestions);
-                }); 
-                me.require(['../app/model/modelCategory'], function (modelCategory) {
-                    console.log('CORE: mainBase: modelCategory required');
-                    console.log(modelCategory);
-                    me.modelCategory = modelCategory; 
-                    callback(me, err, me.modelCategory);
-                }); 
-                me.require(['../app/model/modelCategories'], function (modelCategories) {
-                    console.log('CORE: mainBase: modelCategories required');
-                    console.log(modelCategories);
-                    me.modelCategories = modelCategories; 
-                    callback(me, err, me.modelCategories);
-                }); 
-                me.require(['../app/model/modelQuizQuestion'], function (modelQuizQuestion) {
-                    console.log('CORE: mainBase: modelQuizQuestion required');
-                    console.log(modelQuizQuestion);
-                    me.modelQuizQuestion = modelQuizQuestion; 
-                    callback(me, err, me.modelQuizQuestion);
-                }); 
-                me.require(['../app/model/modelQuizQuestions'], function (modelQuizQuestions) {
-                    console.log('CORE: mainBase: modelQuizQuestions required');
-                    console.log(modelQuizQuestions);
-                    me.modelQuizQuestions = modelQuizQuestions; 
-                    callback(me, err, me.modelQuizQuestions);
-                }); 
-                me.require(['../app/model/modelQuiz'], function (modelQuiz) {
-                    console.log('CORE: mainBase: modelQuiz required');
-                    console.log(modelQuiz);
-                    me.modelQuiz = modelQuiz; 
-                    callback(me, err, me.modelQuiz);
-                }); 
-                me.require(['../app/model/modelQuizzes'], function (modelQuizzes) {
-                    console.log('CORE: mainBase: modelQuizzes required');
-                    console.log(modelQuizzes);
-                    me.modelQuizzes = modelQuizzes; 
-                    callback(me, err, me.modelQuizzes);
-                }); 
-                */
-                // TEMP END
-
-
             }
 			else {
 				me.model = me.model;
