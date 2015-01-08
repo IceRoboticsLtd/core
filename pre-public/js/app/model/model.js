@@ -9,7 +9,7 @@ define(['./Base'], function (Base) {
     	d = Math.floor(d/16);
     	return (c=='x' ? r : (r&0x7|0x8)).toString(16);
     });    	
-    //ORIGINAL var _Model = new Base(uuid);
+    // ORIGINAL var _Model = new Base(uuid);
     var attributes = attributes || {};
     var options = options || {};
     var _Model = new Base(uuid, attributes, options); // extended for arguments & options to adopt Backbone Model  

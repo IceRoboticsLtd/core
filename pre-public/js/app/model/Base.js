@@ -108,7 +108,7 @@ define(function () {
         // Bind an event to a `callback` function. Passing `"all"` will bind
         // the callback to all events fired.
         on: function(name, callback, context) {
-            console.log("CORE: modelBase on(name, callback, context) called");
+            console.log("CORE: modelBase Events on(name, callback, context) called");
             if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
             this._events || (this._events = {});
             var events = this._events[name] || (this._events[name] = []);
@@ -118,7 +118,7 @@ define(function () {
         // Bind an event to only be triggered a single time. After the first time
         // the callback is invoked, it will be removed.
         once: function(name, callback, context) {
-            console.log("CORE: modelBase once(name, callback, context) called");
+            console.log("CORE: modelBase Events once(name, callback, context) called");
             if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
             var self = this;
             var once = _.once(function() {
@@ -133,7 +133,7 @@ define(function () {
         // callbacks for the event. If `name` is null, removes all bound
         // callbacks for all events.
         off: function(name, callback, context) {
-            console.log("CORE: modelBase off(name, callback, context) called");
+            console.log("CORE: modelBase Events off(name, callback, context) called");
             if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
             // Remove all callbacks for all events.
             if (!name && !callback && !context) {
@@ -177,7 +177,7 @@ define(function () {
         // (unless you're listening on `"all"`, which will cause your callback to
         // receive the true name of the event as the first argument).
         trigger: function(name) {
-            console.log("CORE: modelBase trigger(name) called");
+            console.log("CORE: modelBase Events trigger(name) called");
             if (!this._events) return this;
             var args = slice.call(arguments, 1);
             if (!eventsApi(this, 'trigger', name, args)) return this;
@@ -191,7 +191,7 @@ define(function () {
         // listen to an event in another object ... keeping track of what it's
         // listening to.
         listenTo: function(obj, name, callback) {
-            console.log("CORE: modelBase listenTo(obj, name, callback) called");
+            console.log("CORE: modelBase Events listenTo(obj, name, callback) called");
             var listeningTo = this._listeningTo || (this._listeningTo = {});
             var id = obj._listenId || (obj._listenId = _.uniqueId('l'));
             listeningTo[id] = obj;
@@ -200,7 +200,7 @@ define(function () {
             return this;
         },
         listenToOnce: function(obj, name, callback) {
-            console.log("CORE: modelBase listenToOnce(obj, name, callback) called");
+            console.log("CORE: modelBase Events listenToOnce(obj, name, callback) called");
             if (typeof name === 'object') {
                 for (var event in name) this.listenToOnce(obj, event, name[event]);
                 return this;
@@ -215,7 +215,7 @@ define(function () {
         // Tell this object to stop listening to either specific events ... or
         // to every object it's currently listening to.
         stopListening: function(obj, name, callback) {
-            console.log("CORE: modelBase stopListening(obj, name, callback) called");
+            console.log("CORE: modelBase Events stopListening(obj, name, callback) called");
             var listeningTo = this._listeningTo;
             if (!listeningTo) return this;
             var remove = !name && !callback;
@@ -622,317 +622,345 @@ define(function () {
         model: modelBase,
         // Initialize is an empty function by default. Override it with your own
         // initialization logic.
-        initialize: function(){},
+        initialize: function(){
+            console.log("CORE: modelBase Collection initialize() called");
+        },
         // The JSON representation of a Collection is an array of the
         // models' attributes.
         toJSON: function(options) {
-          return this.map(function(model){ return model.toJSON(options); });
+            console.log("CORE: modelBase Collection toJSON(options) called");
+            return this.map(function(model){ return model.toJSON(options); });
         },
         // Proxy `Backbone.sync` by default.
         sync: function() {
-          return Backbone.sync.apply(this, arguments);
+            console.log("CORE: modelBase Collection sync() called");
+            return Backbone.sync.apply(this, arguments); // TO DO: make independent of Backbone, use e.g. CORE.sync.apply(this, arguments) instead
         },
         // Add a model, or list of models to the set.
         add: function(models, options) {
-          return this.set(models, _.extend({merge: false}, options, addOptions));
+            console.log("CORE: modelBase Collection add(models, options) called");
+            return this.set(models, _.extend({merge: false}, options, addOptions));
         },
         // Remove a model, or a list of models from the set.
         remove: function(models, options) {
-          var singular = !_.isArray(models);
-          models = singular ? [models] : _.clone(models);
-          options || (options = {});
-          for (var i = 0, length = models.length; i < length; i++) {
-            var model = models[i] = this.get(models[i]);
-            if (!model) continue;
-            var id = this.modelId(model.attributes);
-            if (id != null) delete this._byId[id];
-            delete this._byId[model.cid];
-            var index = this.indexOf(model);
-            this.models.splice(index, 1);
-            this.length--;
-            if (!options.silent) {
-              options.index = index;
-              model.trigger('remove', model, this, options);
+            console.log("CORE: modelBase Collection remove(models, options) called");
+            var singular = !_.isArray(models);
+            models = singular ? [models] : _.clone(models);
+            options || (options = {});
+            for (var i = 0, length = models.length; i < length; i++) {
+                var model = models[i] = this.get(models[i]);
+                if (!model) continue;
+                var id = this.modelId(model.attributes);
+                if (id != null) delete this._byId[id];
+                delete this._byId[model.cid];
+                var index = this.indexOf(model);
+                this.models.splice(index, 1);
+                this.length--;
+                if (!options.silent) {
+                    options.index = index;
+                    model.trigger('remove', model, this, options);
+                }
+                this._removeReference(model, options);
             }
-            this._removeReference(model, options);
-          }
-          return singular ? models[0] : models;
+            return singular ? models[0] : models;
         },
         // Update a collection by `set`-ing a new list of models, adding new ones,
         // removing models that are no longer present, and merging models that
         // already exist in the collection, as necessary. Similar to **Model#set**,
         // the core operation for updating the data contained by the collection.
         set: function(models, options) {
-          options = _.defaults({}, options, setOptions);
-          if (options.parse) models = this.parse(models, options);
-          var singular = !_.isArray(models);
-          models = singular ? (models ? [models] : []) : models.slice();
-          var id, model, attrs, existing, sort;
-          var at = options.at;
-          if (at < 0) at += this.length + 1;
-          var sortable = this.comparator && (at == null) && options.sort !== false;
-          var sortAttr = _.isString(this.comparator) ? this.comparator : null;
-          var toAdd = [], toRemove = [], modelMap = {};
-          var add = options.add, merge = options.merge, remove = options.remove;
-          var order = !sortable && add && remove ? [] : false;
-          var orderChanged = false;
-          // Turn bare objects into model references, and prevent invalid models
-          // from being added.
-          for (var i = 0, length = models.length; i < length; i++) {
-            attrs = models[i];
-            // If a duplicate is found, prevent it from being added and
-            // optionally merge it into the existing model.
-            if (existing = this.get(attrs)) {
-              if (remove) modelMap[existing.cid] = true;
-              if (merge && attrs !== existing) {
-                attrs = this._isModel(attrs) ? attrs.attributes : attrs;
-                if (options.parse) attrs = existing.parse(attrs, options);
-                existing.set(attrs, options);
-                if (sortable && !sort && existing.hasChanged(sortAttr)) sort = true;
-              }
-              models[i] = existing;
-            // If this is a new, valid model, push it to the `toAdd` list.
-            } else if (add) {
-              model = models[i] = this._prepareModel(attrs, options);
-              if (!model) continue;
-              toAdd.push(model);
-              this._addReference(model, options);
+            console.log("CORE: modelBase Collection set(models, options) called");
+            options = _.defaults({}, options, setOptions);
+            if (options.parse) models = this.parse(models, options);
+            var singular = !_.isArray(models);
+            models = singular ? (models ? [models] : []) : models.slice();
+            var id, model, attrs, existing, sort;
+            var at = options.at;
+            if (at < 0) at += this.length + 1;
+            var sortable = this.comparator && (at == null) && options.sort !== false;
+            var sortAttr = _.isString(this.comparator) ? this.comparator : null;
+            var toAdd = [], toRemove = [], modelMap = {};
+            var add = options.add, merge = options.merge, remove = options.remove;
+            var order = !sortable && add && remove ? [] : false;
+            var orderChanged = false;
+            // Turn bare objects into model references, and prevent invalid models
+            // from being added.
+            for (var i = 0, length = models.length; i < length; i++) {
+                attrs = models[i];
+                // If a duplicate is found, prevent it from being added and
+                // optionally merge it into the existing model.
+                if (existing = this.get(attrs)) {
+                    if (remove) modelMap[existing.cid] = true;
+                    if (merge && attrs !== existing) {
+                        attrs = this._isModel(attrs) ? attrs.attributes : attrs;
+                        if (options.parse) attrs = existing.parse(attrs, options);
+                        existing.set(attrs, options);
+                        if (sortable && !sort && existing.hasChanged(sortAttr)) sort = true;
+                    }
+                    models[i] = existing;
+                // If this is a new, valid model, push it to the `toAdd` list.
+                } else if (add) {
+                    model = models[i] = this._prepareModel(attrs, options);
+                    if (!model) continue;
+                    toAdd.push(model);
+                    this._addReference(model, options);
+                }
+                // Do not add multiple models with the same `id`.
+                model = existing || model;
+                if (!model) continue;
+                id = this.modelId(model.attributes);
+                if (order && (model.isNew() || !modelMap[id])) {
+                    order.push(model);
+                    // Check to see if this is actually a new model at this index.
+                    orderChanged = orderChanged || !this.models[i] || model.cid !== this.models[i].cid;
+                }
+                modelMap[id] = true;
             }
-            // Do not add multiple models with the same `id`.
-            model = existing || model;
-            if (!model) continue;
-            id = this.modelId(model.attributes);
-            if (order && (model.isNew() || !modelMap[id])) {
-              order.push(model);
-              // Check to see if this is actually a new model at this index.
-              orderChanged = orderChanged || !this.models[i] || model.cid !== this.models[i].cid;
+            // Remove nonexistent models if appropriate.
+            if (remove) {
+                for (var i = 0, length = this.length; i < length; i++) {
+                    if (!modelMap[(model = this.models[i]).cid]) toRemove.push(model);
+                }
+                if (toRemove.length) this.remove(toRemove, options);
             }
-            modelMap[id] = true;
-          }
-          // Remove nonexistent models if appropriate.
-          if (remove) {
-            for (var i = 0, length = this.length; i < length; i++) {
-              if (!modelMap[(model = this.models[i]).cid]) toRemove.push(model);
+            // See if sorting is needed, update `length` and splice in new models.
+            if (toAdd.length || orderChanged) {
+                if (sortable) sort = true;
+                this.length += toAdd.length;
+                if (at != null) {
+                    for (var i = 0, length = toAdd.length; i < length; i++) {
+                        this.models.splice(at + i, 0, toAdd[i]);
+                    }
+                } else {
+                    if (order) this.models.length = 0;
+                    var orderedModels = order || toAdd;
+                    for (var i = 0, length = orderedModels.length; i < length; i++) {
+                        this.models.push(orderedModels[i]);
+                    }
+                }
             }
-            if (toRemove.length) this.remove(toRemove, options);
-          }
-          // See if sorting is needed, update `length` and splice in new models.
-          if (toAdd.length || orderChanged) {
-            if (sortable) sort = true;
-            this.length += toAdd.length;
-            if (at != null) {
-              for (var i = 0, length = toAdd.length; i < length; i++) {
-                this.models.splice(at + i, 0, toAdd[i]);
-              }
-            } else {
-              if (order) this.models.length = 0;
-              var orderedModels = order || toAdd;
-              for (var i = 0, length = orderedModels.length; i < length; i++) {
-                this.models.push(orderedModels[i]);
-              }
+            // Silently sort the collection if appropriate.
+            if (sort) this.sort({silent: true});
+            // Unless silenced, it's time to fire all appropriate add/sort events.
+            if (!options.silent) {
+                var addOpts = at != null ? _.clone(options) : options;
+                for (var i = 0, length = toAdd.length; i < length; i++) {
+                    if (at != null) addOpts.index = at + i;
+                    (model = toAdd[i]).trigger('add', model, this, addOpts);
+                }
+                if (sort || orderChanged) this.trigger('sort', this, options);
             }
-          }
-          // Silently sort the collection if appropriate.
-          if (sort) this.sort({silent: true});
-          // Unless silenced, it's time to fire all appropriate add/sort events.
-          if (!options.silent) {
-            var addOpts = at != null ? _.clone(options) : options;
-            for (var i = 0, length = toAdd.length; i < length; i++) {
-              if (at != null) addOpts.index = at + i;
-              (model = toAdd[i]).trigger('add', model, this, addOpts);
-            }
-            if (sort || orderChanged) this.trigger('sort', this, options);
-          }
-          // Return the added (or merged) model (or models).
-          return singular ? models[0] : models;
+            // Return the added (or merged) model (or models).
+            return singular ? models[0] : models;
         },
         // When you have more items than you want to add or remove individually,
         // you can reset the entire set with a new list of models, without firing
         // any granular `add` or `remove` events. Fires `reset` when finished.
         // Useful for bulk operations and optimizations.
         reset: function(models, options) {
-          options = options ? _.clone(options) : {};
-          for (var i = 0, length = this.models.length; i < length; i++) {
-            this._removeReference(this.models[i], options);
-          }
-          options.previousModels = this.models;
-          this._reset();
-          models = this.add(models, _.extend({silent: true}, options));
-          if (!options.silent) this.trigger('reset', this, options);
-          return models;
+            console.log("CORE: modelBase Collection reset(models, options) called");
+            options = options ? _.clone(options) : {};
+            for (var i = 0, length = this.models.length; i < length; i++) {
+                this._removeReference(this.models[i], options);
+            }
+            options.previousModels = this.models;
+            this._reset();
+            models = this.add(models, _.extend({silent: true}, options));
+            if (!options.silent) this.trigger('reset', this, options);
+            return models;
         },
         // Add a model to the end of the collection.
         push: function(model, options) {
-          return this.add(model, _.extend({at: this.length}, options));
+            console.log("CORE: modelBase Collection push(model, options) called");
+            return this.add(model, _.extend({at: this.length}, options));
         },
         // Remove a model from the end of the collection.
         pop: function(options) {
-          var model = this.at(this.length - 1);
-          this.remove(model, options);
-          return model;
+            console.log("CORE: modelBase Collection pop(options) called");
+            var model = this.at(this.length - 1);
+            this.remove(model, options);
+            return model;
         },
         // Add a model to the beginning of the collection.
         unshift: function(model, options) {
-          return this.add(model, _.extend({at: 0}, options));
+            console.log("CORE: modelBase Collection unshift(model, options) called");
+            return this.add(model, _.extend({at: 0}, options));
         },
         // Remove a model from the beginning of the collection.
         shift: function(options) {
-          var model = this.at(0);
-          this.remove(model, options);
-          return model;
+            console.log("CORE: modelBase Collection shift(options) called");
+            var model = this.at(0);
+            this.remove(model, options);
+            return model;
         },
         // Slice out a sub-array of models from the collection.
         slice: function() {
-          return slice.apply(this.models, arguments);
+            console.log("CORE: modelBase Collection slice() called");
+            return slice.apply(this.models, arguments);
         },
         // Get a model from the set by id.
         get: function(obj) {
-          if (obj == null) return void 0;
-          var id = this.modelId(this._isModel(obj) ? obj.attributes : obj);
-          return this._byId[obj] || this._byId[id] || this._byId[obj.cid];
+            console.log("CORE: modelBase Collection get(obj) called");
+            if (obj == null) return void 0;
+            var id = this.modelId(this._isModel(obj) ? obj.attributes : obj);
+            return this._byId[obj] || this._byId[id] || this._byId[obj.cid];
         },
         // Get the model at the given index.
         at: function(index) {
-          if (index < 0) index += this.length;
-          return this.models[index];
+            console.log("CORE: modelBase Collection at(index) called");
+            if (index < 0) index += this.length;
+            return this.models[index];
         },
         // Return models with matching attributes. Useful for simple cases of
         // `filter`.
         where: function(attrs, first) {
-          var matches = _.matches(attrs);
-          return this[first ? 'find' : 'filter'](function(model) {
-            return matches(model.attributes);
-          });
+            console.log("CORE: modelBase Collection where(attrs, first) called");
+            var matches = _.matches(attrs);
+            return this[first ? 'find' : 'filter'](function(model) {
+                return matches(model.attributes);
+            });
         },
         // Return the first model with matching attributes. Useful for simple cases
         // of `find`.
         findWhere: function(attrs) {
-          return this.where(attrs, true);
+            console.log("CORE: modelBase Collection findWhere(attrs) called");
+            return this.where(attrs, true);
         },
         // Force the collection to re-sort itself. You don't need to call this under
         // normal circumstances, as the set will maintain sort order as each item
         // is added.
         sort: function(options) {
-          if (!this.comparator) throw new Error('Cannot sort a set without a comparator');
-          options || (options = {});
-
-          // Run sort based on type of `comparator`.
-          if (_.isString(this.comparator) || this.comparator.length === 1) {
-            this.models = this.sortBy(this.comparator, this);
-          } else {
-            this.models.sort(_.bind(this.comparator, this));
-          }
-
-          if (!options.silent) this.trigger('sort', this, options);
-          return this;
+            console.log("CORE: modelBase Collection sort(options) called");
+            if (!this.comparator) throw new Error('Cannot sort a set without a comparator');
+            options || (options = {});
+            // Run sort based on type of `comparator`.
+            if (_.isString(this.comparator) || this.comparator.length === 1) {
+                this.models = this.sortBy(this.comparator, this);
+            } else {
+                this.models.sort(_.bind(this.comparator, this));
+            }
+            if (!options.silent) this.trigger('sort', this, options);
+            return this;
         },
         // Pluck an attribute from each model in the collection.
         pluck: function(attr) {
-          return _.invoke(this.models, 'get', attr);
+            console.log("CORE: modelBase Collection pluck(attr) called");
+            return _.invoke(this.models, 'get', attr);
         },
         // Fetch the default set of models for this collection, resetting the
         // collection when they arrive. If `reset: true` is passed, the response
         // data will be passed through the `reset` method instead of `set`.
         fetch: function(options) {
-          options = options ? _.clone(options) : {};
-          if (options.parse === void 0) options.parse = true;
-          var success = options.success;
-          var collection = this;
-          options.success = function(resp) {
-            var method = options.reset ? 'reset' : 'set';
-            collection[method](resp, options);
-            if (success) success(collection, resp, options);
-            collection.trigger('sync', collection, resp, options);
-          };
-          wrapError(this, options);
-          return this.sync('read', this, options);
+            console.log("CORE: modelBase Collection fetch(options) called");
+            options = options ? _.clone(options) : {};
+            if (options.parse === void 0) options.parse = true;
+            var success = options.success;
+            var collection = this;
+            options.success = function(resp) {
+                var method = options.reset ? 'reset' : 'set';
+                collection[method](resp, options);
+                if (success) success(collection, resp, options);
+                collection.trigger('sync', collection, resp, options);
+            };
+            wrapError(this, options);
+            return this.sync('read', this, options);
         },
         // Create a new instance of a model in this collection. Add the model to the
         // collection immediately, unless `wait: true` is passed, in which case we
         // wait for the server to agree.
         create: function(model, options) {
-          options = options ? _.clone(options) : {};
-          if (!(model = this._prepareModel(model, options))) return false;
-          if (!options.wait) this.add(model, options);
-          var collection = this;
-          var success = options.success;
-          options.success = function(model, resp) {
-            if (options.wait) collection.add(model, options);
-            if (success) success(model, resp, options);
-          };
-          model.save(null, options);
-          return model;
+            console.log("CORE: modelBase Collection create(model, options) called");
+            options = options ? _.clone(options) : {};
+            if (!(model = this._prepareModel(model, options))) return false;
+            if (!options.wait) this.add(model, options);
+            var collection = this;
+            var success = options.success;
+            options.success = function(model, resp) {
+                if (options.wait) collection.add(model, options);
+                if (success) success(model, resp, options);
+            };
+            model.save(null, options);
+            return model;
         },
         // **parse** converts a response into a list of models to be added to the
         // collection. The default implementation is just to pass it through.
         parse: function(resp, options) {
-          return resp;
+            console.log("CORE: modelBase Collection parse(resp, options) called");
+            return resp;
         },
         // Create a new collection with an identical list of models as this one.
         clone: function() {
-          return new this.constructor(this.models, {
-            model: this.model,
-            comparator: this.comparator
-          });
+            console.log("CORE: modelBase Collection clone() called");
+            return new this.constructor(this.models, {
+                model: this.model,
+                comparator: this.comparator
+            });
         },
         // Define how to uniquely identify models in the collection.
         modelId: function (attrs) {
-          return attrs[this.model.prototype.idAttribute || 'id'];
+            console.log("CORE: modelBase Collection modelId(attrs) called");
+            return attrs[this.model.prototype.idAttribute || 'id'];
         },
         // Private method to reset all internal state. Called when the collection
         // is first initialized or reset.
         _reset: function() {
-          this.length = 0;
-          this.models = [];
-          this._byId  = {};
+            console.log("CORE: modelBase Collection _reset() called");
+            this.length = 0;
+            this.models = [];
+            this._byId  = {};
         },
         // Prepare a hash of attributes (or other model) to be added to this
         // collection.
         _prepareModel: function(attrs, options) {
-          if (this._isModel(attrs)) {
-            if (!attrs.collection) attrs.collection = this;
-            return attrs;
-          }
-          options = options ? _.clone(options) : {};
-          options.collection = this;
-          var model = new this.model(attrs, options);
-          if (!model.validationError) return model;
-          this.trigger('invalid', this, model.validationError, options);
-          return false;
+            console.log("CORE: modelBase Collection _prepareModel(attrs, options) called");
+            if (this._isModel(attrs)) {
+                if (!attrs.collection) attrs.collection = this;
+                return attrs;
+            }
+            options = options ? _.clone(options) : {};
+            options.collection = this;
+            var model = new this.model(attrs, options);
+            if (!model.validationError) return model;
+            this.trigger('invalid', this, model.validationError, options);
+            return false;
         },
         // Method for checking whether an object should be considered a model for
         // the purposes of adding to the collection.
         _isModel: function (model) {
-          return model instanceof Model;
+            console.log("CORE: modelBase Collection _isModel(model) called");
+            return model instanceof Model;
         },
         // Internal method to create a model's ties to a collection.
         _addReference: function(model, options) {
-          this._byId[model.cid] = model;
-          var id = this.modelId(model.attributes);
-          if (id != null) this._byId[id] = model;
-          model.on('all', this._onModelEvent, this);
+            console.log("CORE: modelBase Collection _addReference(model, options) called");
+            this._byId[model.cid] = model;
+            var id = this.modelId(model.attributes);
+            if (id != null) this._byId[id] = model;
+            model.on('all', this._onModelEvent, this);
         },
         // Internal method to sever a model's ties to a collection.
         _removeReference: function(model, options) {
-          if (this === model.collection) delete model.collection;
-          model.off('all', this._onModelEvent, this);
+            console.log("CORE: modelBase Collection _removeReference(model, options) called");
+            if (this === model.collection) delete model.collection;
+            model.off('all', this._onModelEvent, this);
         },
         // Internal method called every time a model in the set fires an event.
         // Sets need to update their indexes when models change ids. All other
         // events simply proxy through. "add" and "remove" events that originate
         // in other collections are ignored.
         _onModelEvent: function(event, model, collection, options) {
-          if ((event === 'add' || event === 'remove') && collection !== this) return;
-          if (event === 'destroy') this.remove(model, options);
-          if (event === 'change') {
-            var prevId = this.modelId(model.previousAttributes());
-            var id = this.modelId(model.attributes);
-            if (prevId !== id) {
-              if (prevId != null) delete this._byId[prevId];
-              if (id != null) this._byId[id] = model;
+            console.log("CORE: modelBase Collection _onModelEvent(event, model, collection, options) called");
+            if ((event === 'add' || event === 'remove') && collection !== this) return;
+            if (event === 'destroy') this.remove(model, options);
+            if (event === 'change') {
+                var prevId = this.modelId(model.previousAttributes());
+                var id = this.modelId(model.attributes);
+                if (prevId !== id) {
+                    if (prevId != null) delete this._byId[prevId];
+                    if (id != null) this._byId[id] = model;
+                }
             }
-          }
-          this.trigger.apply(this, arguments);
+            this.trigger.apply(this, arguments);
         }
     });
     // Underscore methods that we want to implement on the Collection.

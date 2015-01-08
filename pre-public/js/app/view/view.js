@@ -9,7 +9,9 @@ define(['./Base'], function (Base) {
     	d = Math.floor(d/16);
     	return (c=='x' ? r : (r&0x7|0x8)).toString(16);
     });    
-    var _View = new Base(uuid);
+    // ORIGINAL var _View = new Base(uuid);
+    var options = options || {};
+    var _View = new Base(uuid, options); // extended for options to adopt Backbone View
 
     // following this example, slightly
     // http://sandbox.thewikies.com/javascript-mvc-hello-world/index.2.html
