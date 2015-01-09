@@ -788,13 +788,7 @@ define(function () {
 					});// eof Config
         		}
         	});// eof Controller
-        },// eof ready()
-        // Adopted from Backbone
-        sync: function(method, model, options) {
-            console.log('CORE: mainBase sync(method, model, options) called');
-            // to do: complete function here from Backbone source code
-
-        } // eof sync()
+        }// eof ready()
     }; // eof mainBase.prototype
     return mainBase;
 });
