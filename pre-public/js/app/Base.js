@@ -210,8 +210,8 @@ define(function () {
                     me.pageRouter = pageRouter; 
                     // Adopted from Backbone
                     // Set up inheritance for the router and history.
-                    me.pageRouter.extend = mainBase.extend; 
-                    me.pageRouter.history.extend = mainBase.extend;
+                    me.pageRouter.extend = CORE.main.extend;
+    // TO DO:                me.pageRouter.history.extend = CORE.main.extend;
                     callback(me, err, me.pageRouter);
                 });
             }
@@ -282,8 +282,8 @@ define(function () {
                     me.model = model; 
                     // Adopted from Backbone
                     // Set up inheritance for the model and collection.
-                    me.model.extend = mainBase.extend; 
-                    me.model.model.Collection.extend = mainBase.extend;
+                    me.model.extend = CORE.main.extend; 
+                    me.model.model.Collection.extend = CORE.main.extend;
                     callback(me, err, me.model);
             	});
             }
@@ -354,7 +354,7 @@ define(function () {
                     me.view = view; 
                     // Adopted from Backbone
                     // Set up inheritance for the view.
-                    me.view.extend = mainBase.extend; 
+                    // me.view.extend = CORE.main.extend; // NOW implemented in view object itself
                     callback(me, err, me.view);
             	});
             }

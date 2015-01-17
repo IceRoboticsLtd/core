@@ -2,7 +2,7 @@
  * ViewBase
  */
 define(function () {
-    console.log('CORE: ViewBase called');   
+    console.log('CORE: viewBase called');   
     function viewBase(id, options) { // Extended with options for Backbone adopted functionality
         this.id = id;
         this.keyValuePairs = {};  
@@ -15,7 +15,7 @@ define(function () {
     };
     viewBase.prototype = {
         getValue: function (key) {
-            console.log('CORE: ViewBase getValue(key) called');
+            console.log('CORE: viewBase getValue(key) called');
             console.log('key = ' + key);
             var searchKey = key;
             var keyFound = false;
@@ -36,41 +36,41 @@ define(function () {
             return value;
         },
         setValue: function (key, value) {
-            console.log('CORE: ViewBase setValue(key, value) called'); 
+            console.log('CORE: viewBase setValue(key, value) called'); 
             // To Do: search for key in keyValuePairs and updated its value           
             // value = value;
         },
         getKeyValuePairs: function () {
-            console.log('CORE: ViewBase getKeyValuePairs() called');             
+            console.log('CORE: viewBase getKeyValuePairs() called');             
             return this.keyValuePairs;
         },
         setKeyValuePairs: function (keyValuePairs) {
-            console.log('CORE: ViewBase setKeyValuePairs(keyValuePairs) called');         
+            console.log('CORE: viewBase setKeyValuePairs(keyValuePairs) called');         
             this.keyValuePairs = keyValuePairs;
         },      
         setViewService: function (viewService) {
-            console.log('CORE: ViewBase setViewService(viewService) called');
+            console.log('CORE: viewBase setViewService(viewService) called');
             // The view instance has a property called "viewService"
             // created from the viewService.                
             this.viewService = viewService;
         },
         // A view might have a function that returns the rendered output.
         getView: function(key) {
-            console.log('CORE: ViewBase getView() called');
+            console.log('CORE: viewBase getView() called');
             try {
                 this.view = this.getValue(key);
-                console.log('CORE: ViewBase this.view:');
+                console.log('CORE: viewBase this.view:');
                 console.log(this.view);
                 return this.view;
             }
             catch(e) {
-                console.log('CORE: ViewBase getView(key) error:');
+                console.log('CORE: viewBase getView(key) error:');
                 console.log(e);
                 return;
             }
         },
         renderView: function (elementId) {
-            console.log('CORE: ViewBase renderView(elementId) called');
+            console.log('CORE: viewBase renderView(elementId) called');
             console.log('elementId = ' + elementId);
             try {
                 document.getElementById(elementId).innerHTML = this.getView('htmlSource');
@@ -94,9 +94,42 @@ define(function () {
                 document.getElementsByTagName('head')[0].appendChild(scriptTag);
             }
             catch(e) {
-                console.log('CORE: ViewBase renderView(elementId) error:');
+                console.log('CORE: viewBase renderView(elementId) error:');
                 console.log(e);
             }
+        },
+        // Adopted from Backbone
+        // Helpers
+        // -------
+        // Helper function to correctly set up the prototype chain, for subclasses.
+        // Similar to `goog.inherits`, but uses a hash of prototype properties and
+        // class properties to be extended.        
+        extend: function(protoProps, staticProps) {
+            console.log('CORE: viewBase extend(protoProps, staticProps) called');
+            var parent = this;
+            var child;
+            // The constructor function for the new subclass is either defined by you
+            // (the "constructor" property in your `extend` definition), or defaulted
+            // by us to simply call the parent's constructor.
+            if (protoProps && _.has(protoProps, 'constructor')) {
+                child = protoProps.constructor;
+            } else {
+                child = function(){ return parent.apply(this, arguments); };
+            }
+            // Add static properties to the constructor function, if supplied.
+            _.extend(child, parent, staticProps);
+            // Set the prototype chain to inherit from `parent`, without calling
+            // `parent`'s constructor function.
+            var Surrogate = function(){ this.constructor = child; };
+            Surrogate.prototype = parent.prototype;
+            child.prototype = new Surrogate;
+            // Add prototype properties (instance properties) to the subclass,
+            // if supplied.
+            if (protoProps) _.extend(child.prototype, protoProps);
+            // Set a convenience property in case the parent's prototype is needed
+            // later.
+            child.__super__ = parent.prototype;
+            return child;
         }
     };
     // Adopted from Backbone 
