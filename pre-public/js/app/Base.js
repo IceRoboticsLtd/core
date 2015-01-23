@@ -210,8 +210,8 @@ define(function () {
                     me.pageRouter = pageRouter; 
                     // Adopted from Backbone
                     // Set up inheritance for the router and history.
-                    me.pageRouter.extend = CORE.main.extend;
-    // TO DO:                me.pageRouter.history.extend = CORE.main.extend;
+                    // me.pageRouter.extend = CORE.main.extend;  // NOW part of pageRouter object
+                    // me.pageRouter.history.extend = CORE.main.extend; // NOW part of pageRouter History object
                     callback(me, err, me.pageRouter);
                 });
             }
@@ -282,8 +282,8 @@ define(function () {
                     me.model = model; 
                     // Adopted from Backbone
                     // Set up inheritance for the model and collection.
-                    me.model.extend = CORE.main.extend; 
-                    me.model.model.Collection.extend = CORE.main.extend;
+                    // me.model.extend = CORE.main.extend; // NOW part of the model object
+                    // me.model.model.Collection.extend = CORE.main.extend; // NOW part of the model.Collection object
                     callback(me, err, me.model);
             	});
             }

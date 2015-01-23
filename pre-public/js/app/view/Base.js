@@ -106,15 +106,31 @@ define(function () {
         // class properties to be extended.        
         extend: function(protoProps, staticProps) {
             console.log('CORE: viewBase extend(protoProps, staticProps) called');
+
+            console.log('CORE: viewBase extend(protoProps, staticProps): protoProps = '); // FOR TESTING ONLY
+            console.log(protoProps); // FOR TESTING ONLY
+            console.log('CORE: viewBase extend(protoProps, staticProps): staticProps = '); // FOR TESTING ONLY
+            console.log(staticProps); // FOR TESTING ONLY
+
             var parent = this;
+            console.log('CORE: viewBase extend(protoProps, staticProps): parent = '); // FOR TESTING ONLY
+            console.log(parent); // FOR TESTING ONLY
             var child;
             // The constructor function for the new subclass is either defined by you
             // (the "constructor" property in your `extend` definition), or defaulted
             // by us to simply call the parent's constructor.
             if (protoProps && _.has(protoProps, 'constructor')) {
                 child = protoProps.constructor;
+                console.log('CORE: viewBase extend(protoProps, staticProps): child = '); // FOR TESTING ONLY
+                console.log(child); // FOR TESTING ONLY
             } else {
-                child = function(){ return parent.apply(this, arguments); };
+
+                console.log('CORE: viewBase extend(protoProps, staticProps): arguments = '); // FOR TESTING ONLY
+                console.log(arguments); // FOR TESTING ONLY
+
+                child = function(){ return parent.apply(this, arguments); };  // LOOKS LIKE apply IS NOT RECOGNIZED AS A FUNCTION
+                console.log('CORE: viewBase extend(protoProps, staticProps): child = '); // FOR TESTING ONLY
+                console.log(child); // FOR TESTING ONLY
             }
             // Add static properties to the constructor function, if supplied.
             _.extend(child, parent, staticProps);
