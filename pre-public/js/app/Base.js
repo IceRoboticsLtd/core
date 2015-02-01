@@ -31,7 +31,8 @@ define(function () {
         this.$ = $;
         // Runs Base.js in *noConflict* mode, returning the `main` variable
         // to its previous owner. Returns a reference to this mainBase object.
-        mainBase.noConflict = function() {
+        this.noConflict = function() {
+            console.log('CORE: mainBase noConflict() called');
             mainBase = previousMainBase;
             return this;
         };

@@ -43,10 +43,10 @@
         <link rel="stylesheet" type="text/css" media="all" href="<%= css_file_location %>">
 
         <!-- Start of TEMP - move to js/common.js  -->
-        <script src="http://localhost:2000/js/lib/jquery.js"></script>         
-        <script src="http://localhost:2000/js/lib/underscore.js"></script>          
-        <script src="http://localhost:2000/js/lib/backbone.js"></script>        
-        <script src="http://localhost:2000/js/lib/backbone.marionette.js"></script>
+<!--        <script src="http://localhost:2000/js/lib/jquery.js"></script>       -->  
+<!--        <script src="http://localhost:2000/js/lib/underscore.js"></script>   -->       
+<!--        <script src="http://localhost:2000/js/lib/backbone.js"></script>     -->   
+<!--        <script src="http://localhost:2000/js/lib/backbone.marionette.js"></script>  -->
         <!-- End of TEMP -->
 
         <script src="http://localhost:2000/js/lib/respond.min.js"></script>

@@ -92,6 +92,10 @@ define(function () {
         // class properties to be extended.        
         extend: function(protoProps, staticProps) {
             console.log('CORE: modelBase extend(protoProps, staticProps) called');
+            console.log('CORE: modelBase extend(protoProps, staticProps): protoProps =');
+            console.log(protoProps);
+            console.log('CORE: modelBase extend(protoProps, staticProps): staticProps =');
+            console.log(staticProps);
             var parent = this;
             var child;
             // The constructor function for the new subclass is either defined by you
