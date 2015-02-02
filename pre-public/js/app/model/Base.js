@@ -611,9 +611,18 @@ define(function () {
             this.trigger('invalid', this, error, _.extend(options, {validationError: error}));
             return false;
         }// eof Model methods
-
-
-
     };
+    // Adopted from Backbone
+    // Underscore methods that we want to implement on the Model.
+    var modelMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'chain', 'isEmpty'];
+    // Mix in each Underscore method as a proxy to `modelBase#attributes`.
+    _.each(modelMethods, function(method) {
+        if (!_[method]) return;
+        modelBase.prototype[method] = function() {
+            var args = slice.call(arguments);
+            args.unshift(this.attributes);
+            return _[method].apply(_, args);
+        };
+    });
     return modelBase;
 });
