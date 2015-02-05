@@ -1,0 +1,43 @@
+/*
+ * BookLibrary
+ *
+ */
+/////////////////////////// LIBRARIES /////////////////////////////
+/*
+ * BookLibrary
+ * Courtesy: Thibaut Courouble 
+ */ 
+function s(v) { document.getElementById('res').value = v }
+function a(v) { document.getElementById('res').value += v }
+function e() { try { s(eval(document.getElementById('res').value)) } catch(e) { s('Error') } }
+/*
+ * FrameWarp
+ */
+$(function(){
+	// If no url property is passed, the
+	// href attribute will be used
+	$('#close-app').frameWarp();
+});
+/////////////////////////// ON DOCUMENT READY /////////////////////////////
+$(document).ready(function() {
+    console.log('CORE: BookLibrary view BookLibrary: document ready');
+    require([‘../booklibrary/views/booklibrary/Base'], function (Base) {
+        console.log('CORE: BookLibrary called');
+        var d = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = (d + Math.random()*16)%16 | 0;
+            d = Math.floor(d/16);
+            return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+        });    
+        var configs = {
+            // to do
+            themeServer: 'localhost:2000',
+            theme: 'mydefaulttheme'            
+        };
+        var BookLibrary = new Base(uuid, configs);
+
+        global.BookLibrary = BookLibrary; // FOR TESTING IN BROWSER CONSOLE ONLY!!!
+
+        return BookLibrary;         
+    });
+});

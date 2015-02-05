@@ -151,7 +151,38 @@ define(['./Base'], function (Base) {
 						]
 					}					
 				}
-			}
+			}, // eof quizengine
+			'booklibrary': {
+				views: {
+					booklibrary: {
+						htmlSource: '<div class="navbar navbar-fixed-top bs-docs-nav" role="banner"></div><!-- Header starts --><header data-region="header" class="navbar navbar-inverse navbar-fixed-top"><div class="container"><div class="navbar-header"><a href="#list" class="navbar-brand">Book Library</a></div></div></header><!-- Header ends --><!-- Main content starts --><div class="content"><div class="container"><section id="appBody" data-region="body" class="row"><div id="books"><div class="bookContainer"><img src="img/placeholder.png"/><ul><li>Title</li><li>Author</li><li>Release date</li><li>Keywords</li></ul></div></div></section></div></div><!-- Content ends --><!-- Footer starts --><footer data-region="footer" class="row"><p class="col-xs-12 text-muted">Copyright &copy; 2013 Joe Zimmerman. This is an example application used in the book, <em>A Thorough Introduction to MarionetteJS</em>.</p></footer><!-- Footer ends --><!-- Scroll to top --><span class="totop"><a href="#"><i class="fa fa-chevron-up"></i></a></span><templates></templates>',
+						templates: [
+							{
+								'bookTemplate': '<img src="<%= coverImage %>"/><ul><li><%= title %></li><li><%= author %></li><li><%= releaseDate %></li><li><%= keywords %></li></ul>'
+							}
+						],
+						scriptSource: 'js/booklibrary/views/booklibrary/booklibrary.js',
+						subscriptions: [
+							{
+								channel: 'booklibrary',
+								topic: 'doneBookLibrary'
+							}
+						]
+					}
+				},
+				models: {
+					book: {
+						someKey: 'someValue',
+						scriptSource: 'js/booklibrary/models/book/book.js',
+						subscriptions: [
+							{
+								channel: 'booklibrary',
+								topic: 'doBookLibrary'
+							}
+						]
+					}					
+				}
+			} // eof booklibrary
 		}
 	};
     var _Config = new Base(configs);
