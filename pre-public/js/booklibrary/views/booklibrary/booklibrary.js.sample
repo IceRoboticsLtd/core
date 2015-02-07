@@ -21,7 +21,7 @@ $(function(){
 /////////////////////////// ON DOCUMENT READY /////////////////////////////
 $(document).ready(function() {
     console.log('CORE: BookLibrary view BookLibrary: document ready');
-    require([‘../booklibrary/views/booklibrary/Base'], function (Base) {
+    require(['../booklibrary/views/booklibrary/Base'], function (Base) {
         console.log('CORE: BookLibrary called');
         var d = new Date().getTime();
         var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
