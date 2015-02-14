@@ -480,6 +480,15 @@ define(function () {
             console.log("CORE: modelBase previousAttributes() called"); 
             return _.clone(this._previousAttributes);
         },
+        // Wrap an optional error callback with a fallback error event.
+        wrapError: function(model, options) {
+            console.log('CORE: mainBase wrapError(model, options) called'); 
+            var error = options.error;
+            options.error = function(resp) {
+              if (error) error(model, resp, options);
+              model.trigger('error', model, resp, options);
+            };
+        },
         // Fetch the model from the server. If the server's representation of the
         // model differs from its current attributes, they will be overridden,
         // triggering a `"change"` event.
@@ -494,7 +503,7 @@ define(function () {
                 if (success) success(model, resp, options);
                 model.trigger('sync', model, resp, options);
             };
-            wrapError(this, options);
+            this.wrapError(this, options);
             return this.sync('read', this, options);
         },
         // Set a hash of model attributes, and sync the model to the server.
@@ -539,7 +548,7 @@ define(function () {
                 if (success) success(model, resp, options);
                 model.trigger('sync', model, resp, options);
             };
-            wrapError(this, options);
+            this.wrapError(this, options);
             method = this.isNew() ? 'create' : (options.patch ? 'patch' : 'update');
             if (method === 'patch' && !options.attrs) options.attrs = attrs;
             xhr = this.sync(method, this, options);
@@ -568,7 +577,7 @@ define(function () {
                 options.success();
                 return false;
             }
-            wrapError(this, options);
+            this.wrapError(this, options);
             var xhr = this.sync('delete', this, options);
             if (!options.wait) destroy();
             return xhr;
@@ -918,6 +927,15 @@ define(function () {
             console.log("CORE: modelBase Collection pluck(attr) called");
             return _.invoke(this.models, 'get', attr);
         },
+        // Wrap an optional error callback with a fallback error event.
+        wrapError: function(model, options) {
+            console.log('CORE: mainBase wrapError(model, options) called'); 
+            var error = options.error;
+            options.error = function(resp) {
+              if (error) error(model, resp, options);
+              model.trigger('error', model, resp, options);
+            };
+        },
         // Fetch the default set of models for this collection, resetting the
         // collection when they arrive. If `reset: true` is passed, the response
         // data will be passed through the `reset` method instead of `set`.
@@ -933,7 +951,7 @@ define(function () {
                 if (success) success(collection, resp, options);
                 collection.trigger('sync', collection, resp, options);
             };
-            wrapError(this, options);
+            this.wrapError(this, options);
             return this.sync('read', this, options);
         },
         // Create a new instance of a model in this collection. Add the model to the

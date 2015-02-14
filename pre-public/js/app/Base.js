@@ -133,6 +133,103 @@ define(function () {
         	console.log('CORE: mainBase renderView(elementId) called');
         	this.controller.renderView(elementId);
         },
+        // Backbone.sync
+        // -------------
+        // Override this function to change the manner in which Backbone persists
+        // models to the server. You will be passed the type of request, and the
+        // model in question. By default, makes a RESTful Ajax request
+        // to the model's `url()`. Some possible customizations could be:
+        //
+        // * Use `setTimeout` to batch rapid-fire updates into a single request.
+        // * Send up the models as XML instead of JSON.
+        // * Persist models via WebSockets instead of Ajax.
+        //
+        // Turn on `Backbone.emulateHTTP` in order to send `PUT` and `DELETE` requests
+        // as `POST`, with a `_method` parameter containing the true HTTP method,
+        // as well as all requests with the body as `application/x-www-form-urlencoded`
+        // instead of `application/json` with the model in a param named `model`.
+        // Useful when interfacing with server-side languages like **PHP** that make
+        // it difficult to read the body of `PUT` requests.
+        //
+        // Throw an error when a URL is needed, and none is supplied.
+        urlError: function() {
+            console.log('CORE: mainBase urlError() called'); 
+            throw new Error('A "url" property or function must be specified');
+        },
+        // Wrap an optional error callback with a fallback error event.
+        wrapError: function(model, options) {
+            console.log('CORE: mainBase wrapError(model, options) called'); 
+            var error = options.error;
+            options.error = function(resp) {
+              if (error) error(model, resp, options);
+              model.trigger('error', model, resp, options);
+            };
+        },
+        sync: function(method, model, options) {
+            console.log('CORE: mainBase sync(method, model, options) called');             
+            var type = methodMap[method];
+            // Default options, unless specified.
+            _.defaults(options || (options = {}), {
+              emulateHTTP: this.emulateHTTP,
+              emulateJSON: this.emulateJSON
+            });
+            // Default JSON-request options.
+            var params = {type: type, dataType: 'json'};
+            // Ensure that we have a URL.
+            if (!options.url) {
+              params.url = _.result(model, 'url') || this.urlError();
+            }
+            // Ensure that we have the appropriate request data.
+            if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
+              params.contentType = 'application/json';
+              params.data = JSON.stringify(options.attrs || model.toJSON(options));
+            }
+            // For older servers, emulate JSON by encoding the request into an HTML-form.
+            if (options.emulateJSON) {
+              params.contentType = 'application/x-www-form-urlencoded';
+              params.data = params.data ? {model: params.data} : {};
+            }
+            // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
+            // And an `X-HTTP-Method-Override` header.
+            if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) {
+              params.type = 'POST';
+              if (options.emulateJSON) params.data._method = type;
+              var beforeSend = options.beforeSend;
+              options.beforeSend = function(xhr) {
+                xhr.setRequestHeader('X-HTTP-Method-Override', type);
+                if (beforeSend) return beforeSend.apply(this, arguments);
+              };
+            }
+            // Don't process data on a non-GET request.
+            if (params.type !== 'GET' && !options.emulateJSON) {
+              params.processData = false;
+            }
+            // Pass along `textStatus` and `errorThrown` from jQuery.
+            var error = options.error;
+            options.error = function(xhr, textStatus, errorThrown) {
+              options.textStatus = textStatus;
+              options.errorThrown = errorThrown;
+              if (error) error.apply(this, arguments);
+            };
+            // Make the request, allowing the user to override any Ajax options.
+            var xhr = options.xhr = this.ajax(_.extend(params, options));
+            model.trigger('request', model, xhr, options);
+            return xhr;
+        },
+        // Map from CRUD to HTTP for our default `Backbone.sync` implementation.
+        methodMap: {
+            'create': 'POST',
+            'update': 'PUT',
+            'patch':  'PATCH',
+            'delete': 'DELETE',
+            'read':   'GET'
+        },
+        // Set the default implementation of `Backbone.ajax` to proxy through to `$`.
+        // Override this if you'd like to use a different library.
+        ajax: function() {
+            console.log('CORE: mainBase ajax() called');    
+            return this.$.ajax.apply(this.$, arguments);
+        },
         readyController: function(me, callback) {
         	console.log('CORE: mainBase readyController(me, callback) called');
         	var err = null;

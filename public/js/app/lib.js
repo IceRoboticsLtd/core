@@ -1,1 +1,0 @@
-define(["jquery"],function(e){return console.log("CORE: lib called"),{getBody:function(){return console.log("CORE: lib getBody called"),e("body")}}});
