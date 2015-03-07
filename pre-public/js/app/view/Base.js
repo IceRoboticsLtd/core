@@ -111,51 +111,6 @@ define(function () {
                 console.log('CORE: viewBase renderView(elementId) error:');
                 console.log(e);
             }
-        },   
-        // Adopted from Backbone
-        // Helpers
-        // -------
-        // Helper function to correctly set up the prototype chain, for subclasses.
-        // Similar to `goog.inherits`, but uses a hash of prototype properties and
-        // class properties to be extended.        
-        extend: function(protoProps, staticProps) {
-            console.log('CORE: viewBase extend(protoProps, staticProps) called');
-            console.log('CORE: viewBase extend(protoProps, staticProps): protoProps = '); // FOR TESTING ONLY
-            console.log(protoProps); // FOR TESTING ONLY
-            console.log('CORE: viewBase extend(protoProps, staticProps): staticProps = '); // FOR TESTING ONLY
-            console.log(staticProps); // FOR TESTING ONLY
-            var parent = this;
-            console.log('CORE: viewBase extend(protoProps, staticProps): parent = '); // FOR TESTING ONLY
-            console.log(parent); // FOR TESTING ONLY
-            var child;
-            // The constructor function for the new subclass is either defined by you
-            // (the "constructor" property in your `extend` definition), or defaulted
-            // by us to simply call the parent's constructor.
-            if (protoProps && _.has(protoProps, 'constructor')) {
-                child = protoProps.constructor;
-                console.log('CORE: viewBase extend(protoProps, staticProps): child = '); // FOR TESTING ONLY
-                console.log(child); // FOR TESTING ONLY
-            } else {
-                console.log('CORE: viewBase extend(protoProps, staticProps): arguments = '); // FOR TESTING ONLY
-                console.log(arguments); // FOR TESTING ONLY
-                child = function(){ return parent.apply(this, arguments); };  // LOOKS LIKE apply IS NOT RECOGNIZED AS A FUNCTION
-                console.log('CORE: viewBase extend(protoProps, staticProps): child = '); // FOR TESTING ONLY
-                console.log(child); // FOR TESTING ONLY
-            }
-            // Add static properties to the constructor function, if supplied.
-            _.extend(child, parent, staticProps);
-            // Set the prototype chain to inherit from `parent`, without calling
-            // `parent`'s constructor function.
-            var Surrogate = function(){ this.constructor = child; };
-            Surrogate.prototype = parent.prototype;
-            child.prototype = new Surrogate;
-            // Add prototype properties (instance properties) to the subclass,
-            // if supplied.
-            if (protoProps) _.extend(child.prototype, protoProps);
-            // Set a convenience property in case the parent's prototype is needed
-            // later.
-            child.__super__ = parent.prototype;
-            return child;
         },
         // Adopted from Backbone
         // Cached regex to split keys for `delegate`.

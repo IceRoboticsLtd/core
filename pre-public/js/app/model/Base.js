@@ -25,6 +25,9 @@ define(function () {
         this.set(attrs, options);
         this.changed = {};
         this.initialize.apply(this, arguments);
+		
+		// Backbone's extend function is now within CORE.main
+		
         // Allow the `Backbone` object to serve as a global event bus, for folks who
         // want global "pubsub" in a convenient place.
     //    _.extend(Backbone, Events);  // We probably don't want this dependency on Backbone
@@ -94,43 +97,6 @@ define(function () {
                 console.log('CORE: modelBase renderModel() error:');
                 console.log(e);
             }
-        },
-        // Adopted from Backbone
-        // Helpers
-        // -------
-        // Helper function to correctly set up the prototype chain, for subclasses.
-        // Similar to `goog.inherits`, but uses a hash of prototype properties and
-        // class properties to be extended.        
-        extend: function(protoProps, staticProps) {
-            console.log('CORE: modelBase extend(protoProps, staticProps) called');
-            console.log('CORE: modelBase extend(protoProps, staticProps): protoProps =');
-            console.log(protoProps);
-            console.log('CORE: modelBase extend(protoProps, staticProps): staticProps =');
-            console.log(staticProps);
-            var parent = this;
-            var child;
-            // The constructor function for the new subclass is either defined by you
-            // (the "constructor" property in your `extend` definition), or defaulted
-            // by us to simply call the parent's constructor.
-            if (protoProps && _.has(protoProps, 'constructor')) {
-                child = protoProps.constructor;
-            } else {
-                child = function(){ return parent.apply(this, arguments); };
-            }
-            // Add static properties to the constructor function, if supplied.
-            _.extend(child, parent, staticProps);
-            // Set the prototype chain to inherit from `parent`, without calling
-            // `parent`'s constructor function.
-            var Surrogate = function(){ this.constructor = child; };
-            Surrogate.prototype = parent.prototype;
-            child.prototype = new Surrogate;
-            // Add prototype properties (instance properties) to the subclass,
-            // if supplied.
-            if (protoProps) _.extend(child.prototype, protoProps);
-            // Set a convenience property in case the parent's prototype is needed
-            // later.
-            child.__super__ = parent.prototype;
-            return child;
         },
         // Adopted from Backbone
         //
