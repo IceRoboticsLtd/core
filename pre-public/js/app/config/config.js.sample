@@ -180,6 +180,16 @@ define(['./Base'], function (Base) {
 								topic: 'doBookLibrary'
 							}
 						]
+					},
+					library: {
+						someKey: 'someValue',
+						scriptSource: 'js/booklibrary/models/library/library.js',
+						subscriptions: [
+							{
+								channel: 'booklibrary',
+								topic: 'doBookLibrary'
+							}
+						]
 					}					
 				}
 			} // eof booklibrary
