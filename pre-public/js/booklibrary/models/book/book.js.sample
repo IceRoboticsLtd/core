@@ -4,7 +4,7 @@
 /////////////////////////// ON DOCUMENT READY /////////////////////////////
 $(document).ready(function() {
     console.log('CORE: booklibrary model Book: document ready');
-    require(['../booklibrary/models/Book/Base'], function (Base) {
+    require(['../booklibrary/models/book/Base'], function (Base) {
         console.log('CORE: Book called');
         var d = new Date().getTime();
         var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

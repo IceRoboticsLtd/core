@@ -15,6 +15,10 @@ define(function () {
 				keywords:"None"
 			}
 		});
+		
+		alert("Hello from BookBase: Book = "); // FOR TESTING ONLY
+		alert(Book);
+		
     };
     BookBase.prototype = {
         getConfigs: function () {
