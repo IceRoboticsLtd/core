@@ -23,7 +23,8 @@ module.exports.configs = {
 	}, // put your actions here	
 	model_list: {
 		'individual': true,
-		'book': true
+		'book': true,
+		'library': true
 	}, // put your models here	
 	format_list: {
 		'json':true	
