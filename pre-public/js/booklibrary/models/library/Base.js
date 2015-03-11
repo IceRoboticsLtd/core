@@ -10,6 +10,10 @@ define(function () {
 		var Library = CORE.main.model.Main.Collection.extend({
 			model:Book
 		});
+		
+		alert("Hello from LibraryBase: Library = "); // FOR TESTING ONLY
+		alert(Library);
+		
     };
     LibraryBase.prototype = {
         getConfigs: function () {
