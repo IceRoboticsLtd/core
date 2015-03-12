@@ -109,7 +109,16 @@ define(function () {
 		alert("Hello from BookLibraryBase: BookView = "); // FOR TESTING ONLY
 		alert(BookView);
 		alert("Hello from BookLibraryBase: LibraryView = "); // FOR TESTING ONLY
-		alert(LibraryView);		
+		alert(LibraryView);	
+
+		// NOTE: books are data and should probably be kept in a module other than this. TO DO: move
+		var books = [{title:"JS the good parts", author:"John Doe", releaseDate:"2012", keywords:"JavaScript Programming"},
+        {title:"CS the better parts", author:"John Doe", releaseDate:"2012", keywords:"CoffeeScript Programming"},
+        {title:"Scala for the impatient", author:"John Doe", releaseDate:"2012", keywords:"Scala Programming"},
+        {title:"American Psyco", author:"Bret Easton Ellis", releaseDate:"2012", keywords:"Novel Splatter"},
+        {title:"Eloquent JavaScript", author:"John Doe", releaseDate:"2012", keywords:"JavaScript Programming"}];
+		
+		var libraryView = new LibraryView(); // Can only work if book and library model are known
 		
     };
     bookLibraryBase.prototype = {
