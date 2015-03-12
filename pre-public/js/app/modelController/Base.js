@@ -134,7 +134,15 @@ define(function () {
 	    },	    
         renderModel: function () {
 			console.log('CORE: modelControllerBase renderModel() called');    	
-			this.loadedModel.renderModel(); // NOTE: Use the loaded Model !!
+			//OLD
+			//this.loadedModel.renderModel(); // NOTE: Use the loaded Model !!
+			//NEW
+			for (key in this.modelArray) {    // NOTE: Use all Models as they can be required by the loaded View (e.g. BookLibraryView requires Book and Library Model)
+				console.log('CORE: modelControllerBase model ' + key + ' in modelArray');
+	        	var model = this.modelArray[key];
+	        	console.log(model);
+	        	model.renderModel();
+			}
         }
     };
     return modelControllerBase;
