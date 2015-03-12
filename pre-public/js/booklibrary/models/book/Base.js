@@ -15,10 +15,7 @@ define(function () {
 				keywords:"None"
 			}
 		});
-		
-		alert("Hello from BookBase: Book = "); // FOR TESTING ONLY
-		alert(Book);
-		
+		this.Model = Book; // Assign Book to Model
     };
     BookBase.prototype = {
         getConfigs: function () {

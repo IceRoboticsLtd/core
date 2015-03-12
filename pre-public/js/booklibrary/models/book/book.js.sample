@@ -16,9 +16,7 @@ $(document).ready(function() {
             // to do
         };
         var Book = new Base(uuid, configs);
-
-        global.Book = Book; // FOR TESTING IN BROWSER CONSOLE ONLY!!!
-
+		CORE.main.models.Book = Book;
         return Book;         
     });
 });

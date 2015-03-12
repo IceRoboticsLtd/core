@@ -37,7 +37,7 @@ define(function () {
 			//This function will be called by Backbone when the view constructor is called		
 			initialize:function(){
 				//Create a new Library (collection of Book models) and store it in a local property called “collection”.
-				this.collection = new Library(books);
+				this.collection = new CORE.main.models.Library.Model(books);
 				//It call its own render function, which means that as soon as we call the LibraryView constructor it will get rendered, so this is a self rendering view. 
 				//We don’t have to make it self rendered but it is common practice.
 				this.render();
@@ -73,7 +73,7 @@ define(function () {
 				});
 				books.push(formData);
 				//We then create a new Book model and add it to our collection.
-				this.collection.add(new Book(formData));
+				this.collection.add(new CORE.main.models.Book.Model(formData));
 			},
 			removeBook: function(removedBook){
 				var removedBookData = removedBook.attributes;
@@ -106,11 +106,6 @@ define(function () {
 			}
 		});
 		
-		alert("Hello from BookLibraryBase: BookView = "); // FOR TESTING ONLY
-		alert(BookView);
-		alert("Hello from BookLibraryBase: LibraryView = "); // FOR TESTING ONLY
-		alert(LibraryView);	
-
 		// NOTE: books are data and should probably be kept in a module other than this. TO DO: move
 		var books = [{title:"JS the good parts", author:"John Doe", releaseDate:"2012", keywords:"JavaScript Programming"},
         {title:"CS the better parts", author:"John Doe", releaseDate:"2012", keywords:"CoffeeScript Programming"},
@@ -118,7 +113,7 @@ define(function () {
         {title:"American Psyco", author:"Bret Easton Ellis", releaseDate:"2012", keywords:"Novel Splatter"},
         {title:"Eloquent JavaScript", author:"John Doe", releaseDate:"2012", keywords:"JavaScript Programming"}];
 		
-		var libraryView = new LibraryView(); // Can only work if book and library model are known
+		var libraryView = new LibraryView(); // Should probably be moved to viewController
 		
     };
     bookLibraryBase.prototype = {

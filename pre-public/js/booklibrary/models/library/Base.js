@@ -8,12 +8,9 @@ define(function () {
         this.configs = configs;
 		//Library is a Backbone collection that expects an array of  objects that it can use to create Book models.
 		var Library = CORE.main.model.Main.Collection.extend({
-			model:Book
+			model:CORE.main.models.Book.Model
 		});
-		
-		alert("Hello from LibraryBase: Library = "); // FOR TESTING ONLY
-		alert(Library);
-		
+		this.Model = Library; // Assign Library to Model
     };
     LibraryBase.prototype = {
         getConfigs: function () {

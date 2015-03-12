@@ -17,6 +17,8 @@ define(function () {
 	        mocha = require('mocha'),
 	        jquerypp = require('jquerypp.custom'),
 	        framewarp = require('framewarp');
+		this.models = []; // object to contain models
+		this.views = []; // object to contain views
     };
     mainBase.prototype = {
         setLib: function(lib) {

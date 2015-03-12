@@ -16,9 +16,7 @@ $(document).ready(function() {
             // to do
         };
         var Library = new Base(uuid, configs);
-
-        global.Library = Library; // FOR TESTING IN BROWSER CONSOLE ONLY!!!
-
+		CORE.main.models.Library = Library;
         return Library;         
     });
 });

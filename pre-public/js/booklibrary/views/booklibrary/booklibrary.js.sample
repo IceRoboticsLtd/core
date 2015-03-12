@@ -35,9 +35,7 @@ $(document).ready(function() {
             theme: 'mydefaulttheme'            
         };
         var BookLibrary = new Base(uuid, configs);
-
-        global.BookLibrary = BookLibrary; // FOR TESTING IN BROWSER CONSOLE ONLY!!!
-
+		CORE.main.views.BookLibrary = BookLibrary;
         return BookLibrary;         
     });
 });
