@@ -180,11 +180,7 @@ define(function () {
                 me.require(['../app/pageRouter/pageRouter'], function (pageRouter) {
                     console.log('CORE: mainBase: pageRouter required');
                     console.log(pageRouter);
-                    me.pageRouter = pageRouter; 
-                    // Adopted from Backbone
-                    // Set up inheritance for the router and history.
-                    // me.pageRouter.extend = CORE.main.extend;  // NOW part of pageRouter object
-                    // me.pageRouter.history.extend = CORE.main.extend; // NOW part of pageRouter History object
+                    me.pageRouter = pageRouter;
                     callback(me, err, me.pageRouter);
                 });
             }
@@ -252,11 +248,7 @@ define(function () {
 				me.require(['../app/model/model'], function (model) {
                     console.log('CORE: mainBase: model required');
                     console.log(model);
-                    me.model = model; 
-                    // Adopted from Backbone
-                    // Set up inheritance for the model and collection.
-                    // me.model.extend = CORE.main.extend; // NOW part of the model object
-                    // me.model.model.Collection.extend = CORE.main.extend; // NOW part of the model.Collection object
+                    me.model = model;
                     callback(me, err, me.model);
             	});
             }
@@ -324,10 +316,7 @@ define(function () {
 				me.require(['../app/view/view'], function (view) {
                     console.log('CORE: mainBase: view required');
                     console.log(view);
-                    me.view = view; 
-                    // Adopted from Backbone
-                    // Set up inheritance for the view.
-                    // me.view.extend = CORE.main.extend; // NOW implemented in view object itself
+                    me.view = view;
                     callback(me, err, me.view);
             	});
             }
