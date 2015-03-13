@@ -75,6 +75,13 @@ define(function () {
 				books.push(formData);
 				//We then create a new Book model and add it to our collection.
 				this.collection.add(new CORE.main.models.Book.Model(formData));
+				//Empty the form fields
+				$("#addBook div").children("input").each(function(i, el){
+					//Check to see if the field value is not empty, in which case we need to empty it.
+					if ($(el).val() !== "") {
+						$(el).val(''); //empties the value
+					}
+				});		
 			},
 			removeBook: function(removedBook){
 				var removedBookData = removedBook.attributes;
