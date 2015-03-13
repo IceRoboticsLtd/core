@@ -6,6 +6,7 @@ define(function () {
     function bookLibraryBase(id, configs) {
         this.id = id;
         this.configs = configs;
+		this.view = []; // default
 		var BookView = CORE.main.view.Main.View.extend({
 			tagName:"div",
 			className:"bookContainer",
@@ -113,14 +114,23 @@ define(function () {
         {title:"American Psyco", author:"Bret Easton Ellis", releaseDate:"2012", keywords:"Novel Splatter"},
         {title:"Eloquent JavaScript", author:"John Doe", releaseDate:"2012", keywords:"JavaScript Programming"}];
 		
-		var libraryView = new LibraryView(); // Should probably be moved to viewController
+		this.view = LibraryView; // assign this view to the view property
+		
+//		var libraryView = new LibraryView(); // Should probably be moved to viewController		
+		
+		// NOTE: momentarily this view can be shown in the browser by typing in the browser console
+		// var bookLibrary = new CORE.main.views.BookLibrary.view();
 		
     };
     bookLibraryBase.prototype = {
         getConfigs: function () {
             console.log('CORE: bookLibraryBase getConfigs() called');            
             return this.configs;
-        }
+        },
+		getView: function() {
+			console.log('CORE: bookLibraryBase getView() called');
+			return this.view;
+		}
     };
     return bookLibraryBase;
 });
