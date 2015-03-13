@@ -66,7 +66,7 @@ define(function () {
 				//Here I select all the input elements the form and iterate over them using jQuerys each. 
 				//Since we used the same names for ids in our form as the keys on our Book model we can simply store them directly in the formData object and the add it to the books array. 
 				var formData = {};
-				$("#addBook div").children("input").each(function(i, el){
+				$("#addBook fieldset").children("input").each(function(i, el){
 					//Check to see if the field value is empty, in which case we do not add it to the model data.
 					if ($(el).val() !== "") {
 						formData[el.id] = $(el).val();
