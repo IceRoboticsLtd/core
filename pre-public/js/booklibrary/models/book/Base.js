@@ -2,13 +2,13 @@
  * BookBase
  */
 define(function () {
-    console.log('CORE: BookBase called');	
+    console.log('CORE: BookBase called');
     function BookBase(id, configs) {
         this.id = id;
         this.configs = configs;
 		var Book = CORE.main.model.Main.Model.extend({
 			defaults:{
-				coverImage:"http://localhost:4000/img/placeholder.png",
+				coverImage:"http://localhost:2000/pages/booklibrary/img/placeholder.png",
 				title:"No title",
 				author:"Unknown",
 				releaseDate:"Unknown",
@@ -19,7 +19,7 @@ define(function () {
     };
     BookBase.prototype = {
         getConfigs: function () {
-            console.log('CORE: BookBase getConfigs() called');            
+            console.log('CORE: BookBase getConfigs() called');
             return this.configs;
         }
     };
