@@ -2,11 +2,11 @@
  * ViewBase
  */
 define(function () {
-    console.log('CORE: viewBase called');   
-    function viewBase(id, options) { // Extended with options for Backbone adopted 
+    console.log('CORE: viewBase called');
+    function viewBase(id, options) { // Extended with options for Backbone adopted
 		var Main = this.Main = []; // surrogate for: Backbone
         this.id = id;
-        this.keyValuePairs = {};  
+        this.keyValuePairs = {};
         // Adopted from Backbone
         // Save the previous value of the `Main` variable, so that it can be
         // restored later on, if `noConflict` is used.
@@ -137,10 +137,10 @@ define(function () {
 				return this;
 			}
 		};
-        // Adopted from Backbone		
+        // Adopted from Backbone
 		// Regular expression used to split event strings.
-		var eventSplitter = /\s+/;		
-        // Adopted from Backbone	
+		var eventSplitter = /\s+/;
+        // Adopted from Backbone
 		// Implement fancy features of the Events API such as multiple event
 		// names `"change blur"` and jQuery-style event maps `{change: action}`
 		// in terms of the existing API.
@@ -181,7 +181,7 @@ define(function () {
 		};
         // Adopted from Backbone
 		var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
-        // Adopted from Backbone		
+        // Adopted from Backbone
 		// Inversion-of-control versions of `on` and `once`. Tell *this* object to
 		// listen to an event in another object ... keeping track of what it's
 		// listening to.
@@ -203,7 +203,7 @@ define(function () {
 		// Allow the `Backbone` object to serve as a global event bus, for folks who
 		// want global "pubsub" in a convenient place.
 		_.extend(Main, Events);
-        // Adopted from Backbone		
+        // Adopted from Backbone
 		// Backbone.View
 		// -------------
 		// Backbone Views are almost more convention than they are actual code. A View
@@ -229,10 +229,10 @@ define(function () {
         // Adopted from Backbone
 		// Cached regex to split keys for `delegate`.
 		var delegateEventSplitter = /^(\S+)\s*(.*)$/;
-        // Adopted from Backbone		
+        // Adopted from Backbone
 		// List of view options to be merged as properties.
 		var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
-        // Adopted from Backbone		
+        // Adopted from Backbone
 		// Set up all inheritable **Backbone.View** properties and methods.
 		_.extend(View.prototype, Events, {
 			// The default `tagName` of a View's element is `"div"`.
@@ -244,16 +244,20 @@ define(function () {
 			},
 			// Initialize is an empty function by default. Override it with your own
 			// initialization logic.
-			initialize: function(){},
+			initialize: function(){
+        console.log('CORE: viewBase initialize() called');
+      },
 			// **render** is the core function that your view should override, in order
 			// to populate its element (`this.el`), with the appropriate HTML. The
 			// convention is for **render** to always return `this`.
 			render: function() {
+        console.log('CORE: viewBase render() called');
 				return this;
 			},
 			// Remove this view by taking the element out of the DOM, and removing any
 			// applicable Backbone.Events listeners.
 			remove: function() {
+        console.log('CORE: viewBase remove() called');
 				this.$el.remove();
 				this.stopListening();
 				return this;
@@ -261,6 +265,7 @@ define(function () {
 			// Change the view's element (`this.el` property), including event
 			// re-delegation.
 			setElement: function(element, delegate) {
+        console.log('CORE: viewBase setElement(element, delegate) called');
 				if (this.$el) this.undelegateEvents();
 				this.$el = element instanceof Main.$ ? element : Main.$(element);
 				this.el = this.$el[0];
@@ -323,14 +328,14 @@ define(function () {
 					this.setElement(_.result(this, 'el'), false);
 				}
 			}
-		});	
-        // Adopted from Backbone		
+		});
+        // Adopted from Backbone
 		// Backbone.Router
 		// ---------------
 		// Routers map faux-URLs to actions, and fire events when routes are
 		// matched. Creating a new one sets its `routes` hash, if not set statically.
 		var Router = Main.Router = function(options) {
-			console.log('CORE: viewBase Router(options) called');		
+			console.log('CORE: viewBase Router(options) called');
 			console.log('CORE: viewBase Router(options) options = ');
 			console.log(options);
 			options || (options = {});
@@ -454,7 +459,7 @@ define(function () {
         // Adopted from Backbone
 		// Has the history handling already been started?
 		History.started = false;
-        // Adopted from Backbone		
+        // Adopted from Backbone
 		// Set up all inheritable **Backbone.History** properties and methods.
 		_.extend(History.prototype, Events, {
 			// The default interval to poll for hash changes, if necessary, is
@@ -631,7 +636,7 @@ define(function () {
         // -------
         // Helper function to correctly set up the prototype chain, for subclasses.
         // Similar to `goog.inherits`, but uses a hash of prototype properties and
-        // class properties to be extended.        
+        // class properties to be extended.
         var extend = function(protoProps, staticProps) {
             console.log('CORE: viewBase extend(protoProps, staticProps) called');
             console.log('CORE: viewBase extend(protoProps, staticProps): protoProps =');
@@ -662,20 +667,20 @@ define(function () {
             // later.
             child.__super__ = parent.prototype;
             return child;
-        };	
-        // Adopted from Backbone		
+        };
+        // Adopted from Backbone
 		// Set up inheritance for the router, view and history.
 		Router.extend = View.extend = History.extend = extend;
         // Adopted from Backbone
         // Throw an error when a URL is needed, and none is supplied.
         var urlError = function() {
-            console.log('CORE: viewBase urlError() called');            
+            console.log('CORE: viewBase urlError() called');
             throw new Error('A "url" property or function must be specified');
         };
         // Adopted from Backbone
         // Wrap an optional error callback with a fallback error event.
         var wrapError = function(model, options) {
-            console.log('CORE: viewBase wrapError(model, options) called');        
+            console.log('CORE: viewBase wrapError(model, options) called');
             var error = options.error;
             options.error = function(resp) {
                 if (error) error(model, resp, options);
@@ -683,7 +688,7 @@ define(function () {
             };
         };
     };
-    viewBase.prototype = {       
+    viewBase.prototype = {
         getValue: function (key) {
             console.log('CORE: viewBase getValue(key) called');
             console.log('key = ' + key);
@@ -706,22 +711,22 @@ define(function () {
             return value;
         },
         setValue: function (key, value) {
-            console.log('CORE: viewBase setValue(key, value) called'); 
-            // To Do: search for key in keyValuePairs and updated its value           
+            console.log('CORE: viewBase setValue(key, value) called');
+            // To Do: search for key in keyValuePairs and updated its value
             // value = value;
         },
         getKeyValuePairs: function () {
-            console.log('CORE: viewBase getKeyValuePairs() called');             
+            console.log('CORE: viewBase getKeyValuePairs() called');
             return this.keyValuePairs;
         },
         setKeyValuePairs: function (keyValuePairs) {
-            console.log('CORE: viewBase setKeyValuePairs(keyValuePairs) called');         
+            console.log('CORE: viewBase setKeyValuePairs(keyValuePairs) called');
             this.keyValuePairs = keyValuePairs;
-        },      
+        },
         setViewService: function (viewService) {
             console.log('CORE: viewBase setViewService(viewService) called');
             // The view instance has a property called "viewService"
-            // created from the viewService.                
+            // created from the viewService.
             this.viewService = viewService;
         },
         // A view might have a function that returns the rendered output.
@@ -748,9 +753,9 @@ define(function () {
                 console.log("CORE: templates = ");
                 console.log(templates);
                 for(key in templates) {
-                    var templateTag = document.createElement('script');                
+                    var templateTag = document.createElement('script');
                     // Add the templates of the view
-                    templateTag.type = "text/template";    
+                    templateTag.type = "text/template";
                     templateTag.id = key; // Use key value from templates collection as the id
                     templateTag.innerHTML = templates[key];
                     console.log("CORE: template templateTag = ");
