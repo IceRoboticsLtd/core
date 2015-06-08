@@ -50,7 +50,7 @@
     "grunt-cli": ">=0.1.11",
     "ejs": "*",
     "mime": "^1.3.4",
-    "tacit-server": "^1.0.8003"
+    "tacit-server": "^1.0.8007"
   },
   "devDependencies": {
     "grunt-contrib-uglify": "0.1.1",
