@@ -10,13 +10,13 @@
         <meta http-equiv="Access-Control-Allow-Origin" content="<%= access_control_allow_origin %>" />
         <meta http-equiv="Access-Control-Allow-Methods" content="GET, POST, PUT" />
         <!-- Favicon -->
-        <link rel="shortcut icon" type"image/x-icon" href="http://localhost:2000/themes/mydefaulttheme/img/favicon/favicon.png" />
-        <link rel="shortcut icon" type"image/png" href="http://localhost:2000/themes/mydefaulttheme/img/favicon/favicon.png" />
+        <link rel="shortcut icon" type"image/x-icon" href="<%= theme_server_value %>/themes/mydefaulttheme/img/favicon/favicon.png" />
+        <link rel="shortcut icon" type"image/png" href="<%= theme_server_value %>/themes/mydefaulttheme/img/favicon/favicon.png" />
         <!--[if IE]>
-            <link rel="shortcut icon" href="http://localhost:2000/themes/mydefaulttheme/img/favicon/favicon.ico" />
+            <link rel="shortcut icon" href="<%= theme_server_value %>/themes/mydefaulttheme/img/favicon/favicon.ico" />
         <![endif]-->
         <!-- Stylesheets -->
-        <link href="http://localhost:2000/themes/mydefaulttheme/css/bootstrap.min.css" rel="stylesheet">
+        <link href="<%= theme_server_value %>/themes/mydefaulttheme/css/bootstrap.min.css" rel="stylesheet">
         <!-- Font awesome icon -->
         <link rel="stylesheet" href="http://localhost:2000/themes/mydefaulttheme/css/font-awesome.min.css">
         <!-- jQuery UI -->
@@ -43,9 +43,9 @@
         <link rel="stylesheet" type="text/css" media="all" href="<%= css_file_location %>">
 
         <!-- Start of TEMP - move to js/common.js  -->
-<!--        <script src="http://localhost:2000/js/lib/jquery.js"></script>       -->  
-<!--        <script src="http://localhost:2000/js/lib/underscore.js"></script>   -->       
-<!--        <script src="http://localhost:2000/js/lib/backbone.js"></script>     -->   
+<!--        <script src="http://localhost:2000/js/lib/jquery.js"></script>       -->
+<!--        <script src="http://localhost:2000/js/lib/underscore.js"></script>   -->
+<!--        <script src="http://localhost:2000/js/lib/backbone.js"></script>     -->
 <!--        <script src="http://localhost:2000/js/lib/backbone.marionette.js"></script>  -->
         <!-- End of TEMP -->
 
@@ -61,11 +61,11 @@
                 elem = elem || document.createElement('script');
                 elem.async = elem.defer = async;
                 elem.src = src;
-                console.log('CORE: elem = ' + elem);                
+                console.log('CORE: elem = ' + elem);
                 if(callback) {
                     if(elem.readyState) {
                         console.log('CORE: elem.readyState is true');
-                        // IE 
+                        // IE
                         elem.onreadystatechange = function() {
                             if(elem.readyState == "loaded" || elem.readyState == "complete") {
                                 elem.onreadystatechange = null;
@@ -118,7 +118,7 @@
                          // It can then be accessed like so: window.CORE.main
                          console.log('CORE: page: global window.CORE.main');
                          window.CORE = {};
-                         window.CORE.main = main; 
+                         window.CORE.main = main;
                          // Call ready()
                          console.log('CORE: page: main.ready()');
                          main.ready();
@@ -153,19 +153,19 @@
                     -webkit-animation-name: first;
                     -webkit-animation-duration: 0.5s;
                     -webkit-animation-iteration-count: infinite;
-                    -webkit-animation-direction: linear;            
+                    -webkit-animation-direction: linear;
                 }
                 #second {
                     -webkit-animation-name: second;
                     -webkit-animation-duration: 0.5s;
                     -webkit-animation-iteration-count: infinite;
-                    -webkit-animation-direction: linear;            
+                    -webkit-animation-direction: linear;
                 }
                 #third {
                     -webkit-animation-name: third;
                     -webkit-animation-duration: 0.5s;
                     -webkit-animation-iteration-count: infinite;
-                    -webkit-animation-direction: linear;            
+                    -webkit-animation-direction: linear;
                 }
                 #loadingIndicator div {
                     background-color: #FFFFFF;
@@ -233,7 +233,7 @@
                         opacity: 0.0
                     }
                 }
-            </style>            
+            </style>
             <div id="loadingIndicator">
                 <p>LOADING</p>
                 <div id="first"></div>
