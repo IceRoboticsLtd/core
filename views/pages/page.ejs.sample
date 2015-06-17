@@ -18,38 +18,38 @@
         <!-- Stylesheets -->
         <link href="<%= theme_server_value %>/themes/mydefaulttheme/css/bootstrap.min.css" rel="stylesheet">
         <!-- Font awesome icon -->
-        <link rel="stylesheet" href="http://localhost:2000/themes/mydefaulttheme/css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%= theme_server_value %>/themes/mydefaulttheme/css/font-awesome.min.css">
         <!-- jQuery UI -->
-        <link rel="stylesheet" href="http://localhost:2000/themes/mydefaulttheme/css/jquery-ui.css">
+        <link rel="stylesheet" href="<%= theme_server_value %>/themes/mydefaulttheme/css/jquery-ui.css">
         <!-- Calendar -->
-        <link rel="stylesheet" href="http://localhost:2000/themes/mydefaulttheme/css/fullcalendar.css">
+        <link rel="stylesheet" href="<%= theme_server_value %>/themes/mydefaulttheme/css/fullcalendar.css">
         <!-- prettyPhoto -->
-        <link rel="stylesheet" href="http://localhost:2000/themes/mydefaulttheme/css/prettyPhoto.css">
+        <link rel="stylesheet" href="<%= theme_server_value %>/themes/mydefaulttheme/css/prettyPhoto.css">
         <!-- Star rating -->
-        <link rel="stylesheet" href="http://localhost:2000/themes/mydefaulttheme/css/rateit.css">
+        <link rel="stylesheet" href="<%= theme_server_value %>themes/mydefaulttheme/css/rateit.css">
         <!-- Date picker -->
-        <link rel="stylesheet" href="http://localhost:2000/themes/mydefaulttheme/css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" href="<%= theme_server_value %>/themes/mydefaulttheme/css/bootstrap-datetimepicker.min.css">
         <!-- CLEditor -->
-        <link rel="stylesheet" href="http://localhost:2000/themes/mydefaulttheme/css/jquery.cleditor.css">
+        <link rel="stylesheet" href="<%= theme_server_value %>/themes/mydefaulttheme/css/jquery.cleditor.css">
         <!-- Data tables -->
-        <link rel="stylesheet" href="http://localhost:2000/themes/mydefaulttheme/css/jquery.dataTables.css">
+        <link rel="stylesheet" href="<%= theme_server_value %>/themes/mydefaulttheme/css/jquery.dataTables.css">
         <!-- Bootstrap toggle -->
-        <link rel="stylesheet" href="http://localhost:2000/themes/mydefaulttheme/css/jquery.onoff.css">
+        <link rel="stylesheet" href="<%= theme_server_value %>/themes/mydefaulttheme/css/jquery.onoff.css">
         <!-- Main stylesheet -->
-        <link href="http://localhost:2000/themes/mydefaulttheme/css/style.css" rel="stylesheet">
+        <link href="<%= theme_server_value %>/themes/mydefaulttheme/css/style.css" rel="stylesheet">
         <!-- Widgets stylesheet -->
-        <link href="http://localhost:2000/themes/mydefaulttheme/css/widgets.css" rel="stylesheet">
+        <link href="<%= theme_server_value %>/themes/mydefaulttheme/css/widgets.css" rel="stylesheet">
 
         <link rel="stylesheet" type="text/css" media="all" href="<%= css_file_location %>">
 
         <!-- Start of TEMP - move to js/common.js  -->
-<!--        <script src="http://localhost:2000/js/lib/jquery.js"></script>       -->
-<!--        <script src="http://localhost:2000/js/lib/underscore.js"></script>   -->
-<!--        <script src="http://localhost:2000/js/lib/backbone.js"></script>     -->
-<!--        <script src="http://localhost:2000/js/lib/backbone.marionette.js"></script>  -->
+<!--        <script src="<%= theme_server_value %>/js/lib/jquery.js"></script>       -->
+<!--        <script src="<%= theme_server_value %>/js/lib/underscore.js"></script>   -->
+<!--        <script src="<%= theme_server_value %>/js/lib/backbone.js"></script>     -->
+<!--        <script src="<%= theme_server_value %>/js/lib/backbone.marionette.js"></script>  -->
         <!-- End of TEMP -->
 
-        <script src="http://localhost:2000/js/lib/respond.min.js"></script>
+        <script src="<%= theme_server_value %>/js/lib/respond.min.js"></script>
         <!--[if lt IE 9]>
         <script src="js/html5shiv.js"></script>
         <![endif]-->
