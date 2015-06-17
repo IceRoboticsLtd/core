@@ -1,7 +1,7 @@
 /*
  * Index router
  */
-module.exports = function(req, res, next) {	
+module.exports = function(req, res, next) {
 	var _Index = {};
 	config = require('../configs/server.js');
 	var configs = config.configs,
@@ -30,10 +30,10 @@ module.exports = function(req, res, next) {
 			// Distinguish based on an optional key-value parameter in the request url (e.g. '/?app=calculator')
 			var app = 'page'; // default
 			var app_name = ''; // default
-			var theme_server_key = 'themeServer'; 
+			var theme_server_key = 'themeServer';
 			var theme_server_value = ''; // default
 			var theme_key = 'theme';
-			var theme_value = ''; // default			
+			var theme_value = ''; // default
 			// App List
 			if(typeof configs.app_list === 'undefined'){
 				var app_list = {};
@@ -41,7 +41,7 @@ module.exports = function(req, res, next) {
 			else {
 				var app_list = configs.app_list;
 			}
-			// Update app_name variable here with value from 'app' key (e.g. app=calculator) sets app to 'calculator' 
+			// Update app_name variable here with value from 'app' key (e.g. app=calculator) sets app to 'calculator'
 			if(req.query.app) {
 				app_name = req.query.app;
 				var app_not_found = true; // default to true
@@ -58,7 +58,7 @@ module.exports = function(req, res, next) {
 							if(key = theme_key) {
 								theme_value = app_value[key];
 							}
-						}						
+						}
 						break;
 					}
 				}//eof for
@@ -72,7 +72,7 @@ module.exports = function(req, res, next) {
 			var view = 0; // default
 			var views = 'views';
 			var view_index = 0; // default
-			// Update view_index variable here with value from 'view' key (e.g. view=0) sets view to 0 
+			// Update view_index variable here with value from 'view' key (e.g. view=0) sets view to 0
 			if(req.query.view) {
 				view_index = req.query.view;
 				var view_not_found = true; // default to true
@@ -159,7 +159,7 @@ module.exports = function(req, res, next) {
 			else {
 				var web_root = configs.web_root;
 			}
-		    res.render('pages/page', { title: title, description: description, keywords: keywords, author: author, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, app_name: app_name, view_index: view_index, layout: false });
+		    res.render('pages/page', { title: title, description: description, keywords: keywords, author: author, theme_server_value: theme_server_value, css_file_location: css_file_location, access_control_allow_origin: access_control_allow_origin, host: host, web_root: web_root, app_name: app_name, view_index: view_index, layout: false });
 		})
 		.put(function(req, res, next) {
 			console.log(server_prefix + " - Index put");

@@ -1,6 +1,10 @@
 /*
  * Index Read and Write Service.
  */
+var config = require('../configs/server.js');
+var configs = config.configs,
+    server_prefix = configs.server_prefix || 'CORE';
+console.log(server_prefix + " - Index service required.");
 /********************************************************************************************
  * INDEX READ
  *********************************************************************************************/
@@ -31,8 +35,8 @@ exports.read = function(req, res) {
     indexProperties.res = res;
     indexProperties.result = [];
     indexProperties.result.title = 'My Title';
-    indexProperties.result.welcome = 'Hello from Skin !';
-    indexProperties.result.background = 'Hello from Skin !';
+    indexProperties.result.welcome = 'Hello from CORE !';
+    indexProperties.result.background = 'Hello from CORE !';
     indexProperties.res.header('Access-Control-Allow-Origin', '*'); // to allow cross-domain, replace * with a list of domains is desired.
     indexProperties.res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
     indexProperties.res.header('Access-Control-Allow-Credentials', true);
@@ -41,7 +45,7 @@ exports.read = function(req, res) {
     indexProperties.res.render(__dirname + '/../views/index.jade', {
         title: indexProperties.result.title,
         welcome: indexProperties.result.welcome
-    });    
+    });
     indexProperties.res.send();
 };//eof export.read
 /********************************************************************************************
