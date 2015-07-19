@@ -11,6 +11,7 @@ module.exports = function(req, res, next) {
     _Router.index = require('./index.js');
     _Router.login = require('./login.js');
     _Router.logout = require('./logout.js');
+    _Router.api = require('./api.js');
     _Router.source = require('./source.js');
     _Router.test = require('./test.js');
     return _Router;

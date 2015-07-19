@@ -41,7 +41,25 @@ module.exports = function(req, res, next) {
 				else {
 					var title = configs.title;
 				} 
-		    	res.render('pages/login', { title: title, message: req.session.messages, layout: false });
+				if(typeof configs.description === 'undefined'){
+					var description = 'undefined';
+				}
+				else {
+					var description = configs.description;
+				}
+				if(typeof configs.keywords === 'undefined'){
+					var keywords = 'undefined';
+				}
+				else {
+					var keywords = configs.keywords;
+				}
+				if(typeof configs.author === 'undefined'){
+					var author = 'undefined';
+				}
+				else {
+					var author = configs.author;
+				}
+		    	res.render('pages/login', { title: title, description: description, keywords: keywords, author: author, message: req.session.messages, layout: false });
 		    	// and then remember to clear the message
 		    	req.session.messages = null;
 			}

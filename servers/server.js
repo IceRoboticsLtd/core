@@ -246,9 +246,9 @@ if('development' == app.settings.env){
 	app.use(methodOverride());
 	app.use(cookieParser('s3cr3t')); // TODO get from config
 	i18n.expressBind(app, {
-locales: ['nl', 'en'], // TODO get from config
-defaultLocale: 'en',   // TODO get from config
-cookieName: 'locale'
+		locales: ['nl', 'en'], // TODO get from config
+		defaultLocale: 'en',   // TODO get from config
+		cookieName: 'locale'
 	});
 	app.use(function(req, res, next) {
 		req.i18n.setLocaleFromQuery();
@@ -259,11 +259,11 @@ cookieName: 'locale'
 	app.enableDeviceHelpers();
 	app.enableViewRouting();
 	app.use(sassMiddleware({
-src: path.join(__dirname, '/../public'), // looks for extension .scss
-dest: path.join(__dirname + '/../public'), // uses the same dir, but saves with extension .css
-debug: true,
-outputStyle: 'compressed',
-prefix:  '/css'
+		src: path.join(__dirname, '/../public'), // looks for extension .scss
+		dest: path.join(__dirname + '/../public'), // uses the same dir, but saves with extension .css
+		debug: true,
+		outputStyle: 'compressed',
+		prefix:  '/css'
 	}));
 	app.use('/app', express.static(path.join(__dirname, '/../public/app')));
 	app.use('/tests', express.static(path.join(__dirname, '/../tests')));
@@ -313,8 +313,8 @@ prefix:  '/css'
 	});
 	passport.use(new LocalStrategy({
 		// Set the field names here
-usernameField: 'username',
-passwordField: 'password'
+		usernameField: 'username',
+		passwordField: 'password'
 	},
 	function(username, password, done) {
 		console.log(server_prefix + " - Authenticating username " + username + " and password " + password);
@@ -379,7 +379,7 @@ if('production' == app.settings.env){
 	console.log(server_prefix + " - Using production configurations");
 	app.set('view engine', 'ejs');
 	app.set('view options', {
-layout: '/../public/layout.ejs',
+		layout: '/../public/layout.ejs',
 		layout_content_container_no_sidebar: '/../public/layout_content_container_no_sidebar.ejs'
 	});
 	app.set('views', __dirname + '/../public');
@@ -403,9 +403,9 @@ layout: '/../public/layout.ejs',
 	app.use(methodOverride());
 	app.use(cookieParser('s3cr3t')); // TODO get from config
 	i18n.expressBind(app, {
-locales: ['nl', 'en'], // TODO get from config
-defaultLocale: 'en',   // TODO get from config
-cookieName: 'locale'
+		locales: ['nl', 'en'], // TODO get from config
+		defaultLocale: 'en',   // TODO get from config
+		cookieName: 'locale'
 	});
 	app.use(function(req, res, next) {
 		req.i18n.setLocaleFromQuery();
@@ -416,11 +416,11 @@ cookieName: 'locale'
 	app.enableDeviceHelpers();
 	app.enableViewRouting();
 	app.use(sass.middleware({
-src: path.join(__dirname, '/../public/sass'),
-dest: path.join(__dirname + '/../public/css'),
-debug: true,
-outputStyle: 'compressed',
-prefix:  '/css'
+		src: path.join(__dirname, '/../public/sass'),
+		dest: path.join(__dirname + '/../public/css'),
+		debug: true,
+		outputStyle: 'compressed',
+		prefix:  '/css'
 	}));
 	app.use('/app', express.static(path.join(__dirname, '/../public/app')));
 	app.use('/tests', express.static(path.join(__dirname, '/../tests')));
@@ -470,8 +470,8 @@ prefix:  '/css'
 	});
 	passport.use(new LocalStrategy({
 		// Set the field names here
-usernameField: 'username',
-passwordField: 'password'
+		usernameField: 'username',
+		passwordField: 'password'
 	},
 	function(username, password, done) {
 		console.log(server_prefix + " - Authenticating username " + username + " and password " + password);
@@ -536,11 +536,11 @@ app.all('*', function(req, res, next){
 	var filename = path.join(static_file_path, uri);
 	fs.exists(filename, function(exists) {
 		if (!exists) {
-			response.writeHead(404, {
+			res.writeHead(404, {
 				"Content-Type": "text/plain"
 			});
-			response.write("404 Not Found\n");
-			response.end();
+			res.write("404 Not Found\n");
+			res.end();
 			return;
 		}
 		if(fs.statSync(filename).isDirectory()) {
@@ -549,19 +549,19 @@ app.all('*', function(req, res, next){
 		}
 		fs.readFile(filename, "binary", function(err, file) {
 			if(err) {
-				response.writeHead(500, {
+				res.writeHead(500, {
 					"Content-Type": "text/plain"
 				});
-				response.write(err + "\n");
-				response.end();
+				res.write(err + "\n");
+				res.end();
 				return;
 			}
 			var type = mime.lookup(filename);
-			response.writeHead(200, {
+			res.writeHead(200, {
 				"Content-Type": type
 			});
-			response.write(file, "binary");
-			response.end();
+			res.write(file, "binary");
+			res.end();
 		});
 	});
 });
@@ -592,6 +592,13 @@ catch(err) {
 // admin
 try {
 	app.use('/admin', router.admin);
+}
+catch(err) {
+	console.log(err);
+}
+// api
+try {
+	app.use('/api', router.api);
 }
 catch(err) {
 	console.log(err);
