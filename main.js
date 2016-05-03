@@ -34,7 +34,7 @@ var join = promise.join;
 
 // Start of the chain
 join(_proxies(), function(proxies) {
-  console.log('server - proxies: ', proxies); // Works: Proxies {}
+  console.log('core - proxies: ', proxies); // Works: Proxies {}
   return(proxies);
 }) //eof join proxies
 .then(function(proxies) {
@@ -55,7 +55,7 @@ join(_proxies(), function(proxies) {
       case 1: // this file
         break; // eof case 1
       case 2: // optional additional command line argument
-        console.log('server - additional command: ', val);
+        console.log('core - additional command: ', val);
         try {
           var o = JSON.parse(val);
 		  // Handle non-exception-throwing cases:
@@ -65,33 +65,33 @@ join(_proxies(), function(proxies) {
 	      if (o && typeof o === "object" && o !== null) {
 			// return o;
 			// now we have the object o
-            console.log('server - object: ', o);
+            console.log('core - object: ', o);
             uuid = o.uuid;
-            console.log('server - uuid: ', uuid);
+            console.log('core - uuid: ', uuid);
 			// Get a resource, by comparing with the uuid
 //            console.log('server - resource: ', _proxies().proxy().resources().resource); // function () { return new ResourcesResource(); }
 //            console.log('server - _proxies().proxy().resources().resource(): ', _proxies().proxy().resources().resource());  // Resource {}
 //            console.log('server - _proxies().proxy().resources().resource()._6e8bc430_9c3a_11d9_9669_0800200c9a66: ', _proxies().proxy().resources().resource()._6e8bc430_9c3a_11d9_9669_0800200c9a66);
 //            console.log('server - _proxies().proxy().resources().resource()._6e8bc430_9c3a_11d9_9669_0800200c9a66(): ', _proxies().proxy().resources().resource()._6e8bc430_9c3a_11d9_9669_0800200c9a66());
             var resource = _proxies().proxy().resources().resource();
-            console.log('server - resource: ', resource);
+            console.log('core - resource: ', resource);
             for (var key in resource) {
-            	console.log('server - key: ', key);
+            	console.log('core - key: ', key);
             	// strip prefix _ if present on key, then substitute all _ for - if present on key
                 var keyUuid = key.replace(/^\_/, "").replace(/_/g, "\-");
-                console.log('server - keyUuid: ', keyUuid);
+                console.log('core - keyUuid: ', keyUuid);
                 if(uuid == keyUuid) {
-                  console.log('server - uuid == keyUuid');
+                  console.log('core - uuid == keyUuid');
                   // do something
                   resourceForUuid = resource[key]();
                   break;
                 }
 			}
-            console.log('server - resourceForUuid: ', resourceForUuid);
+            console.log('core - resourceForUuid: ', resourceForUuid);
           } // eof if
         } // eof try
         catch (e) { 
-          console.log('server - error: ', e);
+          console.log('core - error: ', e);
         } // eof catch
         break; // eof case 2
       default:
@@ -109,15 +109,17 @@ join(_proxies(), function(proxies) {
   };
 }) //eof then proxies
 .then(function(resourceForUuid) {
-  console.log('server - resourceForUuid: ', resourceForUuid); // Works: e.g. _6e8bc430_9c3a_11d9_9669_0800200c9a66 { URI: 'urn:uuid:6e8bc430-9c3a-11d9-9669-0800200c9a66' }
+  console.log('core - resourceForUuid: ', resourceForUuid); // Works: e.g. _6e8bc430_9c3a_11d9_9669_0800200c9a66 { URI: 'urn:uuid:6e8bc430-9c3a-11d9-9669-0800200c9a66' }
 
 
 
   // NOW WE SHOULD USE THE SUBTREE mains TO CONTINUE WITH THE PROCESSING, RATHER THAN DOING IT ALL HERE 
-  var mains = _proxies().proxy().mains();
-  console.log('server - mains: ', mains);
-
-
+  var main = _proxies().proxy().mains().main();
+  console.log('core - main: ', main);
+  main.setproxies(_proxies);
+  main.setresource(resourceForUuid); 
+  main.run(); // This will start the resource
+  
 
 
   // START MOVING BELOW TO mains main MODULE ....
